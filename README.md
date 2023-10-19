@@ -6,3 +6,4 @@ La cual consta de 4 temas centrales
 2.- La notificación de los plazos
 3.- La exportación de Informes de los Pagos
 4.- La subida de documentos para apelar ante un caso de atraso con los pagos
+5.- prueba conexion
