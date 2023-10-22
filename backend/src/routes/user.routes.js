@@ -19,7 +19,7 @@ router.use(authenticationMiddleware);
 
 // Define las rutas para los usuarios
 router.get("/", usuarioController.getUsers);
-router.post("/", authorizationMiddleware.isAdmin, usuarioController.createUser);
+router.post("/", authorizationMiddleware.isAdmin, usuarioController.createUser); // solo un admin puede crear un usuario
 router.get("/:id", usuarioController.getUserById);
 router.put(
   "/:id",
