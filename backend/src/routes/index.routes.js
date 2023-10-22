@@ -18,6 +18,10 @@ const router = express.Router();
 router.use("/users", authenticationMiddleware, userRoutes);
 // Define las rutas para la autenticación /api/auth
 router.use("/auth", authRoutes);
+// Define la ruta para la exportacion de archivos /api/export
+router.use("/export", authenticationMiddleware);
+
+
 
 // Exporta el enrutador
 module.exports = router;
