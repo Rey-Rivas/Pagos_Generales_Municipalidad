@@ -4,17 +4,21 @@ const { PORT, HOST } = require("./config/configEnv.js");
 const cors = require("cors");
 // Importa el módulo 'express' para crear la aplicacion web
 const express = require("express");
+const app = express();
 // Importamos morgan para ver las peticiones que se hacen al servidor
 const morgan = require("morgan");
 // Importa el módulo 'cookie-parser' para manejar las cookies
 const cookieParser = require("cookie-parser");
 /** El enrutador principal */
 const indexRoutes = require("./routes/index.routes.js");
+const userRoutes = require('./src/routes/user.route');
 // Importa el archivo 'configDB.js' para crear la conexión a la base de datos
 const { setupDB } = require("./config/configDB.js");
 // Importa el handler de errores
 const { handleFatalError, handleError } = require("./utils/errorHandler.js");
 const { createRoles, createUsers } = require("./config/initialSetup");
+
+app.use(express.json());
 
 /**
  * Inicia el servidor web
@@ -35,6 +39,14 @@ async function setupServer() {
     server.use(express.urlencoded({ extended: true }));
     // Agrega el enrutador principal al servidor
     server.use("/api", indexRoutes);
+
+    app.use('/user', userRoutes);
+
+    /*const PORT = process.env.PORT || 3000;
+    
+    app.listen(PORT, () => {
+      console.log(`Servidor en ejecución en el puerto ${PORT}`);
+    });*/
 
     // Inicia el servidor en el puerto especificado
     server.listen(PORT, () => {
