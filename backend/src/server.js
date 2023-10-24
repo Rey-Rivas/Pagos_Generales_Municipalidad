@@ -4,7 +4,6 @@ const { PORT, HOST } = require("./config/configEnv.js");
 const cors = require("cors");
 // Importa el módulo 'express' para crear la aplicacion web
 const express = require("express");
-const app = express();
 // Importamos morgan para ver las peticiones que se hacen al servidor
 const morgan = require("morgan");
 // Importa el módulo 'cookie-parser' para manejar las cookies
@@ -16,9 +15,6 @@ const { setupDB } = require("./config/configDB.js");
 // Importa el handler de errores
 const { handleFatalError, handleError } = require("./utils/errorHandler.js");
 const { createRoles, createUsers } = require("./config/initialSetup");
-
-
-const ejruta = require("./routes/exportar.routes.js");
 
 /**
  * Inicia el servidor web
@@ -39,9 +35,7 @@ async function setupServer() {
     server.use(express.urlencoded({ extended: true }));
     // Agrega el enrutador principal al servidor
     server.use("/api", indexRoutes);
-
-    server.use("/api", ejruta);
-
+    
 
     // Inicia el servidor en el puerto especificado
     server.listen(PORT, () => {
@@ -51,6 +45,10 @@ async function setupServer() {
     handleError(err, "/server.js -> setupServer");
   }
 }
+
+// Si la peticion es "/generar-excel" llama a exportarRoutes
+//app.use("/generar-excel", exportarRoutes);
+
 
 /**
  * Inicia la API
@@ -75,7 +73,4 @@ setupAPI()
   .then(() => console.log("=> API Iniciada exitosamente"))
   .catch((err) => handleFatalError(err, "/server.js -> setupAPI"));
 
-
-
-
-console.log("=> ss");
+console.log("=> termina de iniciar la api");
