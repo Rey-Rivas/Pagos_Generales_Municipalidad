@@ -6,19 +6,17 @@ const mongoose = require("mongoose");
 const resultadoSchema = new mongoose.Schema(
     {
         apelacionID:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Apelacion",
-            primaryKey: true,          
-            },
+            type: Number,
+            required: true,
+            primaryKey: true,
+        },
         RUTEncargado:{
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
-                primaryKey: true,            
+            type: String,
+            required: true,
             },
         RUTUsuario:{
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
-                primaryKey: true,          
+            type: String,
+            required: true,  
             },
     },
 );

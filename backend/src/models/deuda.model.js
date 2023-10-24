@@ -40,12 +40,14 @@ const deudaSchema = new mongoose.Schema(
             ref: "Tramite",            
             },
         RUTAdmin:{
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",            
+            type: String,
+            required: true, 
+            unique: true,          
             },
         RUTUsuario:{
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",            
+            type: String,
+            required: true, 
+            unique: true,         
             },
     },
 );

@@ -24,17 +24,17 @@ const apelacionSchema = new mongoose.Schema(
             required: true,
         },
         deudaID:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Deuda",            
+            type: Number,
+            required: true,        
             },
         RUTEncargado:{
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",            
+            type: String,
+            required: true,
             },
         RUTUsuario:{
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",            
-            },  
+            type: String,
+            required: true,  
+            }, 
     },
 );
 
