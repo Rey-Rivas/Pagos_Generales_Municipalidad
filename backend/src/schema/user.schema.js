@@ -8,6 +8,11 @@ const ROLES = require("../constants/roles.constants");
  * @constant {Object}
  */
 const userBodySchema = Joi.object({
+  RUT: Joi.string().required().messages({
+    "string.empty": "El RUT no puede estar vacío.",
+    "any.required": "El RUT es obligatorio.",
+    "string.base": "El RUT debe ser de tipo string.",
+  }),
   username: Joi.string().required().messages({
     "string.empty": "El nombre de usuario no puede estar vacío.",
     "any.required": "El nombre de usuario es obligatorio.",
@@ -58,5 +63,34 @@ const userIdSchema = Joi.object({
       "string.pattern.base": "El id proporcionado no es un ObjectId válido.",
     }),
 });
+
+function validateRut(rut) {
+  // Remove any dots or dashes from the RUT
+  rut = rut.replace(/[.-]/g, "");
+
+  // Split the RUT into the number and the verifier digit
+  const [rutNumber, verifierDigit] = rut.split("-");
+
+  // Convert the verifier digit to a number or 10 if it's a "K"
+  const verifierNumber = verifierDigit.toUpperCase() === "K" ? 10 : parseInt(verifierDigit);
+
+  // Calculate the verifier digit using the RUT number
+  let sum = 0;
+  let multiplier = 2;
+  for (let i = rutNumber.length - 1; i >= 0; i--) {
+    sum += parseInt(rutNumber.charAt(i)) * multiplier;
+    multiplier = multiplier === 7 ? 2 : multiplier + 1;
+  }
+  const calculatedVerifierDigit = 11 - (sum % 11);
+
+  // Compare the calculated verifier digit with the one provided
+  return verifierNumber === calculatedVerifierDigit;
+}
+
+const { validateRut } = require("./user.schema");
+
+const rut = RUT;
+const isValid = validateRut(rut);
+console.log(isValid); // true
 
 module.exports = { userBodySchema, userIdSchema };
