@@ -3,7 +3,7 @@
 const express = require("express");
 
 /** Controlador de deudas */
-const deudaController = require("../controllers/deuda.controller.js");
+const tramiteController = require("../controllers/tramite.controller.js");
 
 /** Middlewares de autorización */
 const authorizationMiddleware = require("../middlewares/authorization.middleware.js");
@@ -16,17 +16,10 @@ const router = express.Router();
 
 router.use(authenticationMiddleware);
 
-router.get("/", deudaController.getDeudas);
-router.post("/",authorizationMiddleware.isAdmin, deudaController.createDeuda);
-router.get("/:id", deudaController.getDeudaById);
-
-router.put("/:id",
-    authorizationMiddleware.isAdmin,
-    deudaController.updateDeuda
-);
-router.delete("/:id",
-    authorizationMiddleware.isAdmin,
-    deudaController.deleteDeuda
-);
+router.get("/", tramiteController.getTramites);
+router.post("/", authorizationMiddleware.isAdmin, tramiteController.createTramite);
+router.get("/:id", tramiteController.getTramiteById);
+router.put("/:id", authorizationMiddleware.isAdmin, tramiteController.updateTramite);
+router.delete("/:id", authorizationMiddleware.isAdmin, tramiteController.deleteTramite);
 
 module.exports = router;

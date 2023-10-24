@@ -3,7 +3,7 @@
 const express = require("express");
 
 /** Controlador de deudas */
-const deudaController = require("../controllers/deuda.controller.js");
+const roleController = require("../controllers/role.controller.js");
 
 /** Middlewares de autorización */
 const authorizationMiddleware = require("../middlewares/authorization.middleware.js");
@@ -16,17 +16,10 @@ const router = express.Router();
 
 router.use(authenticationMiddleware);
 
-router.get("/", deudaController.getDeudas);
-router.post("/",authorizationMiddleware.isAdmin, deudaController.createDeuda);
-router.get("/:id", deudaController.getDeudaById);
-
-router.put("/:id",
-    authorizationMiddleware.isAdmin,
-    deudaController.updateDeuda
-);
-router.delete("/:id",
-    authorizationMiddleware.isAdmin,
-    deudaController.deleteDeuda
-);
+router.get("/", roleController.getRoles);
+router.post("/", authorizationMiddleware.isAdmin, roleController.createRole);
+router.get("/:id", roleController.getRoleById);
+router.put("/:id", authorizationMiddleware.isAdmin, roleController.updateRole);
+router.delete("/:id", authorizationMiddleware.isAdmin, roleController.deleteRole);
 
 module.exports = router;
