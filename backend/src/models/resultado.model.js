@@ -5,27 +5,21 @@ const mongoose = require("mongoose");
 // Crea el esquema de la coleccion 'resultado'
 const resultadoSchema = new mongoose.Schema(
     {
-        apelacionID:[
-            {
+        apelacionID:{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Apelacion",
             primaryKey: true,          
             },
-        ],
-        RUTEncargado:[
-            {
+        RUTEncargado:{
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",
                 primaryKey: true,            
             },
-        ],
-        RUTUsuario:[
-            {
+        RUTUsuario:{
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",
                 primaryKey: true,          
             },
-        ],
     },
 );
 

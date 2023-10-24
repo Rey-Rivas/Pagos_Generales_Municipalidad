@@ -5,27 +5,21 @@ const mongoose = require("mongoose");
 // Crea el esquema de la coleccion 'notifica'
 const notificaSchema = new mongoose.Schema(
     {
-        deudaID:[
-            {
+        deudaID:{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Deuda",
             primaryKey: true,          
             },
-        ],
-        RUTEncargado:[
-            {
+        RUTEncargado:{
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",
                 primaryKey: true,            
             },
-        ],
-        RUTUsuario:[
-            {
+        RUTUsuario:{
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",
                 primaryKey: true,          
             },
-        ],
         fechadenotificacion: {
             type: Date,
             required: true,

@@ -35,24 +35,18 @@ const deudaSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        tramiteID:[
-            {
+        tramiteID:{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Tramite",            
             },
-        ],
-        RUTAdmin:[
-            {
+        RUTAdmin:{
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",            
             },
-        ],
-        RUTUsuario:[
-            {
+        RUTUsuario:{
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",            
             },
-        ],  
     },
 );
 

@@ -19,12 +19,10 @@ const tramiteSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        RUTAdmin:[
-            {
+        RUTAdmin:{
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",            
             },
-        ],  
     },
 );
 
