@@ -4,6 +4,8 @@ const User = require("../models/user.model.js");
 const Role = require("../models/role.model.js");
 const { handleError } = require("../utils/errorHandler");
 
+//service: Funciones que interactuan con la BDD y se relacionan con los usuarios
+
 /**
  * Obtiene todos los usuarios de la base de datos
  * @returns {Promise} Promesa con el objeto de los usuarios

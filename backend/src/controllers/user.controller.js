@@ -1,5 +1,5 @@
 "use strict";
-
+//Maneja peticiones HTTP relacionadas a usuarios
 const { respondSuccess, respondError } = require("../utils/resHandler");
 const UserService = require("../services/user.service");
 const { userBodySchema, userIdSchema } = require("../schema/user.schema");
