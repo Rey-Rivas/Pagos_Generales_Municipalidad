@@ -28,7 +28,7 @@ const tramiteSchema = new mongoose.Schema(
 );
 
 /** Modelo de datos 'tramite' */
-const Tramite = mongoose.model("tramite", tramiteSchemaSchema);
+const Tramite = mongoose.model("tramite", tramiteSchema);
 
 // Exporta el modelo de datos 'Tramite'
 module.exports = Tramite;

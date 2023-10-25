@@ -1,6 +1,6 @@
 "use strict";
 // Importa el modelo de datos 'User'
-const Deuda = require("./deuda.model");
+const Deuda = require("../models/deuda.model.js");
 const { handleError } = require("../utils/errorHandler");
 
 /**
@@ -25,7 +25,7 @@ async function getDeudas() {
 
 async function getDeudaById(id) {
     try{
-    const deuda = await Deuda.findOne({ deudaID: id });
+    const deuda = await Deuda.findOne({ deudaID: id })
     .populate("tramiteID")
     .populate("RUTAdmin")
     .populate("RUTUsuario")
@@ -53,14 +53,14 @@ async function createDeuda(deudaData) {
         const deudaFound = await Deuda.findOne({ deudaID: deudaID });
         if (deudaFound) return [null, "La deuda ya existe"];
 
-        const tramiteFound = await Tramite.findOne({ tramiteID: tramiteID });
-        if (!tramiteFound) return [null, "El tramite no existe"];
+        //const tramiteFound = await Tramite.findOne({ tramiteID: tramiteID });
+        //if (!tramiteFound) return [null, "El tramite no existe"];
         
-        const adminFound = await User.findOne({ RUT: RUTAdmin });
-        if (!adminFound) return [null, "El admin no existe"];
+        //const adminFound = await User.findOne({ RUT: RUTAdmin });
+        //if (!adminFound) return [null, "El admin no existe"];
 
-        const userFound = await User.findOne({ RUT: RUTUsuario });
-        if (!userFound) return [null, "El usuario no existe"];
+        //const userFound = await User.findOne({ RUT: RUTUsuario });
+        //if (!userFound) return [null, "El usuario no existe"];
 
         const newDeuda = new Deuda({
             deudaID,
@@ -79,8 +79,9 @@ async function createDeuda(deudaData) {
         return [newDeuda, null];
 
     } catch (error) {
-        handleError(error, "deuda.service -> createDeuda");
+        handleError(error, "deuda.service.js -> createDeuda");
   }
+};
 
 /**
  * Actualiza una deuda por su ID en la base de datos.

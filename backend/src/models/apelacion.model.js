@@ -39,7 +39,7 @@ const apelacionSchema = new mongoose.Schema(
 );
 
 /** Modelo de datos 'apelacion' */
-const Apelacion = mongoose.model("apelacion", tramiteSchemaSchema);
+const Apelacion = mongoose.model("apelacion", apelacionSchema);
 
 // Exporta el modelo de datos 'apelacion'
 module.exports = Apelacion;

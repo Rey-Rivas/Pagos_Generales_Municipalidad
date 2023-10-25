@@ -6,9 +6,9 @@ const mongoose = require("mongoose");
 const notificaSchema = new mongoose.Schema(
     {
         deudaID:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Deuda",
-            primaryKey: true,          
+            type: Number,
+            required: true,
+            primaryKey: true,      
             },
         RUTEncargado:{
             type: String,
@@ -28,7 +28,7 @@ const notificaSchema = new mongoose.Schema(
 );
 
 /** Modelo de datos 'notifica' */
-const Notifica = mongoose.model("notifica", tramiteSchemaSchema);
+const Notifica = mongoose.model("notifica", notificaSchema);
 
 // Exporta el modelo de datos 'notifica'
 module.exports = Notifica;

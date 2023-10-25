@@ -55,6 +55,12 @@ const userBodySchema = Joi.object({
 const userIdSchema = Joi.object({
   id: Joi.string()
     .required()
+    .custom((value, helpers) => {
+      if (!validateRut(value)) {
+        return helpers.message("El RUT proporcionado no es válido.");
+      }
+      return value;
+    })
     .pattern(/^(?:[0-9a-fA-F]{24}|[0-9a-fA-F]{12})$/)
     .messages({
       "string.empty": "El id no puede estar vacío.",
@@ -65,11 +71,12 @@ const userIdSchema = Joi.object({
 });
 
 function validateRut(rut) {
-  // Remove any dots or dashes from the RUT
-  rut = rut.replace(/[.-]/g, "");
-
+  rut = rut.replace(/[.]/g, "");
   // Split the RUT into the number and the verifier digit
   const [rutNumber, verifierDigit] = rut.split("-");
+
+  // Remove any dots or dashes from the RUT
+  rut = rut.replace(/[-]/g, "");
 
   // Convert the verifier digit to a number or 10 if it's a "K"
   const verifierNumber = verifierDigit.toUpperCase() === "K" ? 10 : parseInt(verifierDigit);
@@ -86,10 +93,8 @@ function validateRut(rut) {
   // Compare the calculated verifier digit with the one provided
   return verifierNumber === calculatedVerifierDigit;
 }
-
-const { validateRut } = require("./user.schema");
-
-const rut = RUT;
+//Esta wea no funca
+const rut = "12345678-9";
 const isValid = validateRut(rut);
 console.log(isValid); // true
 

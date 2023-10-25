@@ -32,17 +32,13 @@ async function isAdmin(req, res, next) {
   }
 }
 
-module.exports = {
-  isAdmin,
-};
-
 /**
  * Comprueba si el usuario es encargado
  * @param {Object} req - Objeto de petición
  * @param {Object} res - Objeto de respuesta
  * @param {Function} next - Función para continuar con la siguiente función
  */
-async function isAdmin(req, res, next) {
+async function isEncargado(req, res, next) {
   try {
     const user = await User.findOne({ email: req.email });
     const roles = await Role.find({ _id: { $in: user.roles } });
@@ -64,5 +60,6 @@ async function isAdmin(req, res, next) {
 }
 
 module.exports = {
+  isAdmin,
   isEncargado,
 };

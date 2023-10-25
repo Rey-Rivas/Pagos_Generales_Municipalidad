@@ -22,7 +22,7 @@ const resultadoSchema = new mongoose.Schema(
 );
 
 /** Modelo de datos 'resultado' */
-const Resultado = mongoose.model("resultado", tramiteSchemaSchema);
+const Resultado = mongoose.model("resultado", resultadoSchema);
 
 // Exporta el modelo de datos 'resultado
 module.exports = Resultado;

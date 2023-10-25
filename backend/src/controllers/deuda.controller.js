@@ -1,8 +1,8 @@
 "use strict";
 // Maneja peticiones HTTP relacionadas a deudas
 const { respondSuccess, respondError } = require("../utils/resHandler");
-const DeudaService = require("../services/deuda.service");
-const { deudaBodySchema, deudaIdSchema } = require("../schema/deuda.schema");
+const DeudaService = require("../services/deuda.service.js");
+const { deudaBodySchema, deudaIdSchema } = require("../schema/deuda.schema.js");
 const { handleError } = require("../utils/errorHandler");
 
 /**
@@ -33,7 +33,7 @@ async function createDeuda(req, res) {
   try {
     const { body } = req;
     const { error: deudaError } = deudaBodySchema.validate(body);
-    if (error) return respondError(req, res, 400, error.message);
+    if (deudaError) return respondError(req, res, 400, deudaError.message);
 
     const [newDeuda, errorDeuda] = await DeudaService.createDeuda(body);
 
@@ -42,7 +42,7 @@ async function createDeuda(req, res) {
         return respondError(req, res, 400, "No se creo la deuda");
     }
 
-    respondSuccess(req, res, 201, deuda);
+    respondSuccess(req, res, 201, newDeuda);
   } catch (error) {
     handleError(error, "deuda.controller -> createDeuda");
     respondError(req, res, 500, "No se creo la deuda");
