@@ -4,30 +4,12 @@ const moment = require('moment');
 
 // Importa la función que genera el informe Excel
 const { generarInformeExcel } = require('../Docs/Datosaexcel.js');
-
-const listado_deudas = [
-    {
-        id: 1,
-        nombre: 'Basura',
-        fechaInicio: '2023-10-01',
-        fechaTermino: '2023-11-01'
-    },
-    {
-        id: 2,
-        nombre: 'Pagos Pendientes',
-        fechaInicio: '2023-05-10',
-        fechaTermino: '2023-11-25'
-    },
-    {
-        id: 3,
-        nombre: 'Permisos de Circulación',
-        fechaInicio: '2023-01-01',
-        fechaTermino: '2023-12-31'
-    }
-];
+const { listado_deudas } = require('../Docs/Datosaexcel.js');
+const { isAdmin } = require('../middlewares/authorization.middleware.js');
+const authenticationMiddleware = require("../middlewares/authentication.middleware.js");
 
 // Ruta para generar y servir el informe
-router.get('/generar-excel', (req, res) => {
+router.get('/generar-excel', isAdmin, (req, res) => {
     // Se definen manualmente las fechas de momento
     const fechaInicio = moment('2023-10-01', 'YYYY-MM-DD');
     const fechaFin = moment('2023-11-30', 'YYYY-MM-DD');

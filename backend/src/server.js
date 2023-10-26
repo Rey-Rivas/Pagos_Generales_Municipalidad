@@ -11,7 +11,7 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 /** El enrutador principal */
 const indexRoutes = require("./routes/index.routes.js");
-const userRoutes = require('./src/routes/user.route');
+const userRoutes = require('./routes/user.routes.js');
 // Importa el archivo 'configDB.js' para crear la conexión a la base de datos
 const { setupDB } = require("./config/configDB.js");
 // Importa el handler de errores

@@ -10,9 +10,11 @@ const authRoutes = require("./auth.routes.js");
 
 /** Middleware de autenticación */
 const authenticationMiddleware = require("../middlewares/authentication.middleware.js");
+/** Middlewares de autorización */
+const authorizationMiddleware = require("../middlewares/authorization.middleware.js");
 
 // importa la ruta de exportar archivos
-const exportarRoutes = require("./exportar.routes.js");
+const informesRoutes = require("./informe.routes.js");
 
 /** Instancia del enrutador */
 const router = express.Router();
@@ -22,8 +24,8 @@ const router = express.Router();
 router.use("/users", authenticationMiddleware, userRoutes);
 // Define las rutas para la autenticación /api/auth
 router.use("/auth", authRoutes);
-// Define las rutas para exportar archivos /api/generar-excel
-router.use("/generar-informe", exportarRoutes);
+// Define las rutas para exportar archivos /api/informes
+router.use("/informes", authenticationMiddleware, authorizationMiddleware.isAdmin || authorizationMiddleware.isEncargado, informesRoutes);
 
 // Exporta el enrutador
 module.exports = router;

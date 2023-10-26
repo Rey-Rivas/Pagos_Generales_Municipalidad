@@ -87,6 +87,7 @@ function validateRut(rut) {
   return verifierNumber === calculatedVerifierDigit;
 }
 
+/* 
 const { validateRut } = require("./user.schema");
 
 const rut = RUT;
@@ -94,3 +95,5 @@ const isValid = validateRut(rut);
 console.log(isValid); // true
 
 module.exports = { userBodySchema, userIdSchema };
+*/
+

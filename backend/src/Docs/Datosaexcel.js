@@ -74,4 +74,7 @@ generarInformeExcel(listado_deudas, fechaInicio, fechaFin)
         console.error('Error al generar el informe Excel:', error);
     });
 
-module.exports = { generarInformeExcel };
+module.exports = { 
+    generarInformeExcel,
+    listado_deudas,
+};
