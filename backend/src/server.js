@@ -40,6 +40,7 @@ async function setupServer() {
     server.use(express.urlencoded({ extended: true }));
     // Agrega el enrutador principal al servidor
     server.use("/api", indexRoutes);
+    
 
     app.use('/user', userRoutes);
     app.use('/deuda', deudaRoutes);
@@ -58,6 +59,10 @@ async function setupServer() {
     handleError(err, "/server.js -> setupServer");
   }
 }
+
+// Si la peticion es "/generar-excel" llama a exportarRoutes
+//app.use("/generar-excel", exportarRoutes);
+
 
 /**
  * Inicia la API
@@ -81,3 +86,5 @@ async function setupAPI() {
 setupAPI()
   .then(() => console.log("=> API Iniciada exitosamente"))
   .catch((err) => handleFatalError(err, "/server.js -> setupAPI"));
+
+console.log("=> termina de iniciar la api");

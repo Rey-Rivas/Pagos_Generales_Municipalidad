@@ -93,9 +93,9 @@ function validateRut(rut) {
   // Compare the calculated verifier digit with the one provided
   return verifierNumber === calculatedVerifierDigit;
 }
-//Esta wea no funca
-const rut = "12345678-9";
-const isValid = validateRut(rut);
-console.log(isValid); // true
 
-module.exports = { userBodySchema, userIdSchema };
+module.exports = { 
+  userBodySchema, 
+  userIdSchema,
+};
+
