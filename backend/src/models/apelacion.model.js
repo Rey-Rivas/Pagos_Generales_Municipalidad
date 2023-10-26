@@ -23,29 +23,23 @@ const apelacionSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        deudaID:[
-            {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Deuda",            
+        deudaID:{
+            type: Number,
+            required: true,        
             },
-        ],
-        RUTEncargado:[
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",            
+        RUTEncargado:{
+            type: String,
+            required: true,
             },
-        ],
-        RUTUsuario:[
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",            
-            },
-        ],  
+        RUTUsuario:{
+            type: String,
+            required: true,  
+            }, 
     },
 );
 
 /** Modelo de datos 'apelacion' */
-const Apelacion = mongoose.model("apelacion", tramiteSchemaSchema);
+const Apelacion = mongoose.model("apelacion", apelacionSchema);
 
 // Exporta el modelo de datos 'apelacion'
 module.exports = Apelacion;

@@ -35,29 +35,25 @@ const deudaSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        tramiteID:[
-            {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Tramite",            
+        tramiteID:{
+            type: Number, 
+            required: true,
             },
-        ],
-        RUTAdmin:[
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",            
+        RUTAdmin:{
+            type: String,
+            required: true,  
+            unique: false,       
             },
-        ],
-        RUTUsuario:[
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",            
+        RUTUsuario:{
+            type: String,
+            required: true,  
+            unique: false,       
             },
-        ],  
     },
 );
 
 /** Modelo de datos 'deuda' */
-const Deuda = mongoose.model("deuda", tramiteSchemaSchema);
+const Deuda = mongoose.model("deuda", deudaSchema);
 
 // Exporta el modelo de datos 'Deuda'
 module.exports = Deuda;

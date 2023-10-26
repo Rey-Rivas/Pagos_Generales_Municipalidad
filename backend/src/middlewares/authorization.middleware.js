@@ -60,6 +60,11 @@ async function isEncargado(req, res, next) {
 }
 
 module.exports = {
+  isAdmin,
   isEncargado,
+<<<<<<< HEAD
   isAdmin,
 };
+=======
+};
+>>>>>>> 0829f0012ee9b7e0a70025135b3b303871cd9b5a

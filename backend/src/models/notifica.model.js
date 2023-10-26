@@ -5,27 +5,21 @@ const mongoose = require("mongoose");
 // Crea el esquema de la coleccion 'notifica'
 const notificaSchema = new mongoose.Schema(
     {
-        deudaID:[
-            {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Deuda",
-            primaryKey: true,          
+        deudaID:{
+            type: Number,
+            required: true,
+            primaryKey: true,      
             },
-        ],
-        RUTEncargado:[
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
-                primaryKey: true,            
+        RUTEncargado:{
+            type: String,
+            required: true, 
+            unique: true,          
             },
-        ],
-        RUTUsuario:[
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
-                primaryKey: true,          
+        RUTUsuario:{
+            type: String,
+            required: true, 
+            unique: true,          
             },
-        ],
         fechadenotificacion: {
             type: Date,
             required: true,
@@ -34,7 +28,7 @@ const notificaSchema = new mongoose.Schema(
 );
 
 /** Modelo de datos 'notifica' */
-const Notifica = mongoose.model("notifica", tramiteSchemaSchema);
+const Notifica = mongoose.model("notifica", notificaSchema);
 
 // Exporta el modelo de datos 'notifica'
 module.exports = Notifica;

@@ -12,6 +12,10 @@ const cookieParser = require("cookie-parser");
 /** El enrutador principal */
 const indexRoutes = require("./routes/index.routes.js");
 const userRoutes = require('./routes/user.routes.js');
+<<<<<<< HEAD
+=======
+const deudaRoutes = require('./routes/deuda.routes.js');
+>>>>>>> 0829f0012ee9b7e0a70025135b3b303871cd9b5a
 // Importa el archivo 'configDB.js' para crear la conexión a la base de datos
 const { setupDB } = require("./config/configDB.js");
 // Importa el handler de errores
@@ -42,6 +46,7 @@ async function setupServer() {
     
 
     app.use('/user', userRoutes);
+    app.use('/deuda', deudaRoutes);
 
     /*const PORT = process.env.PORT || 3000;
     

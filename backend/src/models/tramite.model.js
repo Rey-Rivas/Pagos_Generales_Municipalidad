@@ -19,17 +19,16 @@ const tramiteSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        RUTAdmin:[
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",            
+        RUTAdmin:{
+            type: String,
+            required: true, 
+            unique: true,          
             },
-        ],  
     },
 );
 
 /** Modelo de datos 'tramite' */
-const Tramite = mongoose.model("tramite", tramiteSchemaSchema);
+const Tramite = mongoose.model("tramite", tramiteSchema);
 
 // Exporta el modelo de datos 'Tramite'
 module.exports = Tramite;

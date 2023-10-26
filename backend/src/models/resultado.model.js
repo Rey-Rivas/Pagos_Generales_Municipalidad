@@ -5,32 +5,24 @@ const mongoose = require("mongoose");
 // Crea el esquema de la coleccion 'resultado'
 const resultadoSchema = new mongoose.Schema(
     {
-        apelacionID:[
-            {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Apelacion",
-            primaryKey: true,          
+        apelacionID:{
+            type: Number,
+            required: true,
+            primaryKey: true,
+        },
+        RUTEncargado:{
+            type: String,
+            required: true,
             },
-        ],
-        RUTEncargado:[
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
-                primaryKey: true,            
+        RUTUsuario:{
+            type: String,
+            required: true,  
             },
-        ],
-        RUTUsuario:[
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
-                primaryKey: true,          
-            },
-        ],
     },
 );
 
 /** Modelo de datos 'resultado' */
-const Resultado = mongoose.model("resultado", tramiteSchemaSchema);
+const Resultado = mongoose.model("resultado", resultadoSchema);
 
 // Exporta el modelo de datos 'resultado
 module.exports = Resultado;
