@@ -1,7 +1,7 @@
 const ExcelJS = require('exceljs');
 const moment = require('moment');
 
-function generarInformeExcel(listado_deudas, fechaInicio, fechaFin) {
+async function generarInformeExcel(listado_deudas, fechaInicio, fechaFin) {
     try {
         // Crea un workbook donde guardar los datos
         const workbook = new ExcelJS.Workbook();
@@ -26,21 +26,20 @@ function generarInformeExcel(listado_deudas, fechaInicio, fechaFin) {
             worksheet.addRow(dato);
         });
 
-        // le da un nombre al archivo (bastante generico)
-        const nombreArchivo = 'informe.xlsx';
+        // le da un nombre al archivo (bastante generico xd)
+        const nombreArchivo = 'informe-deudas.xlsx';
 
         // retorna el excel
-        return workbook.xlsx.writeBuffer()
-            .then((buffer) => {
-                return { buffer, nombreArchivo };
-            });
+        const buffer = await workbook.xlsx.writeBuffer();
+        return { buffer, nombreArchivo };
     } catch (error) {
         console.error('Error al generar el informe Excel:', error);
         throw error;
     }
 }
 
-// data
+// data temporal
+// hay que conectar esto con la base de datos
 const listado_deudas = [
     {
         id: 1,
@@ -62,19 +61,8 @@ const listado_deudas = [
     }
 ];
 
-const fechaInicio = moment('2023-10-01', 'YYYY-MM-DD');
-const fechaFin = moment('2023-11-30', 'YYYY-MM-DD');
-
-generarInformeExcel(listado_deudas, fechaInicio, fechaFin)
-    .then((informe) => {
-        // `informe.buffer` guarda el .xlsx en el buffer
-        console.log('Informe Excel generado correctamente. Nombre de archivo:', informe.nombreArchivo);
-    })
-    .catch((error) => {
-        console.error('Error al generar el informe Excel:', error);
-    });
-
 module.exports = { 
     generarInformeExcel,
     listado_deudas,
 };
+

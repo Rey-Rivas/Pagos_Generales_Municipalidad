@@ -22,9 +22,15 @@ const router = express.Router();
 
 // Define las rutas para los usuarios /api/usuarios
 router.use("/users", authenticationMiddleware, userRoutes);
+
 // Define las rutas para la autenticación /api/auth
 router.use("/auth", authRoutes);
-// Define las rutas para exportar archivos /api/informes
+
+/* 
+Define las rutas para exportar archivos /api/informes
+Esto puede variar en:
+    api/informes/generar-excel y api/informes/generar-pdf
+*/
 router.use("/informes", authenticationMiddleware, authorizationMiddleware.isAdmin || authorizationMiddleware.isEncargado, informesRoutes);
 
 // Exporta el enrutador
