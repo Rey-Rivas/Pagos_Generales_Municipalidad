@@ -11,12 +11,11 @@ const deudaRoutes = require("./deuda.routes.js");
 /** Enrutador de autenticación */
 const authRoutes = require("./auth.routes.js");
 
-/** Middleware de autenticación */
+/** Middlewares*/
 const authenticationMiddleware = require("../middlewares/authentication.middleware.js");
-/** Middlewares de autorización */
 const authorizationMiddleware = require("../middlewares/authorization.middleware.js");
 
-// importa la ruta de exportar archivos
+// Enrutador de informes */
 const informesRoutes = require("./informe.routes.js");
 
 /** Instancia del enrutador */
@@ -25,18 +24,18 @@ const router = express.Router();
 
 // Define las rutas para los usuarios /api/usuarios
 router.use("/users", authenticationMiddleware, userRoutes);
-<<<<<<< HEAD
-=======
-router.use("/deudas", authenticationMiddleware, deudaRoutes);
->>>>>>> 0829f0012ee9b7e0a70025135b3b303871cd9b5a
 
 // Define las rutas para la autenticación /api/auth
 router.use("/auth", authRoutes);
 
+// Define las rutas para las deudas /api/deudas
+router.use("/deudas", authenticationMiddleware, deudaRoutes);
+
 /* 
 Define las rutas para exportar archivos /api/informes
 Esto puede variar en:
-    api/informes/generar-excel y api/informes/generar-pdf
+    - api/informes/generar-excel
+    - api/informes/generar-pdf
 */
 router.use("/informes", authenticationMiddleware, authorizationMiddleware.isAdmin || authorizationMiddleware.isEncargado, informesRoutes);
 
