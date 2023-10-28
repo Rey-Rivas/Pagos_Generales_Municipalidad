@@ -33,10 +33,9 @@ router.use("/deudas", authenticationMiddleware, deudaRoutes);
 router.use("/auth", authRoutes);
 
 /* 
-Define las rutas para exportar archivos /api/informes
-Esto puede variar en:
-    - api/informes/generar-excel -> Listo
-    - api/informes/generar-pdf  -> Liston't
+Define las rutas para exportar archivos 
+    - api/informes
+    - api/informes/generar-excel
 */
 router.use("/informes", authenticationMiddleware, authorizationMiddleware.isAdmin || authorizationMiddleware.isEncargado, informesRoutes);
 
