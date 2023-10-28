@@ -4,6 +4,10 @@ const Notifica = require('../models/notifica.model.js');
 const Deuda = require('../models/deuda.model.js');
 const User = require('../models/user.model.js');
 const { handleError } = require("../utils/errorHandler");
+const { Resend } = require('resend');
+const UserService = require("./user.service.js");
+
+const resend = new Resend('re_U5fioJ7N_6AxhNB9zjqeLgiP3yX89pr4n');
 
 /**
  * Obtiene todas las notificaciones de la base de datos.
@@ -50,6 +54,63 @@ async function getNotificaById(params) {
     }
   }
 
+async function notiPost(deudaID, RUTEncargado, RUTUsuario) {
+    try {
+
+      const deudaFound = await Deuda.findOne({ deudaID: deudaID });
+      if (deudaFound) {
+        console.log(deudaFound);
+      } else {
+        console.log('Deuda con ID ${deudaID} no encontrada.');
+      }
+
+      const userFound = await User.findOne({ RUT: RUTUsuario });
+      if (userFound) {
+        console.log(userFound);
+      } else {
+        console.log('Usuario con RUT ${RUTUsuario} no encontrado.');
+      } 
+
+      const encargadoFound = await User.findOne({ RUT: RUTEncargado });
+      if (encargadoFound) {
+        console.log(encargadoFound);
+      } else {
+        console.log('Encargado con RUT ${RUTEncargado} no encontrado.');
+      }
+
+      const achetemele = `
+      <p>Estimado(a) ${userFound.username},</p>
+      <p>Le informamos que tiene una deuda pendiente por ${deudaFound.descripcion} con el siguiente detalle:</p>
+      <ul>
+        <li>Monto: ${deudaFound.monto}</li>
+        <li>Fecha de vencimiento: ${deudaFound.fechaVencimiento}</li>
+      </ul>
+      <p>Por favor, regularice su situación a la brevedad posible. Saludos.</p>
+      `;
+
+      resend.emails.send({
+        from: 'onboarding@resend.dev',
+        to: "devector13@gmail.com",
+        subject: 'Hello World',
+        html: achetemele
+      });
+
+    console.log("mail enviado a " + "devector13@gmail.com");
+  
+    } catch (error) {
+      handleError(error, "notifica.service -> notiPost");
+    }
+  }
+
+function correoNotifica() {
+  resend.emails.send({
+    from: 'onboarding@resend.dev',
+    to: 'marco.araneda2001@alumnos.ubiobio.cl',
+    subject: 'Hello World',
+    html: '<p>Congrats on sending your <strong>first email</strong>!</p>'
+  });
+}
+
 /**
  * Crea una nueva deuda en la base de datos.
  *
@@ -79,6 +140,9 @@ async function createNotifica(deudaID, RUTEncargado, RUTUsuario) {
       fechadenotificacion
     });
     await newNotifica.save();
+
+    //correoNotifica()
+    notiPost(deudaID, RUTEncargado, RUTUsuario);
 
     return [newNotifica, null];
   } catch (error) {
