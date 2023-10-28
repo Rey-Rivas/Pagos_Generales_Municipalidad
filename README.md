@@ -17,7 +17,7 @@ La cual consta de 4 temas centrales
 Documentación ProZero:
 
 Para utilizar la ruta de pagos se debe primero realizar una peticion
-del tipo GET a la ID de la deuda que se deasea pagar
+del tipo GET a la ID de la deuda que se desea pagar
 por EJ: http://localhost:4000/api/deudas/103
 esto establecera temporalmente la deuda de ID 103 como el valor de
 la variable temporal 'deudaTemporal'.
