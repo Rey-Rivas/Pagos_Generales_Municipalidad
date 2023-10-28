@@ -7,3 +7,33 @@ La cual consta de 4 temas centrales
 3.- La exportación de Informes de los Pagos
 4.- La subida de documentos para apelar ante un caso de atraso con los pagos
 5.- prueba conexion branch
+
+
+
+
+
+
+
+Documentación ProZero:
+
+Para utilizar la ruta de pagos se debe primero realizar una peticion
+del tipo GET a la ID de la deuda que se deasea pagar
+por EJ: http://localhost:4000/api/deudas/103
+esto establecera temporalmente la deuda de ID 103 como el valor de
+la variable temporal 'deudaTemporal'.
+para realizar el pago de la deuda seleccionada, se debe acceder a la ruta
+/pagarDeuda con la petición de tipo POST y entregar en el BODY el monto a pagar
+como "PagarCantidad": valor.
+Siguiendo el ejemplo anterior sería:
+http://localhost:4000/api/deudas/103/pagarDeuda
+
+{
+    "PagarCantidad": 500
+}
+
+esto reducira el monto a pagar de la deuda de ID 103 y actualizara
+su valor dentro de la base de datos, si el monto pendiente siguie siendo
+mayor a 0, entonces el estado de la deuda seguira siendo "pendiente",
+si el monto pendiente llega a 0, el estado de la deuda pasara a ser "pagado",
+en caso de que el cliente pague una cantidad mayor a la requerida, este saldo quedara
+guardado como un descuento para la proxima vez que intente saldar una deuda.

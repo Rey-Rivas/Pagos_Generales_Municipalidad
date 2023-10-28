@@ -11,10 +11,10 @@ const { handleError } = require("../utils/errorHandler");
 async function getDeudas() {
   try {
     const deudas = await Deuda.find()
-    .populate("tramiteID")
-    .populate("RUTAdmin")
-    .populate("RUTUsuario")
-    .exec();
+      .populate("tramiteID")
+      .populate("RUTAdmin")
+      .populate("RUTUsuario")
+      .exec();
     if (!deudas) return [null, "No hay usuarios"];
 
     return [deudas, null];
@@ -23,20 +23,19 @@ async function getDeudas() {
   }
 }
 
-async function getDeudaById(id) {
-    try{
-    const deuda = await Deuda.findOne({ deudaID: id })
-    .populate("tramiteID")
-    .populate("RUTAdmin")
-    .populate("RUTUsuario")
-    .exec();
-
+async function getDeudaById(idDeuda) {
+  try {
+    const deuda = await Deuda.findOne({ deudaID: idDeuda })
+      .populate("tramiteID")
+      .populate("RUTAdmin")
+      .populate("RUTUsuario")
+      .exec();
     if (!deuda) return [null, "No hay deuda"];
 
     return [deuda, null];
-    } catch (error) {
-        handleError(error, "deuda.service -> getDeudaById");
-    }
+  } catch (error) {
+    handleError(error, "deuda.service -> getDeudaById");
+  }
 
 }
 
@@ -47,39 +46,39 @@ async function getDeudaById(id) {
  * @returns {Promise} Una promesa que resuelve con la nueva deuda creada si la creación fue exitosa, o con un mensaje de error si la creación falló.
  */
 async function createDeuda(deudaData) {
-    try {
-        const { deudaID, descripcion, monto, fechaEmision, fechaVencimiento, fechaPago, estado, tramiteID, RUTAdmin, RUTUsuario } = deudaData;
-        
-        const deudaFound = await Deuda.findOne({ deudaID: deudaID });
-        if (deudaFound) return [null, "La deuda ya existe"];
+  try {
+    const { deudaID, descripcion, monto, fechaEmision, fechaVencimiento, fechaPago, estado, tramiteID, RUTAdmin, RUTUsuario } = deudaData;
 
-        //const tramiteFound = await Tramite.findOne({ tramiteID: tramiteID });
-        //if (!tramiteFound) return [null, "El tramite no existe"];
-        
-        //const adminFound = await User.findOne({ RUT: RUTAdmin });
-        //if (!adminFound) return [null, "El admin no existe"];
+    const deudaFound = await Deuda.findOne({ deudaID: deudaID });
+    if (deudaFound) return [null, "La deuda ya existe"];
 
-        //const userFound = await User.findOne({ RUT: RUTUsuario });
-        //if (!userFound) return [null, "El usuario no existe"];
+    //const tramiteFound = await Tramite.findOne({ tramiteID: tramiteID });
+    //if (!tramiteFound) return [null, "El tramite no existe"];
 
-        const newDeuda = new Deuda({
-            deudaID,
-            descripcion,
-            monto,
-            fechaEmision,
-            fechaVencimiento,
-            fechaPago,
-            estado,
-            tramiteID,
-            RUTAdmin,
-            RUTUsuario,
-        });
-        await newDeuda.save();
+    //const adminFound = await User.findOne({ RUT: RUTAdmin });
+    //if (!adminFound) return [null, "El admin no existe"];
 
-        return [newDeuda, null];
+    //const userFound = await User.findOne({ RUT: RUTUsuario });
+    //if (!userFound) return [null, "El usuario no existe"];
 
-    } catch (error) {
-        handleError(error, "deuda.service.js -> createDeuda");
+    const newDeuda = new Deuda({
+      deudaID,
+      descripcion,
+      monto,
+      fechaEmision,
+      fechaVencimiento,
+      fechaPago,
+      estado,
+      tramiteID,
+      RUTAdmin,
+      RUTUsuario,
+    });
+    await newDeuda.save();
+
+    return [newDeuda, null];
+
+  } catch (error) {
+    handleError(error, "deuda.service.js -> createDeuda");
   }
 };
 
@@ -91,29 +90,29 @@ async function createDeuda(deudaData) {
  * @returns {Promise} Una promesa que resuelve con la deuda actualizada si la actualización fue exitosa, o con un mensaje de error si la actualización falló.
  */
 async function updateDeuda(deudaID, deuda) {
-    try {
-        const deudaFound = await Deuda.findOne({ deudaID: deudaID });
-        if (!deudaFound) return [null, "La deuda no existe"];
+  try {
+    const deudaFound = await Deuda.findOne({ deudaID: deudaID });
+    if (!deudaFound) return [null, "La deuda no existe"];
 
-        const { descripcion, monto, fechaEmision, fechaVencimiento, fechaPago, estado, tramiteID, RUTAdmin, RUTUsuario } = deuda;
+    const { descripcion, monto, fechaEmision, fechaVencimiento, fechaPago, estado, tramiteID, RUTAdmin, RUTUsuario } = deuda;
 
-        const deudaUpdated = await Deuda.findOneAndUpdate({ deudaID: deudaID }, {
-            descripcion,
-            monto,
-            fechaEmision,
-            fechaVencimiento,
-            fechaPago,
-            estado,
-            tramiteID,
-            RUTAdmin,
-            RUTUsuario,
-        },
-        { new: true });
+    const deudaUpdated = await Deuda.findOneAndUpdate({ deudaID: deudaID }, {
+      descripcion,
+      monto,
+      fechaEmision,
+      fechaVencimiento,
+      fechaPago,
+      estado,
+      tramiteID,
+      RUTAdmin,
+      RUTUsuario,
+    },
+      { new: true });
 
-        return [deudaUpdated, null];
-    } catch (error) {
-        handleError(error, "deuda.service -> updateDeuda");
-    }
+    return [deudaUpdated, null];
+  } catch (error) {
+    handleError(error, "deuda.service -> updateDeuda");
+  }
 }
 
 /**

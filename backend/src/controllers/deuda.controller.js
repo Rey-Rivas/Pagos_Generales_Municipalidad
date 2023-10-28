@@ -4,12 +4,12 @@ const { respondSuccess, respondError } = require("../utils/resHandler");
 const DeudaService = require("../services/deuda.service.js");
 const { deudaBodySchema, deudaIdSchema } = require("../schema/deuda.schema.js");
 const { handleError } = require("../utils/errorHandler");
-
 /**
  * Obtiene todas las deudas
  * @param {Object} req - Objeto de petición
  * @param {Object} res - Objeto de respuesta
  */
+const impuesto = 1.05;
 async function getDeudas(req, res) {
   try {
     const [deudas, errorDeudas] = await DeudaService.getDeudas();
@@ -60,10 +60,11 @@ async function getDeudaById(req, res) {
         const { error: paramsError } = deudaIdSchema.validate(params);
         if (paramsError) return respondError(req, res, 400, paramsError.message);
 
-        const [deuda, errorDeuda] = await DeudaService.getDeudaById(params.deudaID);
+        const [deuda, errorDeuda] = await DeudaService.getDeudaById(params.id);
 
         if (errorDeuda) return respondError(req, res, 404, errorDeuda);
-
+        console.log("DeudaEncontrada");
+        setearDeudaTemporal(deuda); 
         respondSuccess(req, res, 200, deuda);
     } catch (error) {
         handleError(error, "deuda.controller -> getDeudaById");
@@ -117,10 +118,42 @@ async function deleteDeuda(req, res) {
     };
 }
 
+
+let deudaTemporal = null;
+
+function obtenerDeudaTemporal() {
+  return deudaTemporal;
+}
+
+function setearDeudaTemporal(deuda) {
+  deudaTemporal = deuda;
+}
+
+function getImpuesto(){
+  return impuesto;
+}
+
+function setImpuesto(nuevoImpuesto){
+  impuesto=nuevoImpuesto;
+}
+
+
+
+
+
+
+
+
+
+
 module.exports = {
   getDeudas,
   createDeuda,
   getDeudaById,
   updateDeuda,
   deleteDeuda,
+  obtenerDeudaTemporal,
+  setearDeudaTemporal,
+  getImpuesto,
+  setImpuesto
 };

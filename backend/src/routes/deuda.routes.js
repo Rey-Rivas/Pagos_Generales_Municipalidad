@@ -5,6 +5,8 @@ const express = require("express");
 /** Controlador de deudas */
 const deudaController = require("../controllers/deuda.controller.js");
 
+const {pagarDeuda} = require("../controllers/pagarDeuda.controller.js");
+
 /** Middlewares de autorización */
 const authorizationMiddleware = require("../middlewares/authorization.middleware.js");
 
@@ -17,8 +19,10 @@ const router = express.Router();
 router.use(authenticationMiddleware);
 
 router.get("/", deudaController.getDeudas);
+router.post("/:id/pagarDeuda", pagarDeuda);
 router.post("/",authorizationMiddleware.isAdmin, deudaController.createDeuda);
 router.get("/:id", deudaController.getDeudaById);
+
 
 router.put("/:id",
     authorizationMiddleware.isAdmin,
