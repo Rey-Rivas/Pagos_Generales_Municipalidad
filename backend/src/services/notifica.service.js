@@ -5,7 +5,16 @@ const Deuda = require('../models/deuda.model.js');
 const User = require('../models/user.model.js');
 const { handleError } = require("../utils/errorHandler");
 const { Resend } = require('resend');
+const nodemailer = require("nodemailer");
 const UserService = require("./user.service.js");
+// Create a transporter object using your email service's SMTP settings
+const transporter = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: "ingenieriadesoftwareproyecto@gmail.com",
+    pass: "mqzj cqju lpps ghcq",
+  },
+});
 
 const resend = new Resend('re_U5fioJ7N_6AxhNB9zjqeLgiP3yX89pr4n');
 
@@ -79,37 +88,37 @@ async function notiPost(deudaID, RUTEncargado, RUTUsuario) {
       }
 
       const achetemele = `
-      <p>Estimado(a) ${userFound.username},</p>
-      <p>Le informamos que tiene una deuda pendiente por ${deudaFound.descripcion} con el siguiente detalle:</p>
-      <ul>
-        <li>Monto: ${deudaFound.monto}</li>
-        <li>Fecha de vencimiento: ${deudaFound.fechaVencimiento}</li>
-      </ul>
-      <p>Por favor, regularice su situación a la brevedad posible. Saludos.</p>
+        <p>Estimado(a) ${userFound.username},</p>
+        <p>Le informamos que tiene una deuda pendiente por <strong>${deudaFound.descripcion}</strong> con el siguiente detalle:</p>
+        <ul>
+          <li>Monto: ${deudaFound.monto}</li>
+          <li>Fecha de vencimiento: ${deudaFound.fechaVencimiento.toLocaleDateString()}</li>
+        </ul>
+        <p>Por favor, regularice su situación a la brevedad posible. Saludos.</p>
+        <img src="https://i.imgur.com/8CM0hnV.gif" alt="jijiji">
       `;
 
-      resend.emails.send({
-        from: 'onboarding@resend.dev',
-        to: "devector13@gmail.com",
-        subject: 'Hello World',
-        html: achetemele
+      const mailOptions = {
+        from: "ingenieriadesoftwareproyecto@gmail.com",
+        to: userFound.email,
+        subject: "Deuda pendiente",
+        html: achetemele,
+      };
+  
+      console.log("Sending email to " + userFound.email + " ...");
+
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error("Error sending email: ", error);
+        } else {
+          console.log("Email sent: " + info.response + " ,sent to: " + mailOptions.to);
+        }
       });
 
-    console.log("mail enviado a " + "devector13@gmail.com");
-  
     } catch (error) {
       handleError(error, "notifica.service -> notiPost");
     }
   }
-
-function correoNotifica() {
-  resend.emails.send({
-    from: 'onboarding@resend.dev',
-    to: 'marco.araneda2001@alumnos.ubiobio.cl',
-    subject: 'Hello World',
-    html: '<p>Congrats on sending your <strong>first email</strong>!</p>'
-  });
-}
 
 /**
  * Crea una nueva deuda en la base de datos.
@@ -143,6 +152,7 @@ async function createNotifica(deudaID, RUTEncargado, RUTUsuario) {
 
     //correoNotifica()
     notiPost(deudaID, RUTEncargado, RUTUsuario);
+    //correito();
 
     return [newNotifica, null];
   } catch (error) {
