@@ -38,6 +38,7 @@ async function generarInformeExcel(listado_deudas, fechaInicio, fechaFin) {
         ];
 
         // Agrega los datos que correspondan a la fecha al .xlsx
+      
         datosFiltrados.forEach((dato) => {
             worksheet.addRow({
                 descripcion: dato.descripcion,
@@ -47,14 +48,15 @@ async function generarInformeExcel(listado_deudas, fechaInicio, fechaFin) {
             });
         });
 
-        // Aca se cambia el nombre que se le va a dar al .xlsx => 'nombredelarchivo.xlsx' 
-        const nombreArchivo = 'informe-deudas.xlsx';
 
         // Genera el archivo Excel y lo almacena en un buffer
         const buffer = await workbook.xlsx.writeBuffer();
         
         // Retorna el archivo Excel y su nombre
-        return { buffer, nombreArchivo };
+        return {
+            buffer,
+            nombreArchivo: `Informe_deudas_${moment().format('DD-MM-YYYY_HH-mm')}.xlsx`,
+        };
     } catch (error) {
         console.error('Error al generar el informe Excel:', error);
         throw error;
