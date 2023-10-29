@@ -4,7 +4,6 @@ const Notifica = require('../models/notifica.model.js');
 const Deuda = require('../models/deuda.model.js');
 const User = require('../models/user.model.js');
 const { handleError } = require("../utils/errorHandler");
-const { Resend } = require('resend');
 const nodemailer = require("nodemailer");
 const UserService = require("./user.service.js");
 // Create a transporter object using your email service's SMTP settings
@@ -15,8 +14,6 @@ const transporter = nodemailer.createTransport({
     pass: "mqzj cqju lpps ghcq",
   },
 });
-
-const resend = new Resend('re_U5fioJ7N_6AxhNB9zjqeLgiP3yX89pr4n');
 
 /**
  * Obtiene todas las notificaciones de la base de datos.
@@ -68,21 +65,21 @@ async function notiPost(deudaID, RUTEncargado, RUTUsuario) {
 
       const deudaFound = await Deuda.findOne({ deudaID: deudaID });
       if (deudaFound) {
-        console.log(deudaFound);
+        //console.log(deudaFound);
       } else {
         console.log('Deuda con ID ${deudaID} no encontrada.');
       }
 
       const userFound = await User.findOne({ RUT: RUTUsuario });
       if (userFound) {
-        console.log(userFound);
+        //console.log(userFound);
       } else {
         console.log('Usuario con RUT ${RUTUsuario} no encontrado.');
       } 
 
       const encargadoFound = await User.findOne({ RUT: RUTEncargado });
       if (encargadoFound) {
-        console.log(encargadoFound);
+        //console.log(encargadoFound);
       } else {
         console.log('Encargado con RUT ${RUTEncargado} no encontrado.');
       }
@@ -95,7 +92,7 @@ async function notiPost(deudaID, RUTEncargado, RUTUsuario) {
           <li>Fecha de vencimiento: ${deudaFound.fechaVencimiento.toLocaleDateString()}</li>
         </ul>
         <p>Por favor, regularice su situación a la brevedad posible. Saludos.</p>
-        <img src="https://i.imgur.com/8CM0hnV.gif" alt="jijiji">
+        <img src="https://i.imgur.com/gYyHtrw.gif" alt="jijiji">
       `;
 
       const mailOptions = {
@@ -128,7 +125,7 @@ async function notiPost(deudaID, RUTEncargado, RUTUsuario) {
  * @param {String} RUTUsuario
  * @returns {Promise} Una promesa que resuelve con la nueva deuda creada si la creación fue exitosa, o con un mensaje de error si la creación falló.
  */
-async function createNotifica(deudaID, RUTEncargado, RUTUsuario) {
+async function createNotifica(deudaID, RUTEncargado, RUTUsuario, notiCausa = null) {
   try{
     const fechadenotificacion = new Date();
     fechadenotificacion.setHours(fechadenotificacion.getHours() - 3);
@@ -151,7 +148,7 @@ async function createNotifica(deudaID, RUTEncargado, RUTUsuario) {
     await newNotifica.save();
 
     //correoNotifica()
-    notiPost(deudaID, RUTEncargado, RUTUsuario);
+    notiPost(deudaID, RUTEncargado, RUTUsuario, notiCausa);
     //correito();
 
     return [newNotifica, null];

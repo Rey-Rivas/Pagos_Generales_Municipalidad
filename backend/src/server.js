@@ -9,8 +9,7 @@ const app = express();
 const morgan = require("morgan");
 // Importa el módulo 'cookie-parser' para manejar las cookies
 const cookieParser = require("cookie-parser");
-// Importa el módulo 'resend' para enviar los correos
-const resend = require("resend");
+
 /** El enrutador principal */
 const indexRoutes = require("./routes/index.routes.js");
 const userRoutes = require('./routes/user.routes.js');
@@ -57,7 +56,9 @@ async function setupServer() {
 
     // Inicia el servidor en el puerto especificado
     server.listen(PORT, () => {
-      console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);
+    console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);
+
+    require('./utils/Thread.js');
     });
   } catch (err) {
     handleError(err, "/server.js -> setupServer");
