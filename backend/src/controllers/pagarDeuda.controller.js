@@ -18,7 +18,7 @@ const pagarDeuda = async (req, res) => {
             // Convierte la diferencia a días
             const diferenciaEnDias = Math.floor(diferenciaEnMilisegundos / (1000 * 60 * 60 * 24));
             deudaTemporal.monto = deudaTemporal.monto * impuesto_pagar * diferenciaEnDias;
-            deudaTemporal.estado = "Atrasado";
+            deudaTemporal.estado = "fuera de plazo";
         }
         deudaTemporal.monto -= cuerpoSolicitud.PagarCantidad;
         // Asegúrate de que el monto no sea negativo

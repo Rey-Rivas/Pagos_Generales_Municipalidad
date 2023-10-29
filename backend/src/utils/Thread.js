@@ -56,18 +56,7 @@ function calcularTiempoHastaMediodia() {
   
     return mediodia - ahora;
   }
-
-function ejecutarTarea() {
-    // Ejecuta la tarea ahora para la primera ejecución
-    console.log('Montos actualizados');
-    actualizarDeudasVencidas();
-  
-    // Calcula el tiempo hasta la próxima ejecución a las 12:00 PM
-    const tiempoHastaMediodia = calcularTiempoHastaMediodia();
-  
-    // Programa la próxima ejecución a las 12:00 PM
-    setTimeout(ejecutarTarea, tiempoHastaMediodia);
-  }
+    // Bandera para saber si es la primera ejecución
   let primeraEjecucion = true;
   function ejecutarTarea() {
     if (!primeraEjecucion) {
