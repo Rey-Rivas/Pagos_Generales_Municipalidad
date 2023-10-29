@@ -8,18 +8,10 @@ const impuesto_pagar = getImpuesto();
 const pagarDeuda = async (req, res) => {
     try {
         deudaTemporal = obtenerDeudaTemporal();
-        const fechaDeuda = new Date(deudaTemporal.fechaVencimiento)
         // Obtén el cuerpo de la solicitud
         const cuerpoSolicitud = req.body;
-        if (fechaFormateada > fechaDeuda) {
-
-            const diferenciaEnMilisegundos = fechaActual - fechaDeuda;
-
-            // Convierte la diferencia a días
-            const diferenciaEnDias = Math.floor(diferenciaEnMilisegundos / (1000 * 60 * 60 * 24));
-            deudaTemporal.monto = deudaTemporal.monto * impuesto_pagar * diferenciaEnDias;
-            deudaTemporal.estado = "fuera de plazo";
-        }
+        // Verifica que el monto a pagar sea menor o igual al monto de la deuda
+        const saldoAcreedor=cuerpoSolicitud.PagarCantidad-deudaTemporal.monto;
         deudaTemporal.monto -= cuerpoSolicitud.PagarCantidad;
         // Asegúrate de que el monto no sea negativo
         deudaTemporal.monto = Math.max(0, deudaTemporal.monto);
@@ -42,8 +34,18 @@ const pagarDeuda = async (req, res) => {
             },
             { new: true, runValidators: true }
         );
-
-        res.json(deudaTemporal);
+        deudaActualizada.save();
+        const response = {
+            status: 'success',
+            message: 'Pago realizado con exito',
+            Tramite: deudaTemporal.descripcion,
+            MontoPagado: req.body.PagarCantidad,
+            MontoPorPagar: deudaTemporal.monto,
+            SaldoAcreedor: saldoAcreedor,
+            FechaPago: fechaFormateada,
+            estado: deudaTemporal.monto > req.body.PagarCantidad ? 'pendiente' : 'pagado',
+          };
+        res.json(response);
         setearDeudaTemporal(null);
     } catch (error) {
         console.error(error);
