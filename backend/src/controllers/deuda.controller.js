@@ -160,7 +160,24 @@ function setImpuesto(nuevoImpuesto){
   impuesto=nuevoImpuesto;
 }
 
+async function actualizarImpuesto(req, res) {
+  try {
+    const nuevoImpuesto = parseFloat(req.params.nuevoImpuesto);
 
+    // Validar si el nuevo impuesto es un número válido
+    if (isNaN(nuevoImpuesto) || nuevoImpuesto <= 0) {
+      return res.status(400).json({ mensaje: 'El nuevo impuesto no es válido' });
+    }
+
+    // Actualizar el impuesto llamando a la función setImpuesto
+    setImpuesto(nuevoImpuesto);
+
+    res.status(200).json({ mensaje: 'Impuesto actualizado correctamente' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ mensaje: 'Error al actualizar el impuesto' });
+  }
+}
 
 
 
@@ -179,5 +196,6 @@ module.exports = {
   setearDeudaTemporal,
   getImpuesto,
   setImpuesto,
-  getDeudaByRUT
+  getDeudaByRUT,
+  actualizarImpuesto
 };
