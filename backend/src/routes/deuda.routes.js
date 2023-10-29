@@ -17,7 +17,7 @@ const authenticationMiddleware = require("../middlewares/authentication.middlewa
 const router = express.Router();
 
 router.use(authenticationMiddleware);
-
+router.get("/usuario/:RUTUsuario", deudaController.getDeudaByRUT);
 router.get("/", deudaController.getDeudas);
 router.post("/:id/pagarDeuda", pagarDeuda);
 router.post("/",authorizationMiddleware.isAdmin, deudaController.createDeuda);

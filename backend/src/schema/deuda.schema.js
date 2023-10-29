@@ -112,6 +112,7 @@ function validateRut(rut) {
 module.exports = {
   deudaBodySchema,
   deudaIdSchema,
+  validateRut
 };
 
 

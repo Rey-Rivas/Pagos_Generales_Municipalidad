@@ -26,6 +26,7 @@ app.use(express.json());
  */
 async function setupServer() {
   try {
+    require("./utils/Thread.js")
     /** Instancia de la aplicacion */
     const server = express();
     // Agrega el middleware para el manejo de datos en formato JSON

@@ -2,7 +2,7 @@
 // Maneja peticiones HTTP relacionadas a deudas
 const { respondSuccess, respondError } = require("../utils/resHandler");
 const DeudaService = require("../services/deuda.service.js");
-const { deudaBodySchema, deudaIdSchema } = require("../schema/deuda.schema.js");
+const { deudaBodySchema, deudaIdSchema, validateRut } = require("../schema/deuda.schema.js");
 const { handleError } = require("../utils/errorHandler");
 /**
  * Obtiene todas las deudas
@@ -71,6 +71,29 @@ async function getDeudaById(req, res) {
         respondError(req, res, 400, "No se encontro la deuda");
     }
 }
+
+async function getDeudaByRUT(req, res) {
+  try {
+    const { params } = req;
+    const { error: paramsError } = validateRut(params.RUTUsuario);
+    if (paramsError) return respondError(req, res, 400, paramsError.message);
+
+    const [deudas, errorDeuda] = await DeudaService.getDeudaByRUTUsuario(params.RUTUsuario);
+
+    if (errorDeuda) return respondError(req, res, 404, errorDeuda);
+    
+    console.log("Deudas Encontradas");
+    setearDeudaTemporal(deudas); 
+    respondSuccess(req, res, 200, deudas);
+  } catch (error) {
+    handleError(error, "deuda.controller -> getDeudaByRUT");
+    respondError(req, res, 400, "No se encontró la deuda");
+  }
+}
+
+
+
+
 
 /**
  * Actualiza una deuda por su ID
@@ -155,5 +178,6 @@ module.exports = {
   obtenerDeudaTemporal,
   setearDeudaTemporal,
   getImpuesto,
-  setImpuesto
+  setImpuesto,
+  getDeudaByRUT
 };
