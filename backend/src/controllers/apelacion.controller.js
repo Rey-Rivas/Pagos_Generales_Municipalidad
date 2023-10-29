@@ -45,6 +45,11 @@ async function createApelacion(req, res) {
       }
     }
 
+    // Verificar que el estado de la apelación sea válido
+    if (!estados.includes(body.estado)) {
+      return respondError(req, res, 400, "El estado de la apelación no es válido");
+    }
+
     const [newApelacion, errorApelacion] = await ApelacionService.createApelacion(body);
 
     if (errorApelacion) return respondError(req, res, 400, errorApelacion);
@@ -94,6 +99,10 @@ async function updateApelacion(req, res) {
 
         const { error: bodyError } = apelacionBodySchema.validate(body);
         if (bodyError) return respondError(req, res, 400, bodyError.message);
+
+        if (body.estado && !estados.includes(body.estado)) {
+          return respondError(req, res, 400, "El estado de la apelación no es válido");
+        }
 
         const [apelacion, errorApelacion] = await ApelacionService.updateApelacion(params.apelacionID, body);
 

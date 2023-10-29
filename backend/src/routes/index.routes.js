@@ -8,6 +8,9 @@ const userRoutes = require("./user.routes.js");
 /** Enrutador de deudas */
 const deudaRoutes = require("./deuda.routes.js");
 
+/** Enrutador de apelaciones */
+const apelacionRoutes = require("./apelacion.routes.js");
+
 /** Enrutador de autenticación */
 const authRoutes = require("./auth.routes.js");
 

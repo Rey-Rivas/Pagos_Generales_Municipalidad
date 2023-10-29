@@ -3,7 +3,7 @@
 const express = require("express");
 
 /** Controlador de apelacion */
-const deudaController = require("../controllers/apelacion.controller.js");
+const apelacionController = require("../controllers/apelacion.controller.js");
 
 /** Middlewares de autorización */
 const authorizationMiddleware = require("../middlewares/authorization.middleware.js");
@@ -20,17 +20,17 @@ const upload = multer({
 
 router.use(authenticationMiddleware);
 
-router.get("/", deudaController.getApelacion);
-router.post("/",authorizationMiddleware.isUsuario, deudaController.createApelacion);
-router.get("/:id", deudaController.getApelacionById);
+router.get("/", apelacionController.getApelacion);
+router.post("/",authorizationMiddleware.isUser, apelacionController.createApelacion);
+router.get("/:id", apelacionController.getApelacionById);
 
 router.put("/:id",
     authorizationMiddleware.isEncargado,
-    deudaController.updateDeuda
+    deudaController.updateApelacion
 );
 router.delete("/:id",
     authorizationMiddleware.isEncargado,
-    deudaController.deleteDeuda
+    deudaController.deleteApelacion
 );
 
 // Agregar una ruta para manejar la carga de archivos PDF
