@@ -6,6 +6,10 @@ const listado_deudas = [];
 
 async function generarInformeExcel(listado_deudas, fechaInicio, fechaFin) {
     try {
+
+        // Vacía el array de deudas antes de agregar nuevos datos
+        listado_deudas.length = 0;
+
         // Obtiene todas las deudas dentro de la base de datos
         const deudas = await Deuda.find();
          
@@ -38,7 +42,6 @@ async function generarInformeExcel(listado_deudas, fechaInicio, fechaFin) {
         ];
 
         // Agrega los datos que correspondan a la fecha al .xlsx
-      
         datosFiltrados.forEach((dato) => {
             worksheet.addRow({
                 descripcion: dato.descripcion,
