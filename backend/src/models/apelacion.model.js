@@ -20,7 +20,7 @@ const apelacionSchema = new mongoose.Schema(
             required: true,
         },
         estado:{
-            type: String,
+            type: Number,
             required: true,
         },
         deudaID:{
