@@ -39,7 +39,7 @@ router.post('/generar-excel', async (req, res) => {
             res.setHeader('Content-Disposition', `attachment; filename=${informe.nombreArchivo}`);
 
             // Envia mensaje de exito y el archivo como respuesta
-            console.log('Informe Excel generado correctamente, este archivo se llama:', informe.nombreArchivo);
+            console.log('Informe Excel generado, se llama:\n', informe.nombreArchivo);
             res.send(informe.buffer);
         })
         .catch((error) => {
