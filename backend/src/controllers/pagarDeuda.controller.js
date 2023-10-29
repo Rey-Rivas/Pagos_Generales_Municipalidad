@@ -36,7 +36,8 @@ const pagarDeuda = async (req, res) => {
             {
                 $set: {
                     monto: deudaTemporal.monto,
-                    estado: deudaTemporal.monto > cuerpoSolicitud.PagarCantidad ? 'pendiente' : 'pagado'
+                    estado: deudaTemporal.monto > cuerpoSolicitud.PagarCantidad ? 'pendiente' : 'pagado',
+                    fechaPago: fechaActual
                 }
             },
             { new: true, runValidators: true }

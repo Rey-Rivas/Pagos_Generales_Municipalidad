@@ -2,7 +2,7 @@
 // Maneja peticiones HTTP relacionadas a deudas
 const { respondSuccess, respondError } = require("../utils/resHandler");
 const DeudaService = require("../services/deuda.service.js");
-const { deudaBodySchema, deudaIdSchema } = require("../schema/deuda.schema.js");
+const { deudaBodySchema, deudaIdSchema, validateRut } = require("../schema/deuda.schema.js");
 const { handleError } = require("../utils/errorHandler");
 /**
  * Obtiene todas las deudas
@@ -72,6 +72,29 @@ async function getDeudaById(req, res) {
     }
 }
 
+async function getDeudaByRUT(req, res) {
+  try {
+    const { params } = req;
+    const { error: paramsError } = validateRut(params.RUTUsuario);
+    if (paramsError) return respondError(req, res, 400, paramsError.message);
+
+    const [deudas, errorDeuda] = await DeudaService.getDeudaByRUTUsuario(params.RUTUsuario);
+
+    if (errorDeuda) return respondError(req, res, 404, errorDeuda);
+    
+    console.log("Deudas Encontradas");
+    setearDeudaTemporal(deudas); 
+    respondSuccess(req, res, 200, deudas);
+  } catch (error) {
+    handleError(error, "deuda.controller -> getDeudaByRUT");
+    respondError(req, res, 400, "No se encontró la deuda");
+  }
+}
+
+
+
+
+
 /**
  * Actualiza una deuda por su ID
  * @param {Object} req - Objeto de petición
@@ -137,7 +160,24 @@ function setImpuesto(nuevoImpuesto){
   impuesto=nuevoImpuesto;
 }
 
+async function actualizarImpuesto(req, res) {
+  try {
+    const nuevoImpuesto = parseFloat(req.params.nuevoImpuesto);
 
+    // Validar si el nuevo impuesto es un número válido
+    if (isNaN(nuevoImpuesto) || nuevoImpuesto <= 0) {
+      return res.status(400).json({ mensaje: 'El nuevo impuesto no es válido' });
+    }
+
+    // Actualizar el impuesto llamando a la función setImpuesto
+    setImpuesto(nuevoImpuesto);
+
+    res.status(200).json({ mensaje: 'Impuesto actualizado correctamente' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ mensaje: 'Error al actualizar el impuesto' });
+  }
+}
 
 
 
@@ -155,5 +195,7 @@ module.exports = {
   obtenerDeudaTemporal,
   setearDeudaTemporal,
   getImpuesto,
-  setImpuesto
+  setImpuesto,
+  getDeudaByRUT,
+  actualizarImpuesto
 };
