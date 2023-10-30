@@ -3,6 +3,7 @@
 const Deuda = require("../models/deuda.model.js");
 const { handleError } = require("../utils/errorHandler");
 const moment = require('moment');
+
 /**
  * Obtiene todas las deudas de la base de datos.
  *
@@ -10,6 +11,9 @@ const moment = require('moment');
  */
 async function getDeudas() {
   try {
+
+    console.log("hola");
+
     const deudas = await Deuda.find()
       .populate("tramiteID")
       .populate("RUTAdmin")
@@ -99,9 +103,6 @@ async function getDeudaByRUTUsuario(RUTUsuario) {
     handleError(error, "deuda.service -> getDeudaByRUTUsuario");
   }
 }
-
-
-
 
 
 

@@ -57,10 +57,7 @@ async function createApelacion(apelacionData) {
         console.log(apelacionData);
         const apelacionFound = await Apelacion.findOne({ apelacionId: apelacionId });
         if (apelacionFound) return [null, "La apelacion ya existe"];
-
-        const apelacionFound = await Apelacion.findOne({ apelacionId: apelacionId });
-        if (!apelacionFound) return [null, "La apelacion no existe"];
-
+        
         const descripcionFound = await Apelacion.findOne({ descripcion: descripcion });
         if (!descripcionFound) return [null, "La descripcion no existe"];
 

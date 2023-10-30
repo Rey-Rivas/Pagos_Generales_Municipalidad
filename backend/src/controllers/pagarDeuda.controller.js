@@ -1,9 +1,9 @@
-
 const { obtenerDeudaTemporal, setearDeudaTemporal } = require("../controllers/deuda.controller.js");
 const { format } = require('date-fns');
 const fechaActual = new Date();
 const deuda=require('../models/deuda.model.js')
 const fechaFormateada = format(fechaActual, 'dd-MM-yyyy');
+
 const pagarDeuda = async (req, res) => {
     try {
         deudaTemporal = obtenerDeudaTemporal();
