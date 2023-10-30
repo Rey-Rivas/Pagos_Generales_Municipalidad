@@ -21,8 +21,7 @@ const tramiteSchema = new mongoose.Schema(
         },
         RUTAdmin:{
             type: String,
-            required: true, 
-            unique: true,          
+            required: true,        
             },
     },
 );
