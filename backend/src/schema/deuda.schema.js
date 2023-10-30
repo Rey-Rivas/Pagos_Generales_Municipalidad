@@ -80,7 +80,7 @@ const deudaBodySchema = Joi.object({
 
 // Esquema de validación para el ID de deuda
 const deudaIdSchema = Joi.object({
-  id: Joi.object().required().messages({
+  id: Joi.number().required().messages({
     "any.required": "El ID de la deuda no puede estar vacío.",
   }),
 });
@@ -112,6 +112,7 @@ function validateRut(rut) {
 module.exports = {
   deudaBodySchema,
   deudaIdSchema,
+  validateRut
 };
 
 
