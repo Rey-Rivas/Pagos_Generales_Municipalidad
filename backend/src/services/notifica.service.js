@@ -60,9 +60,9 @@ async function getNotificaById(params) {
     }
   }
 
-async function notiPost(deudaID, RUTEncargado, RUTUsuario) {
+async function notiPost(deudaID, RUTEncargado, RUTUsuario, notiCausa) {
     try {
-
+      var achetemele = ""
       const deudaFound = await Deuda.findOne({ deudaID: deudaID });
       if (deudaFound) {
         //console.log(deudaFound);
@@ -84,21 +84,53 @@ async function notiPost(deudaID, RUTEncargado, RUTUsuario) {
         console.log('Encargado con RUT ${RUTEncargado} no encontrado.');
       }
 
-      const achetemele = `
+      //achetemele cambia dependiendo de la notificacion
+      if (notiCausa == "Deuda por vencer") {
+        achetemele = `
         <p>Estimado(a) ${userFound.username},</p>
-        <p>Le informamos que tiene una deuda pendiente por <strong>${deudaFound.descripcion}</strong> con el siguiente detalle:</p>
+        <p>Le recordamos que su deuda por <strong>${deudaFound.descripcion}</strong> está a punto de vencer:</p>
         <ul>
           <li>Monto: ${deudaFound.monto}</li>
           <li>Fecha de vencimiento: ${deudaFound.fechaVencimiento.toLocaleDateString()}</li>
         </ul>
         <p>Por favor, regularice su situación a la brevedad posible. Saludos.</p>
-        <img src="https://i.imgur.com/gYyHtrw.gif" alt="jijiji">
-      `;
+        <img src="https://i.imgur.com/gYyHtrw.gif" alt="jijiji"></img>`
+      ;} else if (notiCausa == "Deuda vencida") {
+        achetemele = `
+        <p>Estimado(a) ${userFound.username},</p>
+        <p>Le informamos que su deuda por <strong>${deudaFound.descripcion}</strong> acaba de vencer:</p>
+        <ul>
+          <li>Monto: ${deudaFound.monto}</li>
+          <li>Fecha de vencimiento: ${deudaFound.fechaVencimiento.toLocaleDateString()}</li>
+        </ul>
+        <p>Por favor, regularice su situación a la brevedad posible. Saludos.</p>
+        <img src="https://i.imgur.com/gYyHtrw.gif" alt="jijiji"></img>`
+      } else if (notiCausa == "Deuda vencida 1 semana") {
+        achetemele = `
+        <p>Estimado(a) ${userFound.username},</p>
+        <p>Le recordamos que realice el pago de su deuda por <strong>${deudaFound.descripcion}</strong>:</p>
+        <ul>
+          <li>Monto: ${deudaFound.monto}</li>
+          <li>Fecha de vencimiento: ${deudaFound.fechaVencimiento.toLocaleDateString()}</li>
+        </ul>
+        <p>Por favor, regularice su situación a la brevedad posible. Saludos.</p>
+        <img src="https://i.imgur.com/gYyHtrw.gif" alt="jijiji"></img>`
+      } else {
+        achetemele = `
+        <p>Estimado(a) ${userFound.username},</p>
+        <p>Le recordamos sobre su deuda por <strong>${deudaFound.descripcion}</strong> con el siguiente detalle:</p>
+        <ul>
+          <li>Monto: ${deudaFound.monto}</li>
+          <li>Fecha de vencimiento: ${deudaFound.fechaVencimiento.toLocaleDateString()}</li>
+        </ul>
+        <p>Saludos.</p>
+        <img src="https://i.imgur.com/gYyHtrw.gif" alt="jijiji"></img>`
+      }
 
       const mailOptions = {
         from: "ingenieriadesoftwareproyecto@gmail.com",
         to: userFound.email,
-        subject: "Deuda pendiente",
+        subject: notiCausa,
         html: achetemele,
       };
   
@@ -146,8 +178,9 @@ async function createNotifica(deudaID, RUTEncargado, RUTUsuario, notiCausa = nul
       fechadenotificacion
     });
     await newNotifica.save();
-
+    console.log("Se creo la notificacion " + newNotifica + ".");
     //correoNotifica()
+    console.log("ejecutando notiPost con notiCausa=" + notiCausa + ".")
     notiPost(deudaID, RUTEncargado, RUTUsuario, notiCausa);
     //correito();
 

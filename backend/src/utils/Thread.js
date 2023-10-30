@@ -8,7 +8,7 @@ function llamarRevisaEnvios() {
 
     console.log('Revisando potenciales notificaciones...')
     revisarEnviosPendientes();
-    setTimeout(llamarRevisaEnvios, 6 * 1000);
+    setTimeout(llamarRevisaEnvios, 15 * 1000);
 }
 
   // Inicia la ejecución de la tarea
@@ -21,7 +21,6 @@ function llamarRevisaEnvios() {
 
         const deudasNotificables = await Deuda.find({
             estado: { $ne: 'pagado' },
-            fechaVencimiento: { $lt: fechaHoy }
         });
 
         for (const deuda of deudasNotificables){
@@ -34,20 +33,26 @@ function llamarRevisaEnvios() {
             //Ten en cuenta que en un inicio, ultimoNotifica es igual a una fecha 0.
             var ultimoNotifica = new Date(0);
             for (const notifica of notificaciones){
-                //console.log("A punto de correr un if que compara " + notifica.fechadenotificacion + " con " + ultimoNotifica)
-                if (notifica.fechadenotificacion > ultimoNotifica){
-                    ultimoNotifica = notifica.fechaDeNotificacion;
+                fechaNoti = new Date(notifica.fechadenotificacion.getTime() + (3 * 60 * 60 * 1000))
+                //console.log("(Para deuda " + deuda.deudaID + ") A punto de correr un if que compara " + fechaNoti + " con " + ultimoNotifica)
+                if (fechaNoti > ultimoNotifica){
+                    ultimoNotifica = fechaNoti;
                 }
             }
+
+            //console.log("Para " + deuda.deudaID + " (que vence el " + deuda.fechaVencimiento + ") de " + deuda.RUTUsuario + " el ultimoNotifica fue en " + ultimoNotifica + ".")
+            //console.log("En este caso, fechaVencimiento = " + deuda.fechaVencimiento + ".")
+            //console.log("En este caso, fechaVencimiento + 1 = " + new Date(deuda.fechaVencimiento.getTime() + (24 * 60 * 60 * 1000)) + ".")
             //console.log("ultimoNotifica para " + deuda.deudaID + ": " + ultimoNotifica)
             //SI estamos a menos de un día de la fecha de vencimiento (Vale decir, fechaVencimiento < fechaHoy < fechaVencimiento + 1 día)...
             //Y si el ultimo notifica fue hace más de un día (ultimoNotifica < fechaHoy - 1 día)...
             //Se llama a enviarCorreoAtraso(deuda.deudaID, "Recordatorio 1 dia")
-            if (fechaHoy < deuda.fechaVencimiento + 1
-                && ultimoNotifica < fechaHoy - 1){
+            if (new Date(deuda.fechaVencimiento.getTime() - (24 * 60 * 60 * 1000)) < fechaHoy
+                && fechaHoy < deuda.fechaVencimiento
+                && ultimoNotifica < new Date(fechaHoy.getTime() - (24 * 60 * 60 * 1000)) ){
 
-                enviarCorreoAtraso(deuda, "Recordatorio 1 dia");
-                console.log("Ciclo for -> Deuda " + deuda.deudaID + " -> Recordatorio 1 dia" + " pues fechaHoy (" + fechaHoy + ") < deuda.fechaVencimiento + 1 (" + deuda.fechaVencimiento + 1 + ").")
+                enviarCorreoAtraso(deuda, "Deuda por vencer");
+                //console.log("Ciclo for -> Deuda " + deuda.deudaID + " -> Recordatorio 1 dia" + " pues fechaHoy (" + fechaHoy + ") < deuda.fechaVencimiento + 1 (" + deuda.fechaVencimiento + 1 + ").")
             }
             //Si estamos pasados de la fecha de vencimiento (fechaVencimiento < fechaHoy)...
             //Y el ultimo notifica fue antes de la fecha de vencimiento (ultimoNotifica < fechaVencimiento)...
@@ -55,8 +60,8 @@ function llamarRevisaEnvios() {
             if (fechaHoy > deuda.fechaVencimiento
                 && ultimoNotifica < deuda.fechaVencimiento){
 
-                enviarCorreoAtraso(deuda, "Aviso deuda vencida");
-                console.log("Ciclo for -> Deuda " + deuda.deudaID + " -> Recordatorio 1 dia" + " pues ultimoNotifica = " + ultimoNotifica + " < deuda.fechaVencimiento = " + deuda.fechaVencimiento + ".")
+                enviarCorreoAtraso(deuda, "Deuda vencida");
+                //console.log("Ciclo for -> Deuda " + deuda.deudaID + " -> Deuda vencida" + " pues ultimoNotifica = " + ultimoNotifica + " < deuda.fechaVencimiento = " + deuda.fechaVencimiento + ".")
             }
             //Si estamos pasados de la fecha de vencimiento...
             //El ultimo notifica fue despues de la fecha de vencimiento...
@@ -64,9 +69,10 @@ function llamarRevisaEnvios() {
             //Se llama a enviarCorreoAtraso(deuda.deudaID, "Recordatorio 1 semana")
             if (fechaHoy > deuda.fechaVencimiento
                 && ultimoNotifica > deuda.fechaVencimiento
-                && ultimoNotifica < fechaHoy - 7){
+                //&& ultimoNotifica < new Date(fechaHoy.getTime() - (7 * 24 * 60 * 60 * 1000))){
+                && ultimoNotifica < new Date(fechaHoy.getTime() - (7 * 24 * 60 * 60 * 1000))){
 
-                enviarCorreoAtraso(deuda, "Recordatorio 5 minutos");
+                enviarCorreoAtraso(deuda, "Deuda vencida 1 semana");
             }
         }
         } catch (error) {
