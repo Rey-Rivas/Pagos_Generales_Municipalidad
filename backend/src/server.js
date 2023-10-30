@@ -52,7 +52,7 @@ async function setupServer() {
     app.use('/user', userRoutes);
     app.use('/deuda', deudaRoutes);
     app.use('/notifica', notificaRoutes);
-
+    
     /*const PORT = process.env.PORT || 3000;
     
     app.listen(PORT, () => {

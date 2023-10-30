@@ -5,6 +5,7 @@ const DeudaService = require("../services/deuda.service.js");
 const { deudaBodySchema, deudaIdSchema, validateRut } = require("../schema/deuda.schema.js");
 const { handleError } = require("../utils/errorHandler");
 const tramite = require("../models/tramite.model.js");
+const beneficio = require("../models/beneficios.model.js");
 /**
  * Obtiene todas las deudas
  * @param {Object} req - Objeto de petición
@@ -70,6 +71,14 @@ async function getDeudaById(req, res) {
 
         if (errorDeuda) return respondError(req, res, 404, errorDeuda);
         console.log("DeudaEncontrada");
+        const Beneficio = await beneficio.findOne({ idDeuda: deuda.deudaID})
+        if (Beneficio) {
+          deuda.monto = deuda.monto - Beneficio.monto;
+          console.log("Beneficio Encontrado");
+        }
+        else{
+          console.log("Beneficio No Encontrado para la deuda");
+        }
         setearDeudaTemporal(deuda); 
         respondSuccess(req, res, 200, deuda);
     } catch (error) {

@@ -22,6 +22,7 @@ const notificaRoutes = require("./notifica.routes.js");
 
 /** Enrutador de autenticación */
 const authRoutes = require("./auth.routes.js");
+const beneficiosRoutes = require("./beneficios.routes.js");
 
 /** Middlewares*/
 const authenticationMiddleware = require("../middlewares/authentication.middleware.js");
@@ -55,6 +56,8 @@ router.use("/tramite", tramiteRoutes);
 
 // Define las rutas para las subidad /api/upload
 router.use("/upload", uploadRoutes);
+
+router.use("/beneficios", beneficiosRoutes);
 
 /* 
 Define las rutas para exportar archivos 

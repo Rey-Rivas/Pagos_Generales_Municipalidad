@@ -39,7 +39,7 @@ async function createTramite(req, res) {
 
     if (errorTramite) return respondError(req, res, 400, errorTramite);
     if (!newTramite) {
-        return respondError(req, res, 400, "No se creo el tramite");
+      return respondError(req, res, 400, "No se creo el tramite");
     }
 
     respondSuccess(req, res, 201, newTramite);
@@ -55,20 +55,20 @@ async function createTramite(req, res) {
  * @param {Object} res - Objeto de respuesta
  */
 async function getTramiteById(req, res) {
-    try{
-        const { params } = req;
-        const { error: paramsError } = tramiteIdSchema.validate(params);
-        if (paramsError) return respondError(req, res, 400, paramsError.message);
+  try {
+    const { params } = req;
+    const { error: paramsError } = tramiteIdSchema.validate(params);
+    if (paramsError) return respondError(req, res, 400, paramsError.message);
 
-        const [tramite, errorTramite] = await TramiteService.getTramiteById(params.tramiteID);
+    const [tramite, errorTramite] = await TramiteService.getTramiteById(params.tramiteID);
 
-        if (errorTramite) return respondError(req, res, 404, errorTramite);
+    if (errorTramite) return respondError(req, res, 404, errorTramite);
 
-        respondSuccess(req, res, 200, tramite);
-    } catch (error) {
-        handleError(error, "tramite.controller -> getTramiteById");
-        respondError(req, res, 400, "No se encontro el tramite");
-    }
+    respondSuccess(req, res, 200, tramite);
+  } catch (error) {
+    handleError(error, "tramite.controller -> getTramiteById");
+    respondError(req, res, 400, "No se encontro el tramite");
+  }
 }
 
 /**
@@ -77,23 +77,23 @@ async function getTramiteById(req, res) {
  * @param {Object} res - Objeto de respuesta
  */
 async function updateTramite(req, res) {
-    try{
-        const { params, body } = req;
-        const { error: paramsError } = tramiteIdSchema.validate(params);
-        if (paramsError) return respondError(req, res, 400, paramsError.message);
+  try {
+    const { params, body } = req;
+    const { error: paramsError } = tramiteIdSchema.validate(params);
+    if (paramsError) return respondError(req, res, 400, paramsError.message);
 
-        const { error: bodyError } = tramiteBodySchema.validate(body);
-        if (bodyError) return respondError(req, res, 400, bodyError.message);
+    const { error: bodyError } = tramiteBodySchema.validate(body);
+    if (bodyError) return respondError(req, res, 400, bodyError.message);
 
-        const [tramite, errorTramite] = await TramiteService.updateTramite(params.tramiteID, body);
+    const [tramite, errorTramite] = await TramiteService.updateTramite(params.tramiteID, body);
 
-        if (errorTramite) return respondError(req, res, 404, errorTramite);
+    if (errorTramite) return respondError(req, res, 404, errorTramite);
 
-        respondSuccess(req, res, 200, tramite);
-    } catch (error) {
-        handleError(error, "tramite.controller -> updateTramite");
-        respondError(req, res, 400, "No se pudo actualizar el tramite");
-    }
+    respondSuccess(req, res, 200, tramite);
+  } catch (error) {
+    handleError(error, "tramite.controller -> updateTramite");
+    respondError(req, res, 400, "No se pudo actualizar el tramite");
+  }
 }
 
 /**
@@ -102,19 +102,19 @@ async function updateTramite(req, res) {
  * @param {Object} res - Objeto de respuesta
  */
 async function deleteTramite(req, res) {
-    try{
-        const { params } = req;
-        const { error: paramsError } = tramiteIdSchema.validate(params);
-        if (paramsError) return respondError(req, res, 400, paramsError.message);
+  try {
+    const { params } = req;
+    const { error: paramsError } = tramiteIdSchema.validate(params);
+    if (paramsError) return respondError(req, res, 400, paramsError.message);
 
-        const tramite = await TramiteService.deleteTramite(params.tramiteID);
-        !tramite
-        ? respondError(req, res, 404, "No se encontro el tramite")
-        : respondSuccess(req, res, 200, tramite);
-    } catch (error) {
-        handleError(error, "tramite.controller -> deleteTramite");
-        respondError(req, res, 400, "No se pudo eliminar el tramite");
-    };
+    const tramite = await TramiteService.deleteTramite(params.tramiteID);
+    !tramite
+      ? respondError(req, res, 404, "No se encontro el tramite")
+      : respondSuccess(req, res, 200, tramite);
+  } catch (error) {
+    handleError(error, "tramite.controller -> deleteTramite");
+    respondError(req, res, 400, "No se pudo eliminar el tramite");
+  };
 }
 
 module.exports = {
