@@ -1,25 +1,24 @@
 "use strict";
-// Importa el modelo de datos 'User'
+// Importa el modelo de datos 'apelacion'
 const Apelacion = require("../models/apelacion.model.js");
 const { handleError } = require("../utils/errorHandler");
 
 /**
- * Obtiene todas las apelacions de la base de datos.
+ * Obtiene todas las apelacion de la base de datos.
  *
- * @returns {Promise} Una promesa que resuelve con una lista de todas las apelacions si se encontraron apelacions, o con un mensaje de error si no se encontraron apelacions.
+ * @returns {Promise} Una promesa que resuelve con una lista de todas las apelaciones si se encontraron apelaciones, o con un mensaje de error si no se encontraron apelacions.
  */
 async function getApelacion() {
   try {
-    const apelacion = await apelacion.find()
-    .populate("apelacionID")
+    const apelacion = await Apelacion.find()
     .populate("descripcion")
     .populate("documento")
     .populate("estado")
-    .populate("deudaID")
+    /* .populate("deudaID")
     .populate("RUTEncargado")
-    .populate("RUTUsuario")
+    .populate("RUTUsuario") */
     .exec();
-    if (!apelacion) return [null, "No hay usuarios"];
+    if (!apelacion) return [null, "No hay apelaciones"];
 
     return [apelacion, null];
   } catch (error) {
@@ -29,13 +28,12 @@ async function getApelacion() {
 
 async function getApelacionById(id) {
     try{
-    const apelacion = await apelacion.findOne({ apelacionID: id })
-    .populate("ApelacionID")
+    const apelacion = await Apelacion.findOne({ apelacionId: id })
     .populate("descripcion")
     .populate("documento")
-    .populate("deudaID")
+    /* .populate("deudaID")
     .populate("RUTEncargado")
-    .populate("RUTUsuario")
+    .populate("RUTUsuario") */
     .exec();
 
     if (!apelacion) return [null, "No hay apelacion"];
@@ -55,12 +53,12 @@ async function getApelacionById(id) {
  */
 async function createApelacion(apelacionData) {
     try {
-        const { apelacionID, descripcion, documento, estado, deudaID, RUTEncargado, RUTUsuario } = apelacionData;
-        
-        const apelacionFound = await apelacion.findOne({ apelacionID: apelacionID });
+        const { apelacionId, descripcion, documento, estado,/*  deudaID, RUTEncargado, RUTUsuario  */} = apelacionData;
+        console.log(apelacionData);
+        const apelacionFound = await Apelacion.findOne({ apelacionId: apelacionId });
         if (apelacionFound) return [null, "La apelacion ya existe"];
 
-        //const apelacionFound = await Apelacion.findOne({ apelacionID: apelacionID });
+        //const apelacionFound = await Apelacion.findOne({ apelacionId: apelacionId });
         //if (!apelacionFound) return [null, "La apelacion no existe"];
 
         //const descripcionFound = await Apelacion.findOne({ descripcion: descripcion });
@@ -81,70 +79,70 @@ async function createApelacion(apelacionData) {
         //const userFound = await User.findOne({ RUT: RUTUsuario });
         //if (!userFound) return [null, "El usuario no existe"];
 
-        const newApelacion = new apelacion({
-            apelacionID,
+        const newApelacion = new Apelacion({
+            apelacionId,
             descripcion,
             documento,
             estado,
-            deudaID,
+            /* deudaID,
             RUTEncargado,
-            RUTUsuario,
+            RUTUsuario, */
         });
         await newApelacion.save();
 
         return [newApelacion, null];
 
     } catch (error) {
-        handleError(error, "apelacion.service.js -> createApelacion");
+        handleError(error, "apelacion.service -> createApelacion");
   }
 };
 
 /**
  * Actualiza una apelacion por su ID en la base de datos.
  *
- * @param {Number} apelacionID El ID de la apelacion que se desea actualizar.
+ * @param {Number} apelacionId El ID de la apelacion que se desea actualizar.
  * @param {Object} Apelacion Un objeto que contiene los datos actualizados de la apelacion.
  * @returns {Promise} Una promesa que resuelve con la apelacion actualizada si la actualización fue exitosa, o con un mensaje de error si la actualización falló.
  */
-async function updateApelacion(apelacionID, Apelacion) {
+async function updateApelacion(apelacionId, Apelacion) {
     try {
-        const apelacionFound = await apelacion.findOne({ apelacionID: apelacionID });
+        const apelacionFound = await Apelacion.findOne({ apelacionId: apelacionId });
         if (!apelacionFound) return [null, "La apelacion no existe"];
 
-        const { descripcion, documento, estado, tramiteID, RUTEncargado, RUTUsuario } = Apelacion;
+        const { descripcion, documento, estado, /* deudaID, RUTEncargado, RUTUsuario */ } = apelacion;
 
-        const apelacionUpdated = await apelacion.findOneAndUpdate({ apelacionID: apelacionID }, {
+        const apelacionUpdated = await Apelacion.findOneAndUpdate({ apelacionId: apelacionId }, {
             descripcion,
             documento,
             estado,
-            deudaID,
+            /* deudaID,
             RUTencargado,
-            RUTUsuario,
+            RUTUsuario, */
         },
         { new: true });
 
         return [apelacionUpdated, null];
     } catch (error) {
-        handleError(error, "apelacion.service.js -> updateApelacion");
+        handleError(error, "apelacion.service -> updateApelacion");
     }
 }
 
 /**
  * Elimina una apelacion por su ID de la base de datos.
  *
- * @param {Number} apelacionID El ID de la apelacion que se desea eliminar.
+ * @param {Number} apelacionId El ID de la apelacion que se desea eliminar.
  * @returns {Promise<Object>} Una promesa que resuelve con la apelacion eliminada si la eliminación fue exitosa, o con un mensaje de error si la eliminación falló.
  */
 
-async function deleteApelacion(apelacionID) {
+async function deleteApelacion(apelacionId) {
   try {
-    const apelacion = await apelacion.findOneAndDelete({ apelacionID });
+    const apelacion = await Apelacion.findOneAndDelete({ apelacionId });
     if (!apelacion) {
       throw errorHandler("No se encontró la apelacion especificada.", 404);
     }
     return apelacion;
   } catch (error) {
-    handleError(error, "apelacion.service.js -> deleteApelacion");
+    handleError(error, "apelacion.service -> deleteApelacion");
   }
 }
 

@@ -32,26 +32,13 @@ async function getApelacion(req, res) {
 async function createApelacion(req, res) {
   try {
     const { body } = req;
+    console.log(body.apelacionId);
     const { error: apelacionError } = apelacionBodySchema.validate(body);
     if (apelacionError) return respondError(req, res, 400, apelacionError.message);
-
-    // Verificar si se está cargando un archivo PDF
-    const { file } = req;
-    if (file) {
-      body.documento = file.filename;
-      // Verificar que el usuario tenga permiso para cargar archivos
-      if (user.role !== "user") {
-        return respondError(req, res, 403, "No tienes permiso para cargar archivos");
-      }
-    }
-
-    // Verificar que el estado de la apelación sea válido
-    if (!estados.includes(body.estado)) {
-      return respondError(req, res, 400, "El estado de la apelación no es válido");
-    }
-
+    
     const [newApelacion, errorApelacion] = await ApelacionService.createApelacion(body);
-
+    console.log(newApelacion);
+    
     if (errorApelacion) return respondError(req, res, 400, errorApelacion);
     if (!newApelacion) {
         return respondError(req, res, 400, "No se creo la apelacion");
@@ -75,7 +62,7 @@ async function getApelacionById(req, res) {
         const { error: paramsError } = apelacionIdSchema.validate(params);
         if (paramsError) return respondError(req, res, 400, paramsError.message);
 
-        const [apelacion, errorApelacion] = await ApelacionService.getApelacionById(params.apelacionID);
+        const [apelacion, errorApelacion] = await ApelacionService.getApelacionById(params.apelacionId);
 
         if (errorApelacion) return respondError(req, res, 404, errorApelacion);
 
@@ -104,7 +91,7 @@ async function updateApelacion(req, res) {
           return respondError(req, res, 400, "El estado de la apelación no es válido");
         }
 
-        const [apelacion, errorApelacion] = await ApelacionService.updateApelacion(params.apelacionID, body);
+        const [apelacion, errorApelacion] = await ApelacionService.updateApelacion(params.apelacionId, body);
 
         if (errorApelacion) return respondError(req, res, 404, errorApelacion);
 
@@ -126,7 +113,7 @@ async function deleteApelacion(req, res) {
         const { error: paramsError } = apelacionIdSchema.validate(params);
         if (paramsError) return respondError(req, res, 400, paramsError.message);
 
-        const apelacion = await ApelacionService.deleteApelacion(params.apelacionID);
+        const apelacion = await ApelacionService.deleteApelacion(params.apelacionId);
         !apelacion
         ? respondError(req, res, 404, "No se encontro la apelacion")
         : respondSuccess(req, res, 200, apelacion);

@@ -13,10 +13,6 @@ const authenticationMiddleware = require("../middlewares/authentication.middlewa
 
 /** Instancia del enrutador */
 const router = express.Router();
-const multer = require("multer");
-const upload = multer({
-    dest: "uploads/" // Carpeta donde se guardarán los archivos subidos
-  });
 
 router.use(authenticationMiddleware);
 
@@ -26,14 +22,11 @@ router.get("/:id", apelacionController.getApelacionById);
 
 router.put("/:id",
     authorizationMiddleware.isEncargado,
-    deudaController.updateApelacion
+    apelacionController.updateApelacion
 );
 router.delete("/:id",
     authorizationMiddleware.isEncargado,
-    deudaController.deleteApelacion
+    apelacionController.deleteApelacion
 );
-
-// Agregar una ruta para manejar la carga de archivos PDF
-router.post("/uploads", upload.single("pdf"), apelacionController.uploadPDF);
 
 module.exports = router;

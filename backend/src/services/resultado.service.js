@@ -33,7 +33,7 @@ async function getResultado() {
   }
 
 /**
- * @param {Number} apelaciónID
+ * @param {Number} apelaciónId
  * @param {String} RUTEncargado
  * @param {String} RUTUsuario
  * @returns {Promise} Una promesa que resuelve con el resultado si se encontró, o con un mensaje de error si no se encontró.
@@ -89,8 +89,7 @@ async function resulPost(apelacionID, RUTEncargado, RUTUsuario) {
         <p>Estimado(a) ${userFound.username},</p>
         <p>Le informamos que la apelación  <strong>${apelaciónFound.descripcion}</strong> con el siguiente detalle:</p>
         <ul>
-          <li>Monto: ${deudaFound.monto}</li>
-          <li>Fecha de vencimiento: ${deudaFound.fechaVencimiento.toLocaleDateString()}</li>
+          <li>Monto: ${apelacionFound.estado}</li>
         </ul>
         <p>Por favor, regularice su situación a la brevedad posible. Saludos.</p>
         <img src="https://i.imgur.com/8CM0hnV.gif" alt="jijiji">
@@ -114,25 +113,25 @@ async function resulPost(apelacionID, RUTEncargado, RUTUsuario) {
       });
 
     } catch (error) {
-      handleError(error, "resultado.service -> notiPost");
+      handleError(error, "resultado.service -> resulPost");
     }
   }
 
 /**
  * Crea un nuevo resultado en la base de datos.
  *
- * @param {Number} apelacionID
+ * @param {Number} apelacionId
  * @param {String} RUTEncargado
  * @param {String} RUTUsuario
  * @returns {Promise} Una promesa que resuelve con el nuevo resultado creada si la creación fue exitosa, o con un mensaje de error si la creación falló.
  */
-async function createNotifica(deudaID, RUTEncargado, RUTUsuario) {
+async function createResultado(apelacionId, RUTEncargado, RUTUsuario) {
   try{
     const fechadenotificacion = new Date();
     fechadenotificacion.setHours(fechadenotificacion.getHours() - 3);
 
-    const deudaFound = await Deuda.findOne({ deudaID: deudaID });
-    if (!deudaFound) return [null, "La deuda no existe"];
+    const apelacionFound = await Apelacion.findOne({ apelacionId: apelacionId });
+    if (!apelacionFound) return [null, "La apelacion no existe"];
 
     const encargadoFound = await User.findOne({ RUT: RUTEncargado });
     if (!encargadoFound) return [null, "El encargado no existe"];
@@ -140,33 +139,33 @@ async function createNotifica(deudaID, RUTEncargado, RUTUsuario) {
     const usuarioFound = await User.findOne({ RUT: RUTUsuario });
     if (!usuarioFound) return [null, "El usuario no existe"];
 
-    const newNotifica = new Notifica({
-      deudaID,
+    const newResultado = new Resultado({
+      apelacionId,
       RUTEncargado,
       RUTUsuario,
       fechadenotificacion
     });
-    await newNotifica.save();
+    await newResultado.save();
 
-    //correoNotifica()
-    notiPost(deudaID, RUTEncargado, RUTUsuario);
+    //correoResultado()
+    resulPost(apelacionId, RUTEncargado, RUTUsuario);
     //correito();
 
-    return [newNotifica, null];
+    return [newResultado, null];
   } catch (error) {
-    handleError(error, "notifica.service -> createNotifica");
+    handleError(error, "resultado.service -> createResultado");
   };
 };
 
 /**
- * @param {Number} deudaID
+ * @param {Number} apelacionId
  * @param {String} RUTEncargado
  * @param {String} RUTUsuario
  * @returns {Promise} Una promesa.
  */
-async function deleteNotifica(params) {
+async function deleteResultado(params) {
   try {
-    const query = { deudaID: params.deudaID };
+    const query = { apelacionId: params.apelacionId };
 
     if (params.RUTEncargado) {
       query.RUTEncargado = params.RUTEncargado;
@@ -176,48 +175,48 @@ async function deleteNotifica(params) {
       query.RUTUsuario = params.RUTUsuario;
     }
 
-    const notifica = await Notifica.deleteMany(query);
-    if (!notifica) {
-      throw errorHandler("No se encontró la notificacion especificada.", 404);
+    const resultado = await Resultado.deleteMany(query);
+    if (!resultado) {
+      throw errorHandler("No se encontró el resultado especificado.", 404);
     }
-    return notifica;
+    return resultado;
   } catch (error) {
-    handleError(error, "notifica.service -> deleteNotifica");
+    handleError(error, "resultado.service -> deleteResultado");
   }
 };
 
 /**
- * @param {Number} deudaID
+ * @param {Number} apelacionId
  * @param {String} RUTEncargado
  * @param {String} RUTUsuario
  * @param {Date} fechadenotifiacion
  * @returns {Promise} Una promesa.
  */
-async function updateNotifica(deudaID, RUTEncargado, RUTUsuario, fechadenotifiacion) {
+async function updateResultado(apelacionId, RUTEncargado, RUTUsuario, fechadenotifiacion) {
   try {
-    const notificaFound = await Notifica.findOne({ deudaID, RUTEncargado, RUTUsuario });
-    if (!notificaFound) return [null, "La notificacion no existe"];
+    const resultadoFound = await Resultado.findOne({ apelacionId, RUTEncargado, RUTUsuario });
+    if (!resultadoFound) return [null, "El resultado no existe"];
 
-    const { deudaID, RUTEncargado, RUTUsuario, fechadenotifiacion } = notifica;
+    const { apelacionId, RUTEncargado, RUTUsuario, fechadenotifiacion } = resultado;
 
-    const notificaUpdated = await Notifica.findOneAndUpdate({ deudaID, RUTEncargado, RUTUsuario }, {
-      deudaID,
+    const resultadoUpdated = await Resultado.findOneAndUpdate({ apelacionId, RUTEncargado, RUTUsuario }, {
+      apelacionId,
       RUTEncargado,
       RUTUsuario,
       fechadenotifiacion,
     },
     { new: true });
 
-    return [notificaUpdated, null];
+    return [resultadoUpdated, null];
   } catch (error) {
-    handleError(error, "notifica.service -> updateNotifica");
+    handleError(error, "resultado.service -> updateResultado");
   }
 }
 
 module.exports = {
-  getNotificaciones,
-  getNotificaById,
-  createNotifica,
-  deleteNotifica,
-  updateNotifica,
+  getResultado,
+  getResultadoById,
+  createResultado,
+  deleteResultado,
+  updateResultado,
 };

@@ -9,6 +9,8 @@ const app = express();
 const morgan = require("morgan");
 // Importa el módulo 'cookie-parser' para manejar las cookies
 const cookieParser = require("cookie-parser");
+// Importa el módulo 'body-parser' para manejar los datos en formato JSON
+const bodyParser = require('body-parser');
 /** El enrutador principal */
 const indexRoutes = require("./routes/index.routes.js");
 const userRoutes = require('./routes/user.routes.js');
@@ -38,6 +40,8 @@ async function setupServer() {
     server.use(morgan("dev"));
     // Agrega el middleware para el manejo de datos en formato URL
     server.use(express.urlencoded({ extended: true }));
+    //para usar el body-parser
+    server.use(bodyParser.urlencoded({ extended: true }));
     // Agrega el enrutador principal al servidor
     server.use("/api", indexRoutes);
     
