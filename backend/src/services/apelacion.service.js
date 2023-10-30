@@ -31,9 +31,9 @@ async function getApelacionById(id) {
     const apelacion = await Apelacion.findOne({ apelacionId: id })
     .populate("descripcion")
     .populate("documento")
-    /* .populate("deudaID")
+    .populate("deudaID")
     .populate("RUTEncargado")
-    .populate("RUTUsuario") */
+    .populate("RUTUsuario")
     .exec();
 
     if (!apelacion) return [null, "No hay apelacion"];
@@ -53,40 +53,40 @@ async function getApelacionById(id) {
  */
 async function createApelacion(apelacionData) {
     try {
-        const { apelacionId, descripcion, documento, estado,/*  deudaID, RUTEncargado, RUTUsuario  */} = apelacionData;
+        const { apelacionId, descripcion, documento, estado, deudaID, RUTEncargado, RUTUsuario  } = apelacionData;
         console.log(apelacionData);
         const apelacionFound = await Apelacion.findOne({ apelacionId: apelacionId });
         if (apelacionFound) return [null, "La apelacion ya existe"];
 
-        //const apelacionFound = await Apelacion.findOne({ apelacionId: apelacionId });
-        //if (!apelacionFound) return [null, "La apelacion no existe"];
+        const apelacionFound = await Apelacion.findOne({ apelacionId: apelacionId });
+        if (!apelacionFound) return [null, "La apelacion no existe"];
 
-        //const descripcionFound = await Apelacion.findOne({ descripcion: descripcion });
-        //if (!descripcionFound) return [null, "La descripcion no existe"];
+        const descripcionFound = await Apelacion.findOne({ descripcion: descripcion });
+        if (!descripcionFound) return [null, "La descripcion no existe"];
 
-        //const documentoFound = await Apelacion.findOne({ documento: documento });
-        //if (!documentoFound) return [null, "El documento no existe"];
+        const documentoFound = await Apelacion.findOne({ documento: documento });
+        if (!documentoFound) return [null, "El documento no existe"];
 
-        //const estadoFound = await Apelacion.findOne({ estado: estado });
-        //if (!estadoFound) return [null, "El estado no existe"];
+        const estadoFound = await Apelacion.findOne({ estado: estado });
+        if (!estadoFound) return [null, "El estado no existe"];
 
-        //const deudaFound = await deuda.findOne({ deudaID: deudaID });
-        //if (!deudaFound) return [null, "La deuda no existe"];
+        const deudaFound = await deuda.findOne({ deudaID: deudaID });
+        if (!deudaFound) return [null, "La deuda no existe"];
 
-        //const encargadoFound = await User.findOne({ RUT: RUTEncargado });
-        //if (!encargadoFound) return [null, "El encargado no existe"];
+        const encargadoFound = await User.findOne({ RUT: RUTEncargado });
+        if (!encargadoFound) return [null, "El encargado no existe"];
 
-        //const userFound = await User.findOne({ RUT: RUTUsuario });
-        //if (!userFound) return [null, "El usuario no existe"];
+        const userFound = await User.findOne({ RUT: RUTUsuario });
+        if (!userFound) return [null, "El usuario no existe"];
 
         const newApelacion = new Apelacion({
             apelacionId,
             descripcion,
             documento,
             estado,
-            /* deudaID,
+            deudaID,
             RUTEncargado,
-            RUTUsuario, */
+            RUTUsuario,
         });
         await newApelacion.save();
 
@@ -109,15 +109,15 @@ async function updateApelacion(apelacionId, Apelacion) {
         const apelacionFound = await Apelacion.findOne({ apelacionId: apelacionId });
         if (!apelacionFound) return [null, "La apelacion no existe"];
 
-        const { descripcion, documento, estado, /* deudaID, RUTEncargado, RUTUsuario */ } = apelacion;
+        const { descripcion, documento, estado, deudaID, RUTEncargado, RUTUsuario } = apelacion;
 
         const apelacionUpdated = await Apelacion.findOneAndUpdate({ apelacionId: apelacionId }, {
             descripcion,
             documento,
             estado,
-            /* deudaID,
+            deudaID,
             RUTencargado,
-            RUTUsuario, */
+            RUTUsuario,
         },
         { new: true });
 

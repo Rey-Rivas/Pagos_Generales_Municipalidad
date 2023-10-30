@@ -23,7 +23,7 @@ const apelacionSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        /* deudaID:{
+        deudaID:{
             type: Number,
             required: true,        
             },
@@ -34,7 +34,7 @@ const apelacionSchema = new mongoose.Schema(
         RUTUsuario:{
             type: String,
             required: true,  
-            },  */
+            }, 
     },
 );
 
