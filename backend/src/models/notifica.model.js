@@ -13,12 +13,12 @@ const notificaSchema = new mongoose.Schema(
         RUTEncargado:{
             type: String,
             required: true, 
-            unique: true,          
+            primaryKey: true,         
             },
         RUTUsuario:{
             type: String,
             required: true, 
-            unique: true,          
+            primaryKey: true,         
             },
         fechadenotificacion: {
             type: Date,

@@ -2,9 +2,15 @@ const Joi = require("joi");
 
 // Esquema de validación para el cuerpo de la solicitud de resultado
 const resultadoBodySchema = Joi.object({
-  apelacionID: Joi.number().required().messages({
-    "any.required": "El ID de la apelación no puede estar vacío.",
-    "string.base": "El ID de la apelación debe ser un numero.",
+    apelacionID: Joi.number().required().messages({
+      "any.required": "La ID de la apelación no puede estar vacía.",
+    }).custom(async (value, helpers) => {
+      // Verificar si existe una apelación con la ID especificada
+      const apelacion = await Apelacion.findOne({ apelacionID: value });
+      if (!apelacion) {
+        return helpers.message("La ID de la apelación no es válida.");
+      }
+      return value;
   }),
   RUTUsuario: Joi.string().required().messages({
     "string.empty": "El RUT del usuario no puede estar vacío.",

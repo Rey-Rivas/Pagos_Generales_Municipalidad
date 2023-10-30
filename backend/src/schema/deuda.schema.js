@@ -1,6 +1,7 @@
 "use strict";
 
 const Joi = require("joi");
+const { ESTADOS } = require("../constants/estados.constants.js");
 
 /**
  * Esquema de validación para el cuerpo de la solicitud de usuario.
@@ -36,11 +37,22 @@ const deudaBodySchema = Joi.object({
   fechaPago: Joi.date()
     .allow(null)
     .min(Joi.ref("fechaEmision"))
-    .messages({
-      "date.min": "La fecha de pago debe ser posterior a la fecha de emisión.",
-      "date.base": "La fecha de pago de la deuda debe ser de tipo fecha.",
+    .when("estado", {is: "pagado", then: Joi.date().required()
+      .when("fechaPago", {is: "Null", then: Joi.date().required().messages({
+        "any.required": "La fecha de pago no puede estar vacío.",
+        "date.min": "La fecha de pago debe ser posterior a la fecha de emisión.",
+        "date.base": "La fecha de pago de la deuda debe ser de tipo fecha.",
+      }),
+      }),
+      otherwise: Joi.date().messages({
+        "date.min": "La fecha de pago debe ser posterior a la fecha de emisión.",
+        "date.base": "La fecha de pago de la deuda debe ser de tipo fecha.",
+      }),
     }),
-  estado: Joi.string().required().messages({
+  estado: Joi.string()
+  .valid(...Object.values(ESTADOS))
+  .required()
+  .messages({
     "any.required": "El estado de la deuda no puede estar vacío.",
     "string.base": "El estado debe ser de tipo string.",
   }),
@@ -48,7 +60,7 @@ const deudaBodySchema = Joi.object({
     .required()
     .messages({
       "any.required": "El ID del trámite no puede estar vacío.",
-      "number.base": "El estado debe ser de tipo number.",
+      "number.base": "El ID del trámite debe ser de tipo number.",
     }),
   RUTAdmin: Joi.string()
   .required()

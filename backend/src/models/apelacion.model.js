@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 // Crea el esquema de la coleccion 'apelacion'
 const apelacionSchema = new mongoose.Schema(
     {
-        apelacionID:{
+        apelacionId:{
             type: Number,
             required: true,
             unique: true,
