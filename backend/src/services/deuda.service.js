@@ -39,6 +39,28 @@ async function getDeudaById(idDeuda) {
 
 }
 
+async function getDeudaByRUTUsuario(RUTUsuario) {
+  try {
+    const deudas = await Deuda.find({ RUTUsuario: RUTUsuario })
+      .populate("tramiteID")
+      .populate("RUTAdmin")
+      .populate("RUTUsuario")
+      .exec();
+    if (!deudas || deudas.length === 0) {
+      return [null, "No hay deudas para el RUTUsuario proporcionado"];
+    }
+
+    return [deudas, null];
+  } catch (error) {
+    handleError(error, "deuda.service -> getDeudaByRUTUsuario");
+  }
+}
+
+
+
+
+
+
 /**
  * Crea una nueva deuda en la base de datos.
  *
@@ -140,4 +162,5 @@ module.exports = {
   createDeuda,
   updateDeuda,
   deleteDeuda,
+  getDeudaByRUTUsuario
 };

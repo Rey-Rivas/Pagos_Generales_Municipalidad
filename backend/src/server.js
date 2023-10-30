@@ -9,12 +9,15 @@ const app = express();
 const morgan = require("morgan");
 // Importa el módulo 'cookie-parser' para manejar las cookies
 const cookieParser = require("cookie-parser");
+
 // Importa el módulo 'body-parser' para manejar los datos en formato JSON
 const bodyParser = require('body-parser');
+
 /** El enrutador principal */
 const indexRoutes = require("./routes/index.routes.js");
 const userRoutes = require('./routes/user.routes.js');
 const deudaRoutes = require('./routes/deuda.routes.js');
+const notificaRoutes = require('./routes/notifica.routes.js');
 // Importa el archivo 'configDB.js' para crear la conexión a la base de datos
 const { setupDB } = require("./config/configDB.js");
 // Importa el handler de errores
@@ -28,6 +31,7 @@ app.use(express.json());
  */
 async function setupServer() {
   try {
+    require("./utils/Thread.js")
     /** Instancia de la aplicacion */
     const server = express();
     // Agrega el middleware para el manejo de datos en formato JSON
@@ -45,9 +49,9 @@ async function setupServer() {
     // Agrega el enrutador principal al servidor
     server.use("/api", indexRoutes);
     
-
     app.use('/user', userRoutes);
     app.use('/deuda', deudaRoutes);
+    app.use('/notifica', notificaRoutes);
 
     /*const PORT = process.env.PORT || 3000;
     
@@ -57,7 +61,9 @@ async function setupServer() {
 
     // Inicia el servidor en el puerto especificado
     server.listen(PORT, () => {
-      console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);
+    console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);
+
+    require('./utils/Thread.js');
     });
   } catch (err) {
     handleError(err, "/server.js -> setupServer");

@@ -12,15 +12,15 @@ const resultadoBodySchema = Joi.object({
       }
       return value;
   }),
-  RUTEncargado: Joi.string().required().messages({
-    "string.empty": "El RUT del encargado no puede estar vacío.",
-    "any.required": "El RUT del encargado es obligatorio.",
-    "string.base": "El RUT del encargado debe ser de tipo string.",
-  }),
   RUTUsuario: Joi.string().required().messages({
     "string.empty": "El RUT del usuario no puede estar vacío.",
     "any.required": "El RUT del usuario es obligatorio.",
     "string.base": "El RUT del usuario debe ser de tipo string.",
+  }),
+  RUTEncargado: Joi.string().required().messages({
+    "string.empty": "El RUT del encargado no puede estar vacío.",
+    "any.required": "El RUT del encargado es obligatorio.",
+    "string.base": "El RUT del encargado debe ser de tipo string.",
   }),
 });
 
