@@ -2,6 +2,7 @@ const Deuda = require("../models/deuda.model.js");
 const Notifica = require("../models/notifica.model.js");
 const User = require("../models/user.model.js");
 const NotificaService = require("../services/notifica.service.js");
+const {getImpuesto} = require('../controllers/deuda.controller.js');
 
 function llamarRevisaEnvios() {
 
@@ -95,7 +96,6 @@ function llamarRevisaEnvios() {
   }
 
 
-const {getImpuesto} = require('../controllers/deuda.controller.js');
 async function actualizarDeudasVencidas() {
     try {
         const impuesto = getImpuesto();

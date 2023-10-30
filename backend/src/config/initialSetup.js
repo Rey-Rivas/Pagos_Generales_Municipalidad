@@ -56,6 +56,13 @@ async function createUsers() {
         password: await User.encryptPassword("admin123"),
         roles: admin._id,
       }).save(),
+      new User({
+        RUT: "12345678-8",
+        username: "encargado",
+        email: "encargado@email.com",
+        password: await User.encryptPassword("encargado123"),
+        roles: encargado._id,
+      }).save(),
     ]);
     console.log("* => Users creados exitosamente");
   } catch (error) {

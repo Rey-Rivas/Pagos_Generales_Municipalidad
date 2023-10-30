@@ -6,7 +6,6 @@ const listado_deudas = [];
 
 async function generarInformeExcel(listado_deudas, fechaInicio, fechaFin) {
     try {
-
         // Vacía el array de deudas antes de agregar nuevos datos
         listado_deudas.length = 0;
 
