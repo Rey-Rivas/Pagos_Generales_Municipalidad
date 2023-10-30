@@ -36,9 +36,17 @@ const deudaBodySchema = Joi.object({
   fechaPago: Joi.date()
     .allow(null)
     .min(Joi.ref("fechaEmision"))
-    .messages({
-      "date.min": "La fecha de pago debe ser posterior a la fecha de emisión.",
-      "date.base": "La fecha de pago de la deuda debe ser de tipo fecha.",
+    .when("estado", {is: "pagado", then: Joi.date().required()
+      .when("fechaPago", {is: "Null", then: Joi.date().required().messages({
+        "any.required": "La fecha de pago no puede estar vacío.",
+        "date.min": "La fecha de pago debe ser posterior a la fecha de emisión.",
+        "date.base": "La fecha de pago de la deuda debe ser de tipo fecha.",
+      }),
+      }),
+      otherwise: Joi.date().messages({
+        "date.min": "La fecha de pago debe ser posterior a la fecha de emisión.",
+        "date.base": "La fecha de pago de la deuda debe ser de tipo fecha.",
+      }),
     }),
   estado: Joi.string().required().messages({
     "any.required": "El estado de la deuda no puede estar vacío.",
