@@ -59,17 +59,9 @@ async function createTramite(tramiteData) {
         
         const tramiteFound = await tramite.findOne({ tramiteID: tramiteID });
         if (tramiteFound) return [null, "El tramite ya existe"];
-        /*
-        const nombreTramiteFound = await tramite.findOne({ tramite: tramite });
-        if (!nombreTramiteFound) return [null, "el nombre del tramite no existe"];
-
-        const descripcionFound = await tramite.findOne({ descripcion: descripcion });
-        if (!descripcionFound) return [null, "El descripcion no existe"];
-        */
+        
         const adminFound = await User.findOne({ RUT: RUTAdmin });
         if (!adminFound) return [null, "El admin no existe"];
-
-        console.log("TD: ", descripcionTramite);
 
         const newTramite = new tramite({
             tramiteID,

@@ -2,6 +2,8 @@
 // Importa el modelo de datos 'apelacion'
 const Apelacion = require("../models/apelacion.model.js");
 const { handleError } = require("../utils/errorHandler");
+const Deuda = require("../models/deuda.model.js");
+const User = require("../models/user.model.js");
 
 /**
  * Obtiene todas las apelacion de la base de datos.
@@ -54,20 +56,11 @@ async function getApelacionById(id) {
 async function createApelacion(apelacionData) {
     try {
         const { apelacionId, descripcion, documento, estado, deudaID, RUTEncargado, RUTUsuario  } = apelacionData;
-        console.log(apelacionData);
+
         const apelacionFound = await Apelacion.findOne({ apelacionId: apelacionId });
         if (apelacionFound) return [null, "La apelacion ya existe"];
         
-        const descripcionFound = await Apelacion.findOne({ descripcion: descripcion });
-        if (!descripcionFound) return [null, "La descripcion no existe"];
-
-        const documentoFound = await Apelacion.findOne({ documento: documento });
-        if (!documentoFound) return [null, "El documento no existe"];
-
-        const estadoFound = await Apelacion.findOne({ estado: estado });
-        if (!estadoFound) return [null, "El estado no existe"];
-
-        const deudaFound = await deuda.findOne({ deudaID: deudaID });
+        const deudaFound = await Deuda.findOne({ deudaID: deudaID });
         if (!deudaFound) return [null, "La deuda no existe"];
 
         const encargadoFound = await User.findOne({ RUT: RUTEncargado });
