@@ -4,6 +4,7 @@ const { respondSuccess, respondError } = require("../utils/resHandler");
 const DeudaService = require("../services/deuda.service.js");
 const { deudaBodySchema, deudaIdSchema, validateRut } = require("../schema/deuda.schema.js");
 const { handleError } = require("../utils/errorHandler");
+const tramite = require("../models/tramite.model.js");
 /**
  * Obtiene todas las deudas
  * @param {Object} req - Objeto de petición
@@ -32,6 +33,11 @@ async function getDeudas(req, res) {
 async function createDeuda(req, res) {
   try {
     const { body } = req;
+    const Tramite = await tramite.findOne({ tramiteID: body.tramiteID })
+    if (!Tramite) {
+      return respondError(req, res, 404, "No se encontró el tramite");
+    }
+    body.monto = Tramite.montoFijo;
     const { error: deudaError } = deudaBodySchema.validate(body);
     if (deudaError) return respondError(req, res, 400, deudaError.message);
 
