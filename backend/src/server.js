@@ -44,7 +44,6 @@ async function setupServer() {
     // Agrega el enrutador principal al servidor
     server.use("/api", indexRoutes);
     
-
     app.use('/user', userRoutes);
     app.use('/deuda', deudaRoutes);
     app.use('/notifica', notificaRoutes);

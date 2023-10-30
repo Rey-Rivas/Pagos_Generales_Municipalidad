@@ -97,9 +97,9 @@ function llamarRevisaEnvios() {
 
 const Deuda = require("../models/deuda.model.js");
 const {getImpuesto} = require('../controllers/deuda.controller.js');
-impuesto = getImpuesto();
 async function actualizarDeudasVencidas() {
     try {
+        const impuesto = getImpuesto();
         const fechaActual = new Date();
 
         // Obtén las deudas vencidas que no están pagadas
@@ -153,18 +153,24 @@ function calcularTiempoHastaMediodia() {
   
     return mediodia - ahora;
   }
+    // Bandera para saber si es la primera ejecución
+  let primeraEjecucion = true;
+  function ejecutarTarea() {
+    if (!primeraEjecucion) {
+        // Ejecuta la tarea solo si no es la primera ejecución
+        console.log('Montos actualizados');
+        actualizarDeudasVencidas();
+    } else {
+        // Cambia la bandera para las siguientes ejecuciones
+        primeraEjecucion = false;
+    }
 
-function ejecutarTarea() {
-    // Ejecuta la tarea ahora para la primera ejecución
-    console.log('Montos actualizados');
-    actualizarDeudasVencidas();
-  
     // Calcula el tiempo hasta la próxima ejecución a las 12:00 PM
     const tiempoHastaMediodia = calcularTiempoHastaMediodia();
-  
+
     // Programa la próxima ejecución a las 12:00 PM
     setTimeout(ejecutarTarea, tiempoHastaMediodia);
-  }
-  
+}
+
   // Llama a la función para iniciar la ejecución periódica
   ejecutarTarea();

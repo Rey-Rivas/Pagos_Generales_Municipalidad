@@ -92,9 +92,6 @@ async function getDeudaByRUT(req, res) {
 }
 
 
-
-
-
 /**
  * Actualiza una deuda por su ID
  * @param {Object} req - Objeto de petición
@@ -119,6 +116,8 @@ async function updateDeuda(req, res) {
         respondError(req, res, 400, "No se pudo actualizar la deuda");
     }
 }
+
+
 
 /**
  * Elimina una deuda por su ID
