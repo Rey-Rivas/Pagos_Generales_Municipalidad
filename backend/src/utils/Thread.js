@@ -95,7 +95,6 @@ function llamarRevisaEnvios() {
   }
 
 
-const Deuda = require("../models/deuda.model.js");
 const {getImpuesto} = require('../controllers/deuda.controller.js');
 async function actualizarDeudasVencidas() {
     try {

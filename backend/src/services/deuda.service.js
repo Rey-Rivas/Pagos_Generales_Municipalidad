@@ -2,7 +2,7 @@
 // Importa el modelo de datos 'User'
 const Deuda = require("../models/deuda.model.js");
 const { handleError } = require("../utils/errorHandler");
-
+const moment = require('moment');
 /**
  * Obtiene todas las deudas de la base de datos.
  *
@@ -15,9 +15,25 @@ async function getDeudas() {
       .populate("RUTAdmin")
       .populate("RUTUsuario")
       .exec();
+
     if (!deudas) return [null, "No hay usuarios"];
 
-    return [deudas, null];
+    // Mapea sobre el array de deudas y actualiza la propiedad fechaVencimiento
+    const deudasFormateadas = deudas.map((deuda) => {
+      // Utiliza moment para formatear la fecha
+      const fechaVencimientoFormateada = moment(deuda.fechaVencimiento).format('DD-MM-YYYY');
+      const fechaEmisionFormateada = moment(deuda.fechaEmision).format('DD-MM-YYYY');
+      const fechaPagoFormateada = deuda.fechaPago ? moment(deuda.fechaPago).format('DD-MM-YYYY') : null;
+      // Crea una copia del objeto deuda con la fechaVencimiento actualizada
+      return {
+        ...deuda._doc,  // _doc contiene las propiedades del documento MongoDB
+        fechaVencimiento: fechaVencimientoFormateada,
+        fechaEmision: fechaEmisionFormateada,
+        fechaPago: fechaPagoFormateada,
+      };
+    });
+
+    return [deudasFormateadas, null];
   } catch (error) {
     handleError(error, "deuda.service -> getDeudas");
   }
@@ -30,13 +46,26 @@ async function getDeudaById(idDeuda) {
       .populate("RUTAdmin")
       .populate("RUTUsuario")
       .exec();
+
     if (!deuda) return [null, "No hay deuda"];
 
-    return [deuda, null];
+    // Utiliza moment para formatear las fechas
+    const fechaVencimientoFormateada = moment(deuda.fechaVencimiento).format('DD-MM-YYYY');
+    const fechaEmisionFormateada = moment(deuda.fechaEmision).format('DD-MM-YYYY');
+    const fechaPagoFormateada = deuda.fechaPago ? moment(deuda.fechaPago).format('DD-MM-YYYY') : null;
+
+    // Crea un nuevo objeto deuda con las fechas formateadas
+    const deudaFormateada = {
+      ...deuda._doc,  // _doc contiene las propiedades del documento MongoDB
+      fechaVencimiento: fechaVencimientoFormateada,
+      fechaEmision: fechaEmisionFormateada,
+      fechaPago: fechaPagoFormateada
+    };
+
+    return [deudaFormateada, null];
   } catch (error) {
     handleError(error, "deuda.service -> getDeudaById");
   }
-
 }
 
 async function getDeudaByRUTUsuario(RUTUsuario) {
@@ -46,11 +75,26 @@ async function getDeudaByRUTUsuario(RUTUsuario) {
       .populate("RUTAdmin")
       .populate("RUTUsuario")
       .exec();
+
     if (!deudas || deudas.length === 0) {
       return [null, "No hay deudas para el RUTUsuario proporcionado"];
     }
 
-    return [deudas, null];
+    // Utiliza moment para formatear las fechas
+    const deudasFormateadas = deudas.map((deuda) => {
+      const fechaVencimientoFormateada = moment(deuda.fechaVencimiento).format('DD-MM-YYYY');
+      const fechaEmisionFormateada = moment(deuda.fechaEmision).format('DD-MM-YYYY');
+      const fechaPagoFormateada = deuda.fechaPago ? moment(deuda.fechaPago).format('DD-MM-YYYY') : null;
+
+      return {
+        ...deuda._doc,  // _doc contiene las propiedades del documento MongoDB
+        fechaVencimiento: fechaVencimientoFormateada,
+        fechaEmision: fechaEmisionFormateada,
+        fechaPago: fechaPagoFormateada
+      };
+    });
+
+    return [deudasFormateadas, null];
   } catch (error) {
     handleError(error, "deuda.service -> getDeudaByRUTUsuario");
   }
