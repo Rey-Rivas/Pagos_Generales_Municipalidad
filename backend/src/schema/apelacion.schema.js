@@ -1,6 +1,7 @@
 "use strict";
 
 const Joi = require("joi");
+const { ESTADOS } = require("../constants/estados.constants.js");
 
 /**
  * Esquema de validación para el cuerpo de la solicitud de usuario.
@@ -18,10 +19,13 @@ const apelacionBodySchema = Joi.object({
     documento: Joi.string().required().messages({
         "any.required": "El documento de la apelación no puede estar vacío.",
     }),
-    estado: Joi.string().required().messages({
-        "any.required": "El estado de la apelacion no puede estar vacío.",
-        "string.base": "El estado debe ser de tipo string.",
-      }),
+    estado: Joi.string()
+  .valid(...Object.values(ESTADOS))
+  .required()
+  .messages({
+    "any.required": "El estado de la deuda no puede estar vacío.",
+    "string.base": "El estado debe ser de tipo string.",
+  }),
     deudaID: Joi.number().required().messages({
         "any.required": "La ID de la deuda no puede estar vacía.",
     }),

@@ -45,7 +45,7 @@ async function createTramite(req, res) {
     respondSuccess(req, res, 201, newTramite);
   } catch (error) {
     handleError(error, "tramite.controller -> createTramite");
-    respondError(req, res, 500, "No se creo la Tramite");
+    respondError(req, res, 500, "No se creo el Tramite");
   }
 }
 

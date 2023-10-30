@@ -16,7 +16,7 @@ const router = express.Router();
 
 router.use(authenticationMiddleware);
 
-router.get("/", tramiteController.getTramites);
+router.get("/", tramiteController.getTramite);
 router.post("/", authorizationMiddleware.isAdmin, tramiteController.createTramite);
 router.get("/:id", tramiteController.getTramiteById);
 router.put("/:id", authorizationMiddleware.isAdmin, tramiteController.updateTramite);

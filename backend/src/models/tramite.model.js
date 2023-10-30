@@ -11,6 +11,10 @@ const tramiteSchema = new mongoose.Schema(
             unique: true,
             primaryKey: true,
         },
+        montoFijo:{
+            type: Number,
+            required: true,
+        },
         nombreTramite:{
             type: String,
             required: true,

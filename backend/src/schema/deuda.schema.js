@@ -1,6 +1,7 @@
 "use strict";
 
 const Joi = require("joi");
+const { ESTADOS } = require("../constants/estados.constants.js");
 
 /**
  * Esquema de validación para el cuerpo de la solicitud de usuario.

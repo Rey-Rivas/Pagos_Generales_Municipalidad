@@ -6,9 +6,9 @@ const {getImpuesto} = require('../controllers/deuda.controller.js');
 
 function llamarRevisaEnvios() {
 
-    console.log('Revisando potenciales notificaciones...')
+    //console.log('Revisando potenciales notificaciones...')
     revisarEnviosPendientes();
-    setTimeout(llamarRevisaEnvios, 15 * 1000);
+    setTimeout(llamarRevisaEnvios, 600 * 1000);
 }
 
   // Inicia la ejecución de la tarea

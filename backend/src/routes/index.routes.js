@@ -11,6 +11,9 @@ const deudaRoutes = require("./deuda.routes.js");
 /** Enrutador de apelaciones */
 const apelacionRoutes = require("./apelacion.routes.js");
 
+/** Enrutador de tramites */
+const tramiteRoutes = require("./tramite.routes.js");
+
 /** Enrutador para la subida de archivos */
 const uploadRoutes = require("./upload.routes.js");
 
@@ -46,6 +49,9 @@ router.use("/auth", authRoutes);
 
 // Define las rutas para las apelaciones /api/apelacion
 router.use("/apelacion", apelacionRoutes);
+
+// Define las rutas para las apelaciones /api/apelacion
+router.use("/tramite", tramiteRoutes);
 
 // Define las rutas para las subidad /api/upload
 router.use("/upload", uploadRoutes);
