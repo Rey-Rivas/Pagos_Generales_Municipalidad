@@ -48,7 +48,10 @@ const deudaBodySchema = Joi.object({
         "date.base": "La fecha de pago de la deuda debe ser de tipo fecha.",
       }),
     }),
-  estado: Joi.string().required().messages({
+  estado: Joi.string()
+  .valid(...Object.values(ESTADOS))
+  .required()
+  .messages({
     "any.required": "El estado de la deuda no puede estar vacío.",
     "string.base": "El estado debe ser de tipo string.",
   }),
