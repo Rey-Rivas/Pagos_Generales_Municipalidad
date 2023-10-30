@@ -21,20 +21,30 @@ y llegar a la ruta http://localhost/api/deudas
 con la peticion POST y entregar en el body los parametros de la nueva deuda
 EJ:
 {
-  "deudaID": 450,
-      "descripcion": "deudazo",
-      "monto": 5000,
-      "fechaEmision": "2023-10-20",
-      "fechaVencimiento": "2023-11-25",
-      "fechaPago": null,
-      "estado": "pendiente",
-      "tramiteID": 6,
-      "RUTAdmin": "11111111-1",
-      "RUTUsuario": "20487563-4"
+    "deudaID": 450,
+    "descripcion": "deudazo",
+    "monto": 5000,
+    "fechaEmision": "2023-10-20",
+    "fechaVencimiento": "2023-11-25",
+    "fechaPago": null,
+    "estado": "pendiente",
+    "tramiteID": 6,
+    "RUTAdmin": "11111111-1",
+    "RUTUsuario": "20487563-4"
 }
 
+Ingresar a la ruta http://localhost/api/deudas con peticion GET devolverá
+el listado de todas las deudas almacenadas en la base de datos
 
+Ingresar a la ruta http://localhost/api/deudas/:id con peticion GET devolverá
+el listado de todas las deudas almacenadas en la base de datos donde la deudaID
+coincida con el paramtro entregado
 
+Ingresar a la ruta http://localhost/api/deudas/usuario/:RUTUsuario
+devolvera el listado de todas las deudas almacenada en la base de datos
+donde el RUTUsuario de la dauda coincida con el parametro entregado
+(la sería que el parametro de :RUTUsuario se autocomplete con el RUT
+del usuario que inicio sesión)
 
 Para utilizar la ruta de pagos se debe primero realizar una peticion
 del tipo GET a la ID de la deuda que se deasea pagar
