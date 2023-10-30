@@ -1,7 +1,7 @@
 "use strict";
 
 const Joi = require("joi");
-const { ESTADOS } = require("../constants/estados.constants.js");
+
 /**
  * Esquema de validación para el cuerpo de la solicitud de beneficios.
  * @constant {Object}
@@ -24,24 +24,6 @@ const beneficiosBodySchema = Joi.object({
     .messages({
       "any.required": "El monto no puede estar vacío.",
       "number.base": "El monto debe ser de tipo number.",
-    }),
-  estado: Joi.string()
-  .required()
-  .messages({
-    "any.required": "El estado del beneficio no puede estar vacío.",
-    "string.base": "El estado debe ser de tipo string.",
-  }),
-  idDeuda: Joi.number()
-    .required()
-    .messages({
-      "any.required": "La ID de la deuda no puede estar vacía.",
-      "number.base": "La ID de la deuda debe ser de tipo number.",
-    }),
-  RUTUsuario: Joi.string()
-    .required()
-    .messages({
-      "any.required": "El RUT del usuario no puede estar vacío.",
-      "string.base": "El RUT del usuario debe ser de tipo string.",
     }),
 });
 

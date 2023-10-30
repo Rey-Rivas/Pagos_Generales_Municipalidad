@@ -7,12 +7,6 @@ const tramiteBodySchema = Joi.object({
     "any.required": "El RUT es obligatorio.",
     "number.base": "El RUT debe ser de tipo string.",
   }),
-  montoFijo: Joi.number()
-    .required()
-    .messages({
-      "any.required": "El monto no puede estar vacío.",
-      "number.base": "El monto debe ser de tipo number.",
-    }),
   nombreTramite: Joi.string().required().messages({
     "any.required": "El nombre del trámite no puede estar vacío.",
     "string.base": "El nombre del trámite debe ser de tipo string.",

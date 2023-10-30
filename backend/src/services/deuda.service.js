@@ -2,7 +2,6 @@
 // Importa el modelo de datos 'User'
 const Deuda = require("../models/deuda.model.js");
 const { handleError } = require("../utils/errorHandler");
-const moment = require('moment');
 
 /**
  * Obtiene todas las deudas de la base de datos.
@@ -11,33 +10,14 @@ const moment = require('moment');
  */
 async function getDeudas() {
   try {
-
-    console.log("hola");
-
     const deudas = await Deuda.find()
       .populate("tramiteID")
       .populate("RUTAdmin")
       .populate("RUTUsuario")
       .exec();
-
     if (!deudas) return [null, "No hay usuarios"];
 
-    // Mapea sobre el array de deudas y actualiza la propiedad fechaVencimiento
-    const deudasFormateadas = deudas.map((deuda) => {
-      // Utiliza moment para formatear la fecha
-      const fechaVencimientoFormateada = moment(deuda.fechaVencimiento).format('DD-MM-YYYY');
-      const fechaEmisionFormateada = moment(deuda.fechaEmision).format('DD-MM-YYYY');
-      const fechaPagoFormateada = deuda.fechaPago ? moment(deuda.fechaPago).format('DD-MM-YYYY') : null;
-      // Crea una copia del objeto deuda con la fechaVencimiento actualizada
-      return {
-        ...deuda._doc,  // _doc contiene las propiedades del documento MongoDB
-        fechaVencimiento: fechaVencimientoFormateada,
-        fechaEmision: fechaEmisionFormateada,
-        fechaPago: fechaPagoFormateada,
-      };
-    });
-
-    return [deudasFormateadas, null];
+    return [deudas, null];
   } catch (error) {
     handleError(error, "deuda.service -> getDeudas");
   }
@@ -50,26 +30,13 @@ async function getDeudaById(idDeuda) {
       .populate("RUTAdmin")
       .populate("RUTUsuario")
       .exec();
-
     if (!deuda) return [null, "No hay deuda"];
 
-    // Utiliza moment para formatear las fechas
-    const fechaVencimientoFormateada = moment(deuda.fechaVencimiento).format('DD-MM-YYYY');
-    const fechaEmisionFormateada = moment(deuda.fechaEmision).format('DD-MM-YYYY');
-    const fechaPagoFormateada = deuda.fechaPago ? moment(deuda.fechaPago).format('DD-MM-YYYY') : null;
-
-    // Crea un nuevo objeto deuda con las fechas formateadas
-    const deudaFormateada = {
-      ...deuda._doc,  // _doc contiene las propiedades del documento MongoDB
-      fechaVencimiento: fechaVencimientoFormateada,
-      fechaEmision: fechaEmisionFormateada,
-      fechaPago: fechaPagoFormateada
-    };
-
-    return [deudaFormateada, null];
+    return [deuda, null];
   } catch (error) {
     handleError(error, "deuda.service -> getDeudaById");
   }
+
 }
 
 async function getDeudaByRUTUsuario(RUTUsuario) {
@@ -79,30 +46,18 @@ async function getDeudaByRUTUsuario(RUTUsuario) {
       .populate("RUTAdmin")
       .populate("RUTUsuario")
       .exec();
-
     if (!deudas || deudas.length === 0) {
       return [null, "No hay deudas para el RUTUsuario proporcionado"];
     }
 
-    // Utiliza moment para formatear las fechas
-    const deudasFormateadas = deudas.map((deuda) => {
-      const fechaVencimientoFormateada = moment(deuda.fechaVencimiento).format('DD-MM-YYYY');
-      const fechaEmisionFormateada = moment(deuda.fechaEmision).format('DD-MM-YYYY');
-      const fechaPagoFormateada = deuda.fechaPago ? moment(deuda.fechaPago).format('DD-MM-YYYY') : null;
-
-      return {
-        ...deuda._doc,  // _doc contiene las propiedades del documento MongoDB
-        fechaVencimiento: fechaVencimientoFormateada,
-        fechaEmision: fechaEmisionFormateada,
-        fechaPago: fechaPagoFormateada
-      };
-    });
-
-    return [deudasFormateadas, null];
+    return [deudas, null];
   } catch (error) {
     handleError(error, "deuda.service -> getDeudaByRUTUsuario");
   }
 }
+
+
+
 
 
 
@@ -118,6 +73,15 @@ async function createDeuda(deudaData) {
 
     const deudaFound = await Deuda.findOne({ deudaID: deudaID });
     if (deudaFound) return [null, "La deuda ya existe"];
+
+    //const tramiteFound = await Tramite.findOne({ tramiteID: tramiteID });
+    //if (!tramiteFound) return [null, "El tramite no existe"];
+
+    //const adminFound = await User.findOne({ RUT: RUTAdmin });
+    //if (!adminFound) return [null, "El admin no existe"];
+
+    //const userFound = await User.findOne({ RUT: RUTUsuario });
+    //if (!userFound) return [null, "El usuario no existe"];
 
     const newDeuda = new Deuda({
       deudaID,

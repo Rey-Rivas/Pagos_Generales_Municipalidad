@@ -4,8 +4,6 @@ const { respondSuccess, respondError } = require("../utils/resHandler");
 const DeudaService = require("../services/deuda.service.js");
 const { deudaBodySchema, deudaIdSchema, validateRut } = require("../schema/deuda.schema.js");
 const { handleError } = require("../utils/errorHandler");
-const tramite = require("../models/tramite.model.js");
-const beneficio = require("../models/beneficios.model.js");
 /**
  * Obtiene todas las deudas
  * @param {Object} req - Objeto de petición
@@ -34,11 +32,6 @@ async function getDeudas(req, res) {
 async function createDeuda(req, res) {
   try {
     const { body } = req;
-    const Tramite = await tramite.findOne({ tramiteID: body.tramiteID })
-    if (!Tramite) {
-      return respondError(req, res, 404, "No se encontró el tramite");
-    }
-    body.monto = Tramite.montoFijo;
     const { error: deudaError } = deudaBodySchema.validate(body);
     if (deudaError) return respondError(req, res, 400, deudaError.message);
 
@@ -71,14 +64,6 @@ async function getDeudaById(req, res) {
 
         if (errorDeuda) return respondError(req, res, 404, errorDeuda);
         console.log("DeudaEncontrada");
-        const Beneficio = await beneficio.findOne({ idDeuda: deuda.deudaID})
-        if (Beneficio) {
-          deuda.monto = deuda.monto - Beneficio.monto;
-          console.log("Beneficio Encontrado");
-        }
-        else{
-          console.log("Beneficio No Encontrado para la deuda");
-        }
         setearDeudaTemporal(deuda); 
         respondSuccess(req, res, 200, deuda);
     } catch (error) {
@@ -107,6 +92,9 @@ async function getDeudaByRUT(req, res) {
 }
 
 
+
+
+
 /**
  * Actualiza una deuda por su ID
  * @param {Object} req - Objeto de petición
@@ -131,8 +119,6 @@ async function updateDeuda(req, res) {
         respondError(req, res, 400, "No se pudo actualizar la deuda");
     }
 }
-
-
 
 /**
  * Elimina una deuda por su ID

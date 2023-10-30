@@ -16,17 +16,10 @@ const router = express.Router();
 
 router.use(authenticationMiddleware);
 
-
 router.get("/", notificaController.getNotificaciones);
-router.post("/", authorizationMiddleware.isEncargado, notificaController.createNotifica);
-router.get("/:deudaID/:RUTEncargado?/:RUTUsuario?", authorizationMiddleware.isEncargado, notificaController.getNotificaById);
-router.put(
-    "/:deudaID/:RUTEncargado/:RUTUsuario",
-    authorizationMiddleware.isEncargado,
-    notificaController.updateNotifica);
-router.delete(
-    "/:deudaID/:RUTEncargado?/:RUTUsuario?",
-    authorizationMiddleware.isEncargado,
-    notificaController.deleteNotifica);
+router.post("/", authorizationMiddleware.isEncargado, notificaController.createNotificacion);
+router.get("/:deudaID", notificaController.getNotificacionByDeudaID);
+router.put("/:deudaID/:RUTEncargado/:RUTUsuario", authorizationMiddleware.isEncargado, notificaController.updateNotificacion);
+router.delete("/:deudaID/:RUTEncargado/:RUTUsuario", authorizationMiddleware.isEncargado, notificaController.deleteNotificacion);
 
 module.exports = router;

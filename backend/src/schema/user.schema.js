@@ -8,11 +8,10 @@ const ROLES = require("../constants/roles.constants");
  * @constant {Object}
  */
 const userBodySchema = Joi.object({
-  RUT: Joi.string().required().regex(/^\d{8}-[\dkK]$/).messages({
+  RUT: Joi.string().required().messages({
     "string.empty": "El RUT no puede estar vacío.",
     "any.required": "El RUT es obligatorio.",
     "string.base": "El RUT debe ser de tipo string.",
-    "string.pattern.base": "El RUT debe ser en el formato 12345678-9 (sin puntos y con guión).",
   }),
   username: Joi.string().required().messages({
     "string.empty": "El nombre de usuario no puede estar vacío.",

@@ -32,28 +32,6 @@ async function isAdmin(req, res, next) {
   }
 }
 
-
-async function isAdmin(req, res, next) {
-  try {
-    const user = await User.findOne({ email: req.email });
-    const roles = await Role.find({ _id: { $in: user.roles } });
-    for (let i = 0; i < roles.length; i++) {
-      if (roles[ i ].name === "admin") {
-        next();
-        return;
-      }
-    }
-    return respondError(
-      req,
-      res,
-      401,
-      "Se requiere un rol de administrador para realizar esta acción",
-    );
-  } catch (error) {
-    handleError(error, "authorization.middleware -> isAdmin");
-  }
-}
-
 /**
  * Comprueba si el usuario es encargado
  * @param {Object} req - Objeto de petición
@@ -65,7 +43,7 @@ async function isEncargado(req, res, next) {
     const user = await User.findOne({ email: req.email });
     const roles = await Role.find({ _id: { $in: user.roles } });
     for (let i = 0; i < roles.length; i++) {
-      if (roles[i].name === "encargado" || roles[i].name === "admin") {
+      if (roles[i].name === "encargado") {
         next();
         return;
       }
@@ -81,36 +59,7 @@ async function isEncargado(req, res, next) {
   }
 }
 
-/**
- * Comprueba si el usuario es user
- * @param {Object} req - Objeto de petición
- * @param {Object} res - Objeto de respuesta
- * @param {Function} next - Función para continuar con la siguiente función
- */
-async function isUser(req, res, next) {
-  try {
-    const user = await User.findOne({ email: req.email });
-    const roles = await Role.find({ _id: { $in: user.roles } });
-    for (let i = 0; i < roles.length; i++) {
-      if (roles[i].name === "user") {
-        next();
-        return;
-      }
-    }
-    return respondError(
-      req,
-      res,
-      401,
-      "Se requiere un rol de user para realizar esta acción",
-    );
-  } catch (error) {
-    handleError(error, "authorization.middleware -> isUser");
-  }
-}
-
-
 module.exports = {
   isAdmin,
   isEncargado,
-  isUser,
 };

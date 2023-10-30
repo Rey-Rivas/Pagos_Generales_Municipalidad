@@ -6,6 +6,7 @@ const listado_deudas = [];
 
 async function generarInformeExcel(listado_deudas, fechaInicio, fechaFin) {
     try {
+
         // Vacía el array de deudas antes de agregar nuevos datos
         listado_deudas.length = 0;
 
@@ -14,6 +15,7 @@ async function generarInformeExcel(listado_deudas, fechaInicio, fechaFin) {
          
         // Guardar los resultados en el array "listado_deudas"
         listado_deudas.push(...deudas);
+
         // en este punto ya estan guardados los datos dentro de lista_deudas
 
         // Filtra los datos por fecha de emision y vencimiento
@@ -49,10 +51,10 @@ async function generarInformeExcel(listado_deudas, fechaInicio, fechaFin) {
             });
         });
 
-        
+
         // Genera el archivo Excel y lo almacena en un buffer
         const buffer = await workbook.xlsx.writeBuffer();
-
+        
         // Retorna el archivo Excel y su nombre
         return {
             buffer,

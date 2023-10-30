@@ -11,10 +11,6 @@ const tramiteSchema = new mongoose.Schema(
             unique: true,
             primaryKey: true,
         },
-        montoFijo:{
-            type: Number,
-            required: true,
-        },
         nombreTramite:{
             type: String,
             required: true,
@@ -25,7 +21,8 @@ const tramiteSchema = new mongoose.Schema(
         },
         RUTAdmin:{
             type: String,
-            required: true,        
+            required: true, 
+            unique: true,          
             },
     },
 );
