@@ -6,9 +6,9 @@ const {getImpuesto} = require('../controllers/deuda.controller.js');
 
 function llamarRevisaEnvios() {
 
-    //console.log('Revisando potenciales notificaciones...')
+    console.log('Revisando potenciales notificaciones...')
     revisarEnviosPendientes();
-    setTimeout(llamarRevisaEnvios, 600 * 1000);
+    setTimeout(llamarRevisaEnvios, 15 * 1000);
 }
 
   // Inicia la ejecución de la tarea
@@ -69,7 +69,6 @@ function llamarRevisaEnvios() {
             //Se llama a enviarCorreoAtraso(deuda.deudaID, "Recordatorio 1 semana")
             if (fechaHoy > deuda.fechaVencimiento
                 && ultimoNotifica > deuda.fechaVencimiento
-                //&& ultimoNotifica < new Date(fechaHoy.getTime() - (7 * 24 * 60 * 60 * 1000))){
                 && ultimoNotifica < new Date(fechaHoy.getTime() - (7 * 24 * 60 * 60 * 1000))){
 
                 enviarCorreoAtraso(deuda, "Deuda vencida 1 semana");
