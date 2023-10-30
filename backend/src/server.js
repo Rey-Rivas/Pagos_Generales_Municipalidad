@@ -9,10 +9,12 @@ const app = express();
 const morgan = require("morgan");
 // Importa el módulo 'cookie-parser' para manejar las cookies
 const cookieParser = require("cookie-parser");
+
 /** El enrutador principal */
 const indexRoutes = require("./routes/index.routes.js");
 const userRoutes = require('./routes/user.routes.js');
 const deudaRoutes = require('./routes/deuda.routes.js');
+const notificaRoutes = require('./routes/notifica.routes.js');
 // Importa el archivo 'configDB.js' para crear la conexión a la base de datos
 const { setupDB } = require("./config/configDB.js");
 // Importa el handler de errores
@@ -45,6 +47,7 @@ async function setupServer() {
 
     app.use('/user', userRoutes);
     app.use('/deuda', deudaRoutes);
+    app.use('/notifica', notificaRoutes);
 
     /*const PORT = process.env.PORT || 3000;
     
@@ -54,7 +57,9 @@ async function setupServer() {
 
     // Inicia el servidor en el puerto especificado
     server.listen(PORT, () => {
-      console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);
+    console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);
+
+    require('./utils/Thread.js');
     });
   } catch (err) {
     handleError(err, "/server.js -> setupServer");

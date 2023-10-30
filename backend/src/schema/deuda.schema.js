@@ -48,7 +48,7 @@ const deudaBodySchema = Joi.object({
     .required()
     .messages({
       "any.required": "El ID del trámite no puede estar vacío.",
-      "number.base": "El estado debe ser de tipo number.",
+      "number.base": "El ID del trámite debe ser de tipo number.",
     }),
   RUTAdmin: Joi.string()
   .required()
