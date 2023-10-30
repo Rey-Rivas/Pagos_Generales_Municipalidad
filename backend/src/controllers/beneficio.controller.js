@@ -27,10 +27,10 @@ async function createBeneficio(req, res) {
 
 async function getBeneficio(req, res) {
     try {
-      const [beneficio, errorBeneficio] = await BeneficioService.getBeneficioById();
+      const [beneficio, errorBeneficio] = await BeneficioService.getBeneficioById(req.params.id);
       if (errorBeneficio) return respondError(req, res, 404, errorBeneficio);
   
-      Beneficio.length === 0
+      beneficio.length === 0
         ? respondSuccess(req, res, 204)
         : respondSuccess(req, res, 200, beneficio);
     } catch (error) {
