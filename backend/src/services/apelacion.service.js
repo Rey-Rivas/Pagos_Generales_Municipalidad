@@ -16,9 +16,8 @@ async function getApelacion() {
     .populate("descripcion")
     .populate("documento")
     .populate("estado")
-    /* .populate("deudaID")
-    .populate("RUTEncargado")
-    .populate("RUTUsuario") */
+    .populate("deudaID")
+    .populate("RUTUsuario")
     .exec();
     if (!apelacion) return [null, "No hay apelaciones"];
 
@@ -30,11 +29,10 @@ async function getApelacion() {
 
 async function getApelacionById(id) {
     try{
-    const apelacion = await Apelacion.findOne({ apelacionId: id })
+    const apelacion = await Apelacion.findOne({ _id: id })
     .populate("descripcion")
     .populate("documento")
     .populate("deudaID")
-    .populate("RUTEncargado")
     .populate("RUTUsuario")
     .exec();
 
@@ -55,27 +53,23 @@ async function getApelacionById(id) {
  */
 async function createApelacion(apelacionData) {
     try {
-        const { apelacionId, descripcion, documento, estado, deudaID, RUTEncargado, RUTUsuario  } = apelacionData;
+        const { descripcion, documento, estado, deudaID, RUTUsuario  } = apelacionData;
 
-        const apelacionFound = await Apelacion.findOne({ apelacionId: apelacionId });
+        const apelacionFound = await Apelacion.findOne({ _id: _id});
         if (apelacionFound) return [null, "La apelacion ya existe"];
         
-        const deudaFound = await Deuda.findOne({ deudaID: deudaID });
+        const deudaFound = await Deuda.findOne({ _id: deudaID });
         if (!deudaFound) return [null, "La deuda no existe"];
-
-        const encargadoFound = await User.findOne({ RUT: RUTEncargado });
-        if (!encargadoFound) return [null, "El encargado no existe"];
+        if (deudaFound.estado !== 'fuera de plazo') return [null, "La deuda no está fuera de plazo"];
 
         const userFound = await User.findOne({ RUT: RUTUsuario });
         if (!userFound) return [null, "El usuario no existe"];
 
         const newApelacion = new Apelacion({
-            apelacionId,
             descripcion,
             documento,
             estado,
             deudaID,
-            RUTEncargado,
             RUTUsuario,
         });
         await newApelacion.save();
@@ -90,24 +84,25 @@ async function createApelacion(apelacionData) {
 /**
  * Actualiza una apelacion por su ID en la base de datos.
  *
- * @param {Number} apelacionId El ID de la apelacion que se desea actualizar.
+ * @param {ObjectId} _id El ID de la apelacion que se desea actualizar.
  * @param {Object} Apelacion Un objeto que contiene los datos actualizados de la apelacion.
  * @returns {Promise} Una promesa que resuelve con la apelacion actualizada si la actualización fue exitosa, o con un mensaje de error si la actualización falló.
  */
-async function updateApelacion(apelacionId, Apelacion) {
+async function updateApelacion(_id, Apelacion) {
     try {
-        const apelacionFound = await Apelacion.findOne({ apelacionId: apelacionId });
+        const {estado,RUTEncargado, observacion} = Apelacion;  
+
+        const apelacionFound = await Apelacion.findOne({ _id: _id });
         if (!apelacionFound) return [null, "La apelacion no existe"];
+        
+        const encargadoFound = await User.findOne({ RUT: RUTEncargado });
+        if (!encargadoFound) return [null, "El encargado no existe"];
 
-        const { descripcion, documento, estado, deudaID, RUTEncargado, RUTUsuario } = apelacion;
 
-        const apelacionUpdated = await Apelacion.findOneAndUpdate({ apelacionId: apelacionId }, {
-            descripcion,
-            documento,
+        const apelacionUpdated = await Apelacion.findOneAndUpdate({_id: _id }, {
             estado,
-            deudaID,
-            RUTencargado,
-            RUTUsuario,
+            RUTEncargado,
+            observacion,
         },
         { new: true });
 
@@ -120,13 +115,13 @@ async function updateApelacion(apelacionId, Apelacion) {
 /**
  * Elimina una apelacion por su ID de la base de datos.
  *
- * @param {Number} apelacionId El ID de la apelacion que se desea eliminar.
+ * @param {ObjectId} _id El ID de la apelacion que se desea eliminar.
  * @returns {Promise<Object>} Una promesa que resuelve con la apelacion eliminada si la eliminación fue exitosa, o con un mensaje de error si la eliminación falló.
  */
 
-async function deleteApelacion(apelacionId) {
+async function deleteApelacion(_id) {
   try {
-    const apelacion = await Apelacion.findOneAndDelete({ apelacionId });
+    const apelacion = await Apelacion.findOneAndDelete({ _id:_id });
     if (!apelacion) {
       throw errorHandler("No se encontró la apelacion especificada.", 404);
     }

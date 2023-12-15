@@ -26,9 +26,10 @@ const apelacionBodySchema = Joi.object({
     "any.required": "El estado de la deuda no puede estar vacío.",
     "string.base": "El estado debe ser de tipo string.",
   }),
-    deudaID: Joi.number().required().messages({
+    deudaID: Joi.string().required().messages({
         "any.required": "La ID de la deuda no puede estar vacía.",
-    }),
+        "string.empty": "El Id es obligatorio.",
+      }),
     RUTEncargado: Joi.string().required().messages({
         "string.empty": "El RUT del encargado no puede estar vacío.",
         "any.required": "El RUT del encargado es obligatorio.",
@@ -39,6 +40,10 @@ const apelacionBodySchema = Joi.object({
         "any.required": "El RUT del usuario es obligatorio.",
         "string.base": "El RUT del usuario debe ser de tipo string.",
       }),
+    observacion: Joi.string().required().messages({
+        "string.empty": "La observación no puede estar vacía.",
+        "any.required": "La observación es obligatoria.",
+      }),  
 });
 
 // Esquema de validación para el ID de apelación
