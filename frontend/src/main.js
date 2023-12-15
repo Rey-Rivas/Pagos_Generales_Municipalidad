@@ -4,12 +4,11 @@ import App from './App.vue'
 // Composables
 import { createApp } from 'vue'
 
- // Plugins
+// Plugins
 import { registerPlugins } from '@/plugins'
 
 import SnackBar from './layouts/global/SnackBar.vue';
 import Overlay from './layouts/global/Overlay.vue';
-
 
 const app = createApp(App)
 registerPlugins(app)

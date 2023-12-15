@@ -11,7 +11,18 @@ export default {
         sayHello() {
             alert('Hello');
         },
-    },
+        fetchData() {
+            fetch('http://localhost:3000/api/endpoint')
+                .then(response => response.json())
+                .then(data => {
+                    // Use the data here
+                    console.log(data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+    }
 };
 </script>
 
