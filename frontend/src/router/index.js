@@ -1,23 +1,28 @@
+// Composables
 import { createRouter, createWebHistory } from 'vue-router'
-import HelloWorld from '../components/HelloWorld.vue'
-import HelloMf from '../components/Hellomf.vue'
 
 const routes = [
-    {
-        path: '/',
+  {
+    path: '/api',
+    component: () => import('@/layouts/default/Default.vue'),
+    children: [
+      {
+        path: '',
         name: 'Home',
-        component: HelloWorld
-    },
-    {
-        path: '/hellomf',
-        name: 'Hellomf',
-        component: HelloMf
-    }
+        component: () => import('@/views/Home.vue'),
+      },
+      {
+        path: 'users',
+        name: 'Usuarios',
+        component: () => import('@/views/Home.vue'),
+      },
+    ],
+  },
 ]
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes
+  history: createWebHistory(process.env.BASE_URL),
+  routes,
 })
 
 export default router

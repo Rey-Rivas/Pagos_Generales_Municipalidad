@@ -1,19 +1,50 @@
-
-import { defineConfig } from 'vite'
+// Plugins
 import vue from '@vitejs/plugin-vue'
-import dotenv from 'dotenv'
-import path from 'path'
+import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
+import ViteFonts from 'unplugin-fonts/vite'
 
-// Load .env file
-dotenv.config({ path: path.resolve(__dirname, '../backend/src/config/.env') })
+// Utilities
+import { defineConfig } from 'vite'
+import { fileURLToPath, URL } from 'node:url'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue({
+      template: { transformAssetUrls }
+    }),
+    // https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#readme
+    vuetify({
+      autoImport: true,
+      styles: {
+        configFile: 'src/styles/settings.scss',
+      },
+    }),
+    ViteFonts({
+      google: {
+        families: [{
+          name: 'Roboto',
+          styles: 'wght@100;300;400;500;700;900',
+        }],
+      },
+    }),
+  ],
+  define: { 'process.env': {} },
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    },
+    extensions: [
+      '.js',
+      '.json',
+      '.jsx',
+      '.mjs',
+      '.ts',
+      '.tsx',
+      '.vue',
+    ],
+  },
   server: {
-    port: Number(process.env.FRONTPORT), // Use the port variable
-    proxy: {
-      '/api': `http://${process.env.HOST}:${process.env.PORT}`
-    }
-  }
+    port: 3000,
+  },
 })
