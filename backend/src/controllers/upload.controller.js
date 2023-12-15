@@ -17,32 +17,24 @@ const upload = multer({
 
 // Chequea que el archivo sea pdf
 function checkFileType(file, cb) {
-    const filetypes = /pdf/;
+    const filetypes = /pdf|png|jpeg|jpg/;
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = filetypes.test(file.mimetype);
 
     if (mimetype && extname) {
         return cb(null, true);
     } else {
-        cb('Error: Solamente se permiten archivos PDF');
+        cb('Error: Solamente se permiten archivos PDF y de imagen');
     }
 }
 
 exports.upload = upload.single('documento');
 
-const fs = require('fs');
-
-function deleteFile(filePath) {
-    fs.unlink(filePath, (err) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        console.log('File has been deleted');
-    });
-}
-
 exports.uploadPDF = (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ message: 'No se subió ningún archivo' });
+    }
+    
     res.json({
         message: 'Archivo subido con éxito',
         data: req.file

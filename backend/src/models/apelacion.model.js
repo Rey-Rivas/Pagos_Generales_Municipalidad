@@ -5,12 +5,6 @@ const mongoose = require("mongoose");
 // Crea el esquema de la coleccion 'apelacion'
 const apelacionSchema = new mongoose.Schema(
     {
-        apelacionId:{
-            type: Number,
-            required: true,
-            unique: true,
-            primaryKey: true,
-        },
         descripcion:{
             type: String,
             required: true,
@@ -24,17 +18,21 @@ const apelacionSchema = new mongoose.Schema(
             required: true,
         },
         deudaID:{
-            type: Number,
+            type: String,
             required: true,        
             },
         RUTEncargado:{
             type: String,
-            required: true,
+            required: false,
             },
         RUTUsuario:{
             type: String,
             required: true,  
-            }, 
+            },
+        observacion:{
+            type: String,
+            required: false,
+        }     
     },
 );
 
