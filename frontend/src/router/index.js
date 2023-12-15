@@ -31,13 +31,11 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  // This navigation guard redirects to the login page if a user is not authenticated
-  // and tries to access a route that requires authentication
   const publicPages = ['/login'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('token');
 
-  if (authRequired && !loggedIn) {
+  if (authRequired && (!loggedIn || loggedIn === 'undefined')) {
     return next('/login');
   }
 
