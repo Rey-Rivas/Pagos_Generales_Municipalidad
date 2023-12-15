@@ -1,5 +1,7 @@
 const beneficios = require("../models/beneficios.model.js");
 const { handleError } = require("../utils/errorHandler");
+
+
 async function createBeneficio(req) {
     try {
         const { beneficiosID, nombreBeneficio, descripcion, monto, estado, idDeuda, RUTUsuario } = req;

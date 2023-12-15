@@ -64,7 +64,6 @@ async function createDeuda(req, res) {
 async function getDeudaById(req, res) {
     try{
         const { params } = req;
-        console.log("Buscando deuda con id: "+params.id);
         const { error: paramsError } = deudaIdSchema.validate(params);
         if (paramsError) return respondError(req, res, 400, paramsError.message);
 
@@ -72,7 +71,7 @@ async function getDeudaById(req, res) {
 
         if (errorDeuda) return respondError(req, res, 404, errorDeuda);
         console.log("DeudaEncontrada");
-        const Beneficio = await beneficio.findOne({ idDeuda: params.id})
+        const Beneficio = await beneficio.findOne({ idDeuda: deuda.deudaID})
         if (Beneficio) {
           deuda.monto = deuda.monto - Beneficio.monto;
           console.log("Beneficio Encontrado");
@@ -122,7 +121,7 @@ async function updateDeuda(req, res) {
         const { error: bodyError } = deudaBodySchema.validate(body);
         if (bodyError) return respondError(req, res, 400, bodyError.message);
 
-        const [deuda, errorDeuda] = await DeudaService.updateDeuda(params._id, body);
+        const [deuda, errorDeuda] = await DeudaService.updateDeuda(params.deudaID, body);
 
         if (errorDeuda) return respondError(req, res, 404, errorDeuda);
 
@@ -146,7 +145,7 @@ async function deleteDeuda(req, res) {
         const { error: paramsError } = deudaIdSchema.validate(params);
         if (paramsError) return respondError(req, res, 400, paramsError.message);
 
-        const deuda = await DeudaService.deleteDeuda(params._id);
+        const deuda = await DeudaService.deleteDeuda(params.deudaID);
         !deuda
         ? respondError(req, res, 404, "No se encontro la deuda")
         : respondSuccess(req, res, 200, deuda);

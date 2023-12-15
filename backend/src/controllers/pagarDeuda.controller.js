@@ -23,7 +23,7 @@ const pagarDeuda = async (req, res) => {
         // Responde con la deuda modificada
 
         const deudaActualizada = await deuda.findOneAndUpdate(
-            { _id: deudaTemporal._id },
+            { deudaID: deudaTemporal.deudaID },
             {
                 $set: {
                     monto: deudaTemporal.monto,

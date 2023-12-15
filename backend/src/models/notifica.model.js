@@ -5,8 +5,8 @@ const mongoose = require("mongoose");
 // Crea el esquema de la coleccion 'notifica'
 const notificaSchema = new mongoose.Schema(
     {
-        _id:{
-            type: mongoose.Schema.Types.ObjectId,
+        deudaID:{
+            type: Number,
             required: true,
             primaryKey: true,      
             },
