@@ -31,12 +31,15 @@ const beneficiosBodySchema = Joi.object({
     "any.required": "El estado del beneficio no puede estar vacío.",
     "string.base": "El estado debe ser de tipo string.",
   }),
-  idDeuda: Joi.number()
-    .required()
-    .messages({
-      "any.required": "La ID de la deuda no puede estar vacía.",
-      "number.base": "La ID de la deuda debe ser de tipo number.",
-    }),
+  idDeuda: Joi.string()
+  .length(24)
+  .hex()
+  .required()
+  .messages({
+    "any.required": "El id del beneficio no puede estar vacío.",
+    "string.length": "El id debe tener una longitud de 24 caracteres.",
+    "string.hex": "El id debe ser una cadena hexadecimal.",
+  }),
   RUTUsuario: Joi.string()
     .required()
     .messages({

@@ -43,9 +43,9 @@ async function getDeudas() {
   }
 }
 
-async function getDeudaById(idDeuda) {
+async function getDeudaById(id) {
   try {
-    const deuda = await Deuda.findOne({ deudaID: idDeuda })
+    const deuda = await Deuda.findById(id)
       .populate("tramiteID")
       .populate("RUTAdmin")
       .populate("RUTUsuario")
