@@ -1,5 +1,6 @@
 "use strict";
 const { beneficiosBodySchema } = require("../schema/beneficios.schema.js");
+const { deudaIdSchema } = require("../schema/beneficios.schema.js");
 const BeneficioService = require("../services/beneficio.service.js");
 const { handleError } = require("../utils/errorHandler");
 const { respondSuccess, respondError } = require("../utils/resHandler");
@@ -8,8 +9,8 @@ async function createBeneficio(req, res) {
     try {
         const { body } = req;
         console.log(body);
-        const { error: beneficioError } = beneficiosBodySchema.validate(body);
-        if (beneficioError) return respondError(req, res, 400, beneficioError.message);
+        //const { error: beneficioError } = beneficiosBodySchema.validate(body);
+        //if (beneficioError) return respondError(req, res, 400, beneficioError.message);
         const [newBeneficio, errorBeneficio] = await BeneficioService.createBeneficio(body);
         if (errorBeneficio) return respondError(req, res, 400, errorBeneficio);
         if (!newBeneficio) {
