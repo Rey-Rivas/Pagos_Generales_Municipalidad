@@ -2,7 +2,7 @@ const Joi = require("joi");
 
 // Esquema de validación para el cuerpo de la solicitud de notificación
 const notificaBodySchema = Joi.object({
-  deudaID: Joi.number().required().messages({
+  deudaID: Joi.string().required().messages({
     "any.required": "La ID de la deuda es obligatoria.",
   }),
   RUTEncargado: Joi.string().required().messages({
@@ -22,7 +22,7 @@ const notificaBodySchema = Joi.object({
 // Esquema de validación para el ID de notificación
 
   const notificaIdSchema = Joi.object({
-    deudaID: Joi.number().required().messages({
+    deudaID: Joi.string().required().messages({
       "any.required": "La ID de la deuda es obligatoria.",
     }),
     RUTEncargado: Joi.string().required().messages({
@@ -38,7 +38,7 @@ const notificaBodySchema = Joi.object({
   });
 
   const notificaIdOptionalSchema = Joi.object({
-    deudaID: Joi.number().required().messages({
+    deudaID: Joi.string().required().messages({
       "any.required": "La ID de la deuda es obligatoria.",
     }),
     RUTEncargado: Joi.string().allow(null).messages({
