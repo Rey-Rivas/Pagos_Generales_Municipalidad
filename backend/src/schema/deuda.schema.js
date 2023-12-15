@@ -9,9 +9,7 @@ const { ESTADOS } = require("../constants/estados.constants.js");
  */
 // Esquema de validación para el cuerpo de la solicitud de deuda
 const deudaBodySchema = Joi.object({
-  deudaID: Joi.number().required().messages({
-    "any.required": "La ID de la deuda es obligatoria.",
-  }),
+  
   descripcion: Joi.string().required().messages({
     "any.required": "La descripción de la deuda no puede estar vacía.",
     "string.base": "La descripción debe ser de tipo string.",
@@ -92,7 +90,9 @@ const deudaBodySchema = Joi.object({
 
 // Esquema de validación para el ID de deuda
 const deudaIdSchema = Joi.object({
-  id: Joi.number().required().messages({
+  id: Joi.string().hex().length(24).required().messages({
+    "string.hex": "El ID debe ser una cadena hexadecimal.",
+    "string.length": "El ID debe tener una longitud de 24 caracteres.",
     "any.required": "El ID de la deuda no puede estar vacío.",
   }),
 });
