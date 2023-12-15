@@ -54,9 +54,6 @@ async function getApelacionById(id) {
 async function createApelacion(apelacionData) {
     try {
         const { descripcion, documento, estado, deudaID, RUTUsuario  } = apelacionData;
-
-        const apelacionFound = await Apelacion.findOne({ _id: _id});
-        if (apelacionFound) return [null, "La apelacion ya existe"];
         
         const deudaFound = await Deuda.findOne({ _id: deudaID });
         if (!deudaFound) return [null, "La deuda no existe"];
