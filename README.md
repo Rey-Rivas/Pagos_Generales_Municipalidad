@@ -14,7 +14,7 @@ La cual consta de 4 temas centrales
 
 
 
-Documentación ProZero:
+Documentación ElSebas:
 
 Para añadir nuevas deudas se debe esta logeado como administrador
 y llegar a la ruta http://localhost/api/deudas
