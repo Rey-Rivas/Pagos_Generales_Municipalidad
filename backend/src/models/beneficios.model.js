@@ -28,7 +28,7 @@ const beneficiosSchema = new mongoose.Schema(
             required: true,
         },
         idDeuda:{
-            type: Number,
+            type: String,
             required: false,
         },
         RUTUsuario:{

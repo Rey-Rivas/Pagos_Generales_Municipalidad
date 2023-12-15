@@ -64,6 +64,7 @@ async function createDeuda(req, res) {
 async function getDeudaById(req, res) {
     try{
         const { params } = req;
+        console.log("Buscando deuda con id: "+params.id);
         const { error: paramsError } = deudaIdSchema.validate(params);
         if (paramsError) return respondError(req, res, 400, paramsError.message);
 
@@ -71,7 +72,7 @@ async function getDeudaById(req, res) {
 
         if (errorDeuda) return respondError(req, res, 404, errorDeuda);
         console.log("DeudaEncontrada");
-        const Beneficio = await beneficio.findOne({ idDeuda: deuda.deudaID})
+        const Beneficio = await beneficio.findOne({ idDeuda: params.id})
         if (Beneficio) {
           deuda.monto = deuda.monto - Beneficio.monto;
           console.log("Beneficio Encontrado");

@@ -5,12 +5,7 @@ const mongoose = require("mongoose");
 // Crea el esquema de la coleccion 'deuda'
 const deudaSchema = new mongoose.Schema(
     {
-        deudaID:{
-            type: Number,
-            required: true,
-            unique: true,
-            primaryKey: true,
-        },
+        
         descripcion:{
             type: String,
             required: true,
