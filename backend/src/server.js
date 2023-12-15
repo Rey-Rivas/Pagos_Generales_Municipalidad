@@ -13,6 +13,11 @@ const cookieParser = require("cookie-parser");
 // Importa el módulo 'body-parser' para manejar los datos en formato JSON
 const bodyParser = require('body-parser');
 
+const dotenv = require('dotenv');
+const path = require('path');
+// Load environment variables from the .env file
+dotenv.config({ path: path.resolve(__dirname, '../../frontend/.env') });
+
 /** El enrutador principal */
 const indexRoutes = require("./routes/index.routes.js");
 const userRoutes = require('./routes/user.routes.js');
@@ -37,7 +42,7 @@ async function setupServer() {
     // Agrega el middleware para el manejo de datos en formato JSON
     server.use(express.json());
     // Agregamos los cors
-    server.use(cors({ origin: "/" }));
+    server.use(cors({ origin: [`http://${process.env.VITE_FRONT_HOST}:${process.env.VITE_FRONT_PORT}`, '/'] }));
     // Agregamos el middleware para el manejo de cookies
     server.use(cookieParser());
     // Agregamos morgan para ver las peticiones que se hacen al servidor
