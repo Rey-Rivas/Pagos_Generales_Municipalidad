@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
   {
     path: '/api',
-    component: () => import('@/layouts/default/Default.vue'),
+    component: () => import('@/layouts/default/Dashboard.vue'),
     children: [
       {
         path: '',

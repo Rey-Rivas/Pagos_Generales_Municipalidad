@@ -123,10 +123,30 @@ async function deleteUser(req, res) {
   }
 }
 
+/**
+ * Checks the role of the user
+ * @param {Object} req - Objeto de petición
+ * @param {Object} res - Objeto de respuesta
+ */
+async function checkRoles(req, res) {
+  try {
+    const { email } = req.params;
+    const role = await UserService.checkRoles(email);
+    if (role.error) {
+      return respondError(req, res, 500, role.error);
+    }
+    respondSuccess(req, res, 200, role);
+  } catch (error) {
+    handleError(error, "user.controller -> checkRoles");
+    respondError(req, res, 500, "An error occurred");
+  }
+}
+
 module.exports = {
   getUsers,
   createUser,
   getUserById,
   updateUser,
   deleteUser,
+  checkRoles,
 };
