@@ -8,9 +8,7 @@
 <script>
 export default {
     methods: {
-        sayHello() {
-            alert('Hello');
-        },
+        sayHello() {alert('Hello');},
         fetchData() {
             fetch('http://localhost:3000/api/endpoint')
                 .then(response => response.json())

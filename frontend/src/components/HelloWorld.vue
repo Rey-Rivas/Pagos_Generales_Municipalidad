@@ -1,7 +1,7 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="align-center text-center fill-height">
-      <v-img height="300" src="https://media.discordapp.net/attachments/917413796123926578/1185052784748408832/among-us-twerk.gif?ex=658e3569&is=657bc069&hm=5fb2e5a87d33c9a1e8b828bdc8be65adb5ed5b2fddc8473f01d985930d7d5af9&=" />
+      <v-img height="300" src="https://media.discordapp.net/attachments/917413796123926578/1185049380735176764/png-transparent-mega-man-x-collection-mega-man-zero-3-mega-man-zero-4-he-man-pixel-art-text-video-game-fictional-character.png?ex=658e323d&is=657bbd3d&hm=33caa0726663cd0263ac27b2acb3aa810acc0819e11b5d4e390551ac66f27f02&=&format=webp&quality=lossless&width=795&height=701" />
 
       <div class="text-body-2 font-weight-light mb-n1">Welcome to</div>
 
