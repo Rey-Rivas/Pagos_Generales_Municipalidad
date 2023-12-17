@@ -11,17 +11,16 @@ const { handleError } = require("../utils/errorHandler");
  */
 async function getTramite() {
   try {
-    const tramite = await tramite.find()
+    const tramites = await tramite.find()
     .populate("tramiteID")
     .populate("montoFijo")
     .populate("nombreTramite")
-    .populate("costofijo")
-    .populate("Descripcion")
+    .populate("descripcionTramite")
     .populate("RUTAdmin")
     .exec();
-    if (!tramite) return [null, "No hay usuarios"];
+    if (!tramites) return [null, "No hay usuarios"];
 
-    return [tramite, null];
+    return [tramites, null];
   } catch (error) {
     handleError(error, "tramite.service -> getTramite");
   }
@@ -29,18 +28,18 @@ async function getTramite() {
 
 async function getTramiteById(id) {
     try{
-    const tramite = await tramite.findOne({ tramiteID: id })
+      console.log("Buscando tramite con id: "+id);
+    const tramites = await tramite.findOne({ tramiteID: id })
     .populate("tramiteID")
     .populate("montoFijo")
     .populate("nombreTramite")
-    .populate("costofijo")
-    .populate("Descripcion")
+    .populate("descripcionTramite")
     .populate("RUTAdmin")
     .exec();
 
-    if (!tramite) return [null, "No hay tramites con ese ID"];
+    if (!tramites) return [null, "No hay tramites con ese ID"];
 
-    return [tramite, null];
+    return [tramites, null];
     } catch (error) {
         handleError(error, "tramite.service -> getTramiteById");
     }
