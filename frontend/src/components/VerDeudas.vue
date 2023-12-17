@@ -144,7 +144,7 @@ export default {
 
 <style scoped>
 .color-primary {
-  background-color: #5A2EA8;
+  background: linear-gradient(to right, #5A2EA8, #F96943);
   color: #F3F3FB;
 }
 
@@ -154,17 +154,22 @@ export default {
 }
 
 .color-tertiary {
-  background-color: #A0C519;
-  color: #F3F3FB;
+  background-color: #F3F3FB;
+  color: #000000;
 }
 
 .color-quaternary {
-  background-color: #F96943;
-  color: #F3F3FB;
+  background: #F3F3FB;
+  color: #000000;
 }
 
 .color-quinary {
   background-color: #F3F3FB;
   color: #5A2EA8;
+}
+
+/* Agrega un estilo para las celdas de la tabla */
+.color-quaternary td {
+  border: 1px solid #F3F3FB; /* Ajusta el color del borde según sea necesario */
 }
 </style>
