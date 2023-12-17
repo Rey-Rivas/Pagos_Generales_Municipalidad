@@ -5,7 +5,8 @@ const authorizationMiddleware = require("../middlewares/authorization.middleware
 const router = Router();
 router.use(authenticationMiddleware);
 
-router.get('/:id', beneficioController.getBeneficio);
+router.get('/', beneficioController.getBeneficios);
+router.get('/:id', beneficioController.getBeneficioById);
 router.post('/',beneficioController.createBeneficio);
 router.post('/estado', authorizationMiddleware.isAdmin,beneficioController.updateEstado);
 module.exports = router;

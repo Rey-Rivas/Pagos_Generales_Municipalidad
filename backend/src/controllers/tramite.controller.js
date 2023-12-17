@@ -2,7 +2,7 @@
 // Maneja peticiones HTTP relacionadas a tramites
 const { respondSuccess, respondError } = require("../utils/resHandler");
 const TramiteService = require("../services/tramite.service.js");
-const { tramiteBodySchema, tramiteIdSchema } = require("../schema/tramite.schema.js");
+const { tramiteBodySchema} = require("../schema/tramite.schema.js");
 const { handleError } = require("../utils/errorHandler");
 
 /**
@@ -57,10 +57,8 @@ async function createTramite(req, res) {
 async function getTramiteById(req, res) {
   try {
     const { params } = req;
-    const { error: paramsError } = tramiteIdSchema.validate(params);
-    if (paramsError) return respondError(req, res, 400, paramsError.message);
-
-    const [tramite, errorTramite] = await TramiteService.getTramiteById(params.tramiteID);
+    console.log("Contenido de params:", params);
+    const [tramite, errorTramite] = await TramiteService.getTramiteById(params.id);
 
     if (errorTramite) return respondError(req, res, 404, errorTramite);
 
@@ -79,8 +77,6 @@ async function getTramiteById(req, res) {
 async function updateTramite(req, res) {
   try {
     const { params, body } = req;
-    const { error: paramsError } = tramiteIdSchema.validate(params);
-    if (paramsError) return respondError(req, res, 400, paramsError.message);
 
     const { error: bodyError } = tramiteBodySchema.validate(body);
     if (bodyError) return respondError(req, res, 400, bodyError.message);
@@ -104,8 +100,6 @@ async function updateTramite(req, res) {
 async function deleteTramite(req, res) {
   try {
     const { params } = req;
-    const { error: paramsError } = tramiteIdSchema.validate(params);
-    if (paramsError) return respondError(req, res, 400, paramsError.message);
 
     const tramite = await TramiteService.deleteTramite(params.tramiteID);
     !tramite

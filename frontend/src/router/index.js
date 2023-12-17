@@ -25,7 +25,28 @@ const routes = [
         path: 'creardeuda',
         name: 'Crear Deuda',
         component: () => import('@/views/CrearDeudaView.vue'),
-      }
+      },
+      {
+
+        path: 'beneficios',
+        name: 'Beneficios',
+        component: () => import('@/views/Beneficios.vue'),
+      },
+      {
+        path: 'tramites',
+        name: 'Tramites',
+        component: () => import('@/views/Tramites.vue'),
+      },
+      {
+        path: 'Informe',
+        name: 'generar-informe',
+      },
+      {
+        component: () => import('@/views/Informe.vue'),
+        path: 'apelacion',
+        name: 'Apelaciones',
+        component: () => import('@/views/Apelaciones.vue'),
+      },
     ],
   },
   {
