@@ -19,6 +19,27 @@ async function createBeneficio(req) {
     }
 }
 
+async function getBeneficios() {
+    try {
+        const beneficio = await beneficios.find()
+            .populate("beneficiosID")
+            .populate("nombreBeneficio")
+            .populate("descripcion")
+            .populate("monto")
+            .populate("estado")
+            .populate("idDeuda")
+            .populate("RUTUsuario")
+            .exec();
+        if (!beneficio) return [null, "No hay beneficios"];
+        return [beneficio, null];
+    } catch (error) {
+        handleError(error, "beneficio.service -> getBeneficios");
+    }
+}
+
+
+
+
 async function getBeneficioById(id) {
     try {
         const beneficio = await beneficios.findOne({beneficiosID: id})
@@ -51,6 +72,7 @@ async function updateEstado(req) {
 }
 
 module.exports = {
+    getBeneficios,
     createBeneficio,
     getBeneficioById,
     updateEstado,

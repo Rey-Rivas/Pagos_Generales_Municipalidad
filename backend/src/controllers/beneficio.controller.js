@@ -23,10 +23,20 @@ async function createBeneficio(req, res) {
     }
 }
 
+async function getBeneficios(req, res) {
+    try {
+        const [beneficios, errorBeneficios] = await BeneficioService.getBeneficios();
+        if (errorBeneficios) return respondError(req, res, 404, errorBeneficios);
+        respondSuccess(req, res, 200, beneficios);
+    }
+    catch (error) {
+        handleError(error, "beneficio.controller -> getBeneficios");
+        respondError(req, res, 400, error.message);
+    }
+}
 
 
-
-async function getBeneficio(req, res) {
+async function getBeneficioById(req, res) {
     try {
       const [beneficio, errorBeneficio] = await BeneficioService.getBeneficioById(req.params.id);
       if (errorBeneficio) return respondError(req, res, 404, errorBeneficio);
@@ -51,7 +61,8 @@ async function updateEstado(req, res) {
 }
 
 module.exports = {
+    getBeneficios,
     createBeneficio,
-    getBeneficio,
+    getBeneficioById,
     updateEstado,
 };

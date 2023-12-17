@@ -88,7 +88,7 @@ async function updateApelacion(_id, apelacionData) {
     try {
         const {descripcion, documento, estado, deudaID, RUTUsuario, RUTEncargado, observacion} = apelacionData;  
 
-        const apelacionFound = await Apelacion.findOne({ _id: _id });
+        const apelacionFound = await Apelacion.findById(_id);
         if (!apelacionFound) return [null, "La apelacion no existe"];
         
         const encargadoFound = await User.findOne({ RUT: RUTEncargado });
