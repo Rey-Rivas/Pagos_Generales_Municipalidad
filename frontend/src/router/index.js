@@ -31,7 +31,8 @@ const routes = [
         path: 'tramites',
         name: 'Tramites',
         component: () => import('@/views/Tramites.vue'),
-
+      },
+      {
         path: 'Informe',
         name: 'generar-informe',
         component: () => import('@/views/Informe.vue'),
