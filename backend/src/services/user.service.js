@@ -132,10 +132,36 @@ async function deleteUser(id) {
   }
 }
 
+/**
+ * Checks the role of the user
+ * @param {String} email - Email of the user
+ * @returns {Object} - JSON object with a property "role" that is "admin", "encargado", or "user" depending on the user's role, and an empty string if the user has no role
+ */
+async function checkRoles(email) {
+  try {
+    const user = await User.findOne({ email: email });
+    const roles = await Role.find({ _id: { $in: user.roles } });
+    for (let i = 0; i < roles.length; i++) {
+      if (roles[i].name === "admin") {
+        return { role: "admin" };
+      } else if (roles[i].name === "encargado") {
+        return { role: "encargado" };
+      } else if (roles[i].name === "user") {
+        return { role: "user" };
+      }
+    }
+    return { role: "" };
+  } catch (error) {
+    handleError(error, "user.service -> checkRoles");
+    return { error: 'An error occurred' };
+  }
+}
+
 module.exports = {
   getUsers,
   createUser,
   getUserById,
   updateUser,
   deleteUser,
+  checkRoles,
 };

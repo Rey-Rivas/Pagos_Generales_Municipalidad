@@ -31,6 +31,7 @@ router.delete(
   authorizationMiddleware.isAdmin,
   usuarioController.deleteUser,
 );
+router.get("/checkRoles/:email", usuarioController.checkRoles);
 
 // Exporta el enrutador
 module.exports = router;

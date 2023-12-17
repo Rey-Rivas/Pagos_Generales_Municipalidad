@@ -53,6 +53,15 @@ export default {
                 console.log('Login successful!');
                 console.log('Token:', data.data.accessToken);
 
+                // Fetch the role of the user
+                const roleData = await fetchBase(`/users/checkRoles/${this.email}`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + data.data.accessToken,
+                    },
+                });
+                localStorage.setItem('role', roleData.data.role);
+                console.log('Role:', roleData.data.role);
+
                 // Redirect to the home page
                 this.$router.push('/api');
             } catch (error) {
