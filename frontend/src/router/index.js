@@ -21,6 +21,11 @@ const routes = [
         name: 'Deudas',
         component: () => import('@/views/Deudas.vue'),
       },
+      {
+        path: 'creardeuda',
+        name: 'Crear Deuda',
+        component: () => import('@/views/CrearDeudaView.vue'),
+      }
     ],
   },
   {

@@ -31,6 +31,7 @@
                     :prepend-icon="item.icon"
                     :title="item.name"
                     :to="item.path"
+                    :disabled="rail"
                 ></v-list-item>
             </v-list>
 
@@ -62,7 +63,7 @@ export default {
             { name: 'Informe de Deudas', icon: 'mdi-file-document-multiple', path: '/api', tier: 2 },
             { name: 'Notificar Deudas', icon: 'mdi-note-alert', path: '/api', tier: 2 },
             { name: 'Actualizar Deudas', icon: 'mdi-note-edit', path: '/api', tier: 2 },
-            { name: 'Crear Deudas', icon: 'mdi-note-plus', path: '/api', tier: 3 },
+            { name: 'Crear Deudas', icon: 'mdi-note-plus', path: '/api/creardeuda', tier: 3 },
             { name: 'Eliminar Deudas', icon: 'mdi-note-minus', path: '/api', tier: 3 },
             { name: 'Gestionar Tramites', icon: 'mdi-text-box-edit', path: '/api/users', tier: 3 },
             { name: 'Modificar Impuestos', icon: 'mdi-cash', path: '/api/deudas', tier: 3 },      
@@ -81,7 +82,7 @@ export default {
                     case 'admin':
                         return item.tier !== 1;
                     case 'encargado':
-                        return item.tier > 1;
+                        return item.tier === 0 || item.tier === 2;
                     case 'user':
                         return item.tier === 0 || item.tier === 1;
                     default:
