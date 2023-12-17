@@ -114,13 +114,10 @@ async function getDeudaByRUTUsuario(RUTUsuario) {
  */
 async function createDeuda(deudaData) {
   try {
-    const { deudaID, descripcion, monto, fechaEmision, fechaVencimiento, fechaPago, estado, tramiteID, RUTAdmin, RUTUsuario } = deudaData;
+    const { descripcion, monto, fechaEmision, fechaVencimiento, fechaPago, estado, tramiteID, RUTAdmin, RUTUsuario } = deudaData;
 
-    const deudaFound = await Deuda.findOne({ deudaID: deudaID });
-    if (deudaFound) return [null, "La deuda ya existe"];
 
     const newDeuda = new Deuda({
-      deudaID,
       descripcion,
       monto,
       fechaEmision,
