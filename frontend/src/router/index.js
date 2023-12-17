@@ -21,6 +21,11 @@ const routes = [
         name: 'Deudas',
         component: () => import('@/views/Deudas.vue'),
       },
+      {
+        path: 'Informe',
+        name: 'generar-informe',
+        component: () => import('@/views/Informe.vue'),
+      },
     ],
   },
   {
