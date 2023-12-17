@@ -156,6 +156,4 @@ async function informeExcel(req, res) {
     });
 }
 
-console.log("ugu");
-
 module.exports = { router, informeExcel };

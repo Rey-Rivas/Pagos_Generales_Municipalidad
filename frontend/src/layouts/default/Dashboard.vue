@@ -2,6 +2,7 @@
     <v-card>
         <v-layout>
             <v-navigation-drawer
+            color="#5A2EA8"
             v-model="drawer"
             :rail="rail"
             permanent
@@ -50,7 +51,7 @@ export default {
         rail: true,
 
         items: [],
-
+        
         allItems: [
             { name: 'Home', icon: 'mdi-home', path: '/api', tier: 0 },
             { name: 'Mis Deudas', icon: 'mdi-note', path: '/api', tier: 1 },
@@ -100,6 +101,8 @@ export default {
 </script>
 
 <style scoped>
+
+
 #app {
     background-image: url('https://images.pexels.com/photos/994605/pexels-photo-994605.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
     background-repeat: no-repeat;
