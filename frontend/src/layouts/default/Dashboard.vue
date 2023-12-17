@@ -29,11 +29,18 @@
 export default {
     data: () => ({
         showDrawer: false,
+
+        submenus: [],
         items: [],
+
+        allSubmenus: [
+            { submenuID: 'deudas1', name: 'Categoria 1', icon: 'mdi-home', tier: 1 },
+            { submenuID: 'deudas2', name: 'Categoria 1', icon: 'mdi-home', tier: 1 },
+        ],
         allItems: [
-            { name: 'Home', icon: 'mdi-home', path: '/api', tier: 1 },
-            { name: 'Usuarios', icon: 'mdi-account', path: '/api/users', tier: 3 },
-            { name: 'Login', icon: 'mdi-login', path: '/login', tier: 1 },
+            { name: 'Home', icon: 'mdi-home', path: '/api', tier: 1, submenuID: ['deudas1', 'deudas2'] },
+            { name: 'Usuarios', icon: 'mdi-account', path: '/api/users', tier: 3, submenuID: ['deudas1'] },
+            { name: 'Login', icon: 'mdi-login', path: '/login', tier: 1, submenuID: ['deudas2'] },
         ],
     }),
     methods: {
@@ -56,6 +63,10 @@ export default {
             this.items = this.allItems
                 .filter(item => item.tier <= maxTier)
                 .map(({ name, icon, path }) => ({ name, icon, path }));
+
+            this.submenus = this.allSubmenus
+                .filter(submenu => submenu.tier <= maxTier)
+                .map(({ id, name, icon }) => ({ id, name, icon }));
         },
     },
     created() {
