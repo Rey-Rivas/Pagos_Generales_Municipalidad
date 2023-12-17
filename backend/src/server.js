@@ -36,13 +36,17 @@ app.use(express.json());
  */
 async function setupServer() {
   try {
+    const corsOptions = {
+      origin: [`http://${process.env.VITE_FRONT_HOST}:${process.env.VITE_FRONT_PORT}`, '/'],
+      credentials: true, // Permite el intercambio de credenciales
+    };
     require("./utils/Thread.js")
     /** Instancia de la aplicacion */
     const server = express();
     // Agrega el middleware para el manejo de datos en formato JSON
     server.use(express.json());
     // Agregamos los cors
-    server.use(cors({ origin: [`http://${process.env.VITE_FRONT_HOST}:${process.env.VITE_FRONT_PORT}`, '/'] }));
+    server.use(cors(corsOptions));
     // Agregamos el middleware para el manejo de cookies
     server.use(cookieParser());
     // Agregamos morgan para ver las peticiones que se hacen al servidor
