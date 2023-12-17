@@ -22,6 +22,7 @@ const routes = [
         component: () => import('@/views/Deudas.vue'),
       },
       {
+
         path: 'beneficios',
         name: 'Beneficios',
         component: () => import('@/views/Beneficios.vue'),
@@ -30,6 +31,13 @@ const routes = [
         path: 'tramites',
         name: 'Tramites',
         component: () => import('@/views/Tramites.vue'),
+
+        path: 'Informe',
+        name: 'generar-informe',
+        component: () => import('@/views/Informe.vue'),
+        path: 'apelacion',
+        name: 'Apelaciones',
+        component: () => import('@/views/Apelaciones.vue'),
       },
     ],
   },

@@ -16,7 +16,6 @@ async function getApelacion() {
     .populate("descripcion")
     .populate("documento")
     .populate("estado")
-    .populate("deudaID")
     .populate("RUTUsuario")
     .exec();
     if (!apelacion) return [null, "No hay apelaciones"];
@@ -29,10 +28,10 @@ async function getApelacion() {
 
 async function getApelacionById(id) {
     try{
-    const apelacion = await Apelacion.findOne({ _id: id })
+    const apelacion = await Apelacion.findById(id)
     .populate("descripcion")
     .populate("documento")
-    .populate("deudaID")
+    .populate("estado")
     .populate("RUTUsuario")
     .exec();
 
@@ -82,12 +81,12 @@ async function createApelacion(apelacionData) {
  * Actualiza una apelacion por su ID en la base de datos.
  *
  * @param {ObjectId} _id El ID de la apelacion que se desea actualizar.
- * @param {Object} Apelacion Un objeto que contiene los datos actualizados de la apelacion.
+ * @param {Object} apelacionData Un objeto que contiene los datos actualizados de la apelacion.
  * @returns {Promise} Una promesa que resuelve con la apelacion actualizada si la actualización fue exitosa, o con un mensaje de error si la actualización falló.
  */
-async function updateApelacion(_id, Apelacion) {
+async function updateApelacion(_id, apelacionData) {
     try {
-        const {estado,RUTEncargado, observacion} = Apelacion;  
+        const {descripcion, documento, estado, deudaID, RUTUsuario,RUTEncargado, observacion} = apelacionData;  
 
         const apelacionFound = await Apelacion.findOne({ _id: _id });
         if (!apelacionFound) return [null, "La apelacion no existe"];
@@ -97,6 +96,11 @@ async function updateApelacion(_id, Apelacion) {
 
 
         const apelacionUpdated = await Apelacion.findOneAndUpdate({_id: _id }, {
+            descripcion,
+            documento,
+            estado,
+            deudaID,
+            RUTUsuario,
             estado,
             RUTEncargado,
             observacion,
