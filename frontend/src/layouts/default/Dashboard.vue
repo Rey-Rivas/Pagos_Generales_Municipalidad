@@ -35,6 +35,7 @@ export default {
         allItems: [
             { name: 'Home', icon: 'mdi-home', path: '/api', tier: 3 },
             { name: 'Usuarios', icon: 'mdi-account', path: '/api/users', tier: 3 },
+            { name: 'Deudas', icon: 'mdi-account', path: '/api/deudas', tier: 3 },
             { name: 'Login', icon: 'mdi-login', path: '/login', tier: 1 },
         ],
     }),
