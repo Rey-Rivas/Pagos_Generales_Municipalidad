@@ -62,10 +62,23 @@ export default {
                 localStorage.setItem('role', roleData.data.role);
                 console.log('Role:', roleData.data.role);
 
+                var userList = await fetchBase(`/users`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + data.data.accessToken,
+                    },
+                });
+                userList = userList.data;
+                userList = userList.find(user => user.email === this.email);
+
+                localStorage.setItem('user_RUT', userList.RUT);
+                localStorage.setItem('user_name', userList.username);
+                console.log('User Data:', userList);
+
                 // Redirect to the home page
                 this.$router.push('/api');
             } catch (error) {
                 console.error('An error occurred:', error);
+                this.$root.showSnackBar('error', 'Error', error);
             }
         },
     },
