@@ -65,8 +65,7 @@ export default {
             { name: 'Crear Deudas', icon: 'mdi-note-plus', path: '/api', tier: 3 },
             { name: 'Eliminar Deudas', icon: 'mdi-note-minus', path: '/api', tier: 3 },
             { name: 'Gestionar Tramites', icon: 'mdi-text-box-edit', path: '/api/users', tier: 3 },
-            { name: 'Modificar Impuestos', icon: 'mdi-cash', path: '/api/deudas', tier: 3 },
-            
+            { name: 'Modificar Impuestos', icon: 'mdi-cash', path: '/api/deudas', tier: 3 },      
             { name: 'Loguearse', icon: 'mdi-login', path: '/login', tier: 0 },
         ],
 
