@@ -15,7 +15,7 @@ async function getTramite(req, res) {
     const [tramite, errorTramite] = await TramiteService.getTramite();
     if (errorTramite) return respondError(req, res, 404, errorTramite);
 
-    Tramite.length === 0
+    tramite.length === 0
       ? respondSuccess(req, res, 204)
       : respondSuccess(req, res, 200, tramite);
   } catch (error) {
