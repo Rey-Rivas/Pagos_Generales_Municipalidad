@@ -140,18 +140,18 @@ async function createDeuda(deudaData) {
 /**
  * Actualiza una deuda por su ID en la base de datos.
  *
- * @param {Number} deudaID El ID de la deuda que se desea actualizar.
+ * @param {String} id El ID de la deuda que se desea actualizar.
  * @param {Object} deuda Un objeto que contiene los datos actualizados de la deuda.
  * @returns {Promise} Una promesa que resuelve con la deuda actualizada si la actualización fue exitosa, o con un mensaje de error si la actualización falló.
  */
-async function updateDeuda(deudaID, deuda) {
+async function updateDeuda(id, deuda) {
   try {
-    const deudaFound = await Deuda.findOne({ deudaID: deudaID });
+    const deudaFound = await Deuda.findOne({ _id: id });
     if (!deudaFound) return [null, "La deuda no existe"];
 
     const { descripcion, monto, fechaEmision, fechaVencimiento, fechaPago, estado, tramiteID, RUTAdmin, RUTUsuario } = deuda;
 
-    const deudaUpdated = await Deuda.findOneAndUpdate({ deudaID: deudaID }, {
+    const deudaUpdated = await Deuda.findOneAndUpdate({ _id: id }, {
       descripcion,
       monto,
       fechaEmision,
@@ -173,13 +173,13 @@ async function updateDeuda(deudaID, deuda) {
 /**
  * Elimina una deuda por su ID de la base de datos.
  *
- * @param {Number} deudaID El ID de la deuda que se desea eliminar.
+ * @param {String} id El ID de la deuda que se desea eliminar.
  * @returns {Promise<Object>} Una promesa que resuelve con la deuda eliminada si la eliminación fue exitosa, o con un mensaje de error si la eliminación falló.
  */
 
-async function deleteDeuda(deudaID) {
+async function deleteDeuda(id) {
   try {
-    const deuda = await Deuda.findOneAndDelete({ deudaID });
+    const deuda = await Deuda.findOneAndDelete({ _id: id });
     if (!deuda) {
       throw errorHandler("No se encontró la deuda especificada.", 404);
     }

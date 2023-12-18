@@ -3,7 +3,6 @@
     <!-- Muestra u oculta el cuadro de texto según la opción seleccionada -->
     <v-container>
       <v-text-field label="RUT" v-model="rut" class="color-tertiary"></v-text-field>
-      <v-btn @click="buscarApelacion" class="color-quinary">Buscar</v-btn>
     </v-container>
     
     <!-- Utiliza v-btn-toggle para seleccionar la opción -->
