@@ -178,18 +178,20 @@ export default {
 .column-nameID {
   width: 100px; /* Ajusta el ancho de las columnas según sea necesario */
   text-align: start; /* Alinea el texto al comienzo de la celda */
-  padding-left: 20px; /* Ajusta el valor según sea necesario para el espaciado deseado */
+  padding-left: 50px; /* Ajusta el valor según sea necesario para el espaciado deseado */
+  
 }
 .column-nameDESCRIPCION {
   width: 10px; /* Ajusta el ancho de las columnas según sea necesario */
   text-align: start; /* Alinea el texto al comienzo de la celda */
-  padding-left: 250px; /* Ajusta el valor según sea necesario para el espaciado deseado */
+  padding-left: 110px; /* Ajusta el valor según sea necesario para el espaciado deseado */
 }
 .column-nameMONTO {
   width: 100px; /* Ajusta el ancho de las columnas según sea necesario */
   text-align: start; /* Alinea el texto al comienzo de la celda */
-  padding-left: 160px; /* Ajusta el valor según sea necesario para el espaciado deseado */
+  padding-left: 110px; /* Ajusta el valor según sea necesario para el espaciado deseado */
   padding-right: 0px;
+  max-width: 240px;
 }
 .column-nameFECHAEMISION {
   width: 10px; /* Ajusta el ancho de las columnas según sea necesario */
@@ -201,18 +203,21 @@ export default {
   width: 10px; /* Ajusta el ancho de las columnas según sea necesario */
   text-align: start; /* Alinea el texto al comienzo de la celda */
   padding-left: 0px; /* Ajusta el valor según sea necesario para el espaciado deseado */
-  padding-right: 90px;
+  padding-right: 50px;
+  
 }
 .column-nameESTADO {
   width: 100px; /* Ajusta el ancho de las columnas según sea necesario */
   text-align: start; /* Alinea el texto al comienzo de la celda */
   padding-left: 0px; /* Ajusta el valor según sea necesario para el espaciado deseado */
-  padding-right: 0px;
+  padding-right: 60px;
+  max-width: 118px;
 }
 .column-nameTRAMITEID {
   width: 100px; /* Ajusta el ancho de las columnas según sea necesario */
   text-align: start; /* Alinea el texto al comienzo de la celda */
   padding-left: 0px; /* Ajusta el valor según sea necesario para el espaciado deseado */
+  max-width: 100px;
 }
 .column-nameRUTADMINISTRADOR {
   width: 100px; /* Ajusta el ancho de las columnas según sea necesario */
@@ -222,6 +227,6 @@ export default {
 .column-nameRUTUSUARIO {
   width: 100px; /* Ajusta el ancho de las columnas según sea necesario */
   text-align: start; /* Alinea el texto al comienzo de la celda */
-  padding-right: 70px; /* Ajusta el valor según sea necesario para el espaciado deseado */
+  padding-right: 200px; /* Ajusta el valor según sea necesario para el espaciado deseado */
 }
 </style>
