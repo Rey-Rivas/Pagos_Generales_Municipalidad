@@ -62,7 +62,7 @@
     <template v-slot:item.RUTAdmin="{ item }">{{ item.RUTAdmin }}</template>
     <template v-slot:item.RUTUsuario="{ item }">{{ item.RUTUsuario }}</template>
     <template v-slot:item.acciones="{ item }">
-      <v-btn color="primary" @click="pagarDeuda(item)">Pagar</v-btn>
+      <v-btn v-if="parseInt(item.monto) > 0" @click="pagarDeuda" class="BotonPagar">Pagar</v-btn>
     </template>
   </v-data-table>
       </v-card>
@@ -129,10 +129,10 @@
         }
       },
 
-      pagarDeuda(item) {
-        // Guarda el ID de la deuda en el almacenamiento local
-        localStorage.setItem('deudaID', item._id);
-        console.log('ID de la deuda:', item._id);
+      pagarDeuda() {
+        localStorage.setItem('deudaID', this.deudaResults[0]?._id);
+        console.log('ID de la deuda:', this.deudaResults[0]?._id);
+        // Realiza el push a la ruta 'detalledeuda'
         this.$router.push('detalledeuda');
     },
     },
