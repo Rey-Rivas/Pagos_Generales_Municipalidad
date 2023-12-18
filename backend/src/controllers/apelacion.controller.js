@@ -4,6 +4,8 @@ const { respondSuccess, respondError } = require("../utils/resHandler");
 const ApelacionService = require("../services/apelacion.service.js");
 const { apelacionBodySchema, apelacionIdSchema } = require("../schema/apelacion.schema.js");
 const { handleError } = require("../utils/errorHandler");
+const { ESTADOS } = require('../constants/estados.constants');
+const estadosArray = Object.values(ESTADOS);
 
 /**
  * Obtiene todas las apelaciones
@@ -85,7 +87,7 @@ async function updateApelacion(req, res) {
         const { error: bodyError } = apelacionBodySchema.validate(body);
         if (bodyError) return respondError(req, res, 400, bodyError.message);
 
-        if (body.estado && !estados.includes(body.estado)) {
+        if (body.estado && !estadosArray.includes(body.estado)) {
           return respondError(req, res, 400, "El estado de la apelación no es válido");
         }
 
