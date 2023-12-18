@@ -1,6 +1,6 @@
 // utils/fetch.js
 export default async function fetchBase(endpoint, options = {}) {
-    const baseURL = `http://${import.meta.env.VITE_BACK_HOST}:${import.meta.env.VITE_BACK_PORT}/api`;
+    const baseURL = `http://localhost:80/api`;
     
     // Add default headers
     const headers = {

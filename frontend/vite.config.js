@@ -48,6 +48,6 @@ export default defineConfig({
     ],
   },
   server: {
-    port: parseInt(process.env.VITE_FRONT_PORT, 10),
+    port: parseInt(443, 10),
   },
 })
