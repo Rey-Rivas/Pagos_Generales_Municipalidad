@@ -194,13 +194,6 @@ async function actualizarImpuesto(req, res) {
   }
 }
 
-
-
-
-
-
-
-
 module.exports = {
   getDeudas,
   createDeuda,

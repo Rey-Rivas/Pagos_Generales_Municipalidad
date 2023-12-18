@@ -22,7 +22,11 @@ const routes = [
         component: () => import('@/views/Deudas.vue'),
       },
       {
-
+        path: 'creardeuda',
+        name: 'Crear Deuda',
+        component: () => import('@/views/CrearDeudaView.vue'),
+      },
+      {
         path: 'beneficios',
         name: 'Beneficios',
         component: () => import('@/views/Beneficios.vue'),
@@ -56,6 +60,11 @@ const routes = [
         path: 'crearapelacion',
         name: 'Crear Apelaciones',
         component: () => import('@/views/CrearApelacion.vue'),
+      },
+      {
+        path: 'notificarDeuda',
+        name: 'Notificar Deudas',
+        component: () => import('@/views/NotificaView.vue'),
       },
     ],
   },

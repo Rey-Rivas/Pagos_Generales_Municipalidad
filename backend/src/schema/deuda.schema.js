@@ -98,27 +98,28 @@ const deudaIdSchema = Joi.object({
 });
 
 function validateRut(rut) {
-  rut = rut.replace(/[.]/g, "");
-  // Split the RUT into the number and the verifier digit
-  const [rutNumber, verifierDigit] = rut.split("-");
+    rut = rut.replace(/[.]/g, "");
+    const [rutNumber, verifierDigit] = rut.split("-");
 
-  // Remove any dots or dashes from the RUT
-  rut = rut.replace(/[-]/g, "");
+    rut = rut.replace(/[-]/g, "");
 
-  // Convert the verifier digit to a number or 10 if it's a "K"
-  const verifierNumber = verifierDigit.toUpperCase() === "K" ? 10 : parseInt(verifierDigit);
+    const verifierNumber = verifierDigit.toUpperCase() === "K" ? 10 : parseInt(verifierDigit);
 
-  // Calculate the verifier digit using the RUT number
-  let sum = 0;
-  let multiplier = 2;
-  for (let i = rutNumber.length - 1; i >= 0; i--) {
-    sum += parseInt(rutNumber.charAt(i)) * multiplier;
-    multiplier = multiplier === 7 ? 2 : multiplier + 1;
-  }
-  const calculatedVerifierDigit = 11 - (sum % 11);
+    let sum = 0;
+    let multiplier = 2;
+    for (let i = rutNumber.length - 1; i >= 0; i--) {
+        sum += parseInt(rutNumber.charAt(i)) * multiplier;
+        multiplier = multiplier === 7 ? 2 : multiplier + 1;
+    }
+    
+    let calculatedVerifierDigit = 11 - (sum % 11);
+    if (calculatedVerifierDigit === 11) {
+        calculatedVerifierDigit = 0;
+    } else if (calculatedVerifierDigit === 10) {
+        calculatedVerifierDigit = 'K';
+    }
 
-  // Compare the calculated verifier digit with the one provided
-  return verifierNumber === calculatedVerifierDigit;
+    return verifierNumber === calculatedVerifierDigit;
 }
 
 module.exports = {
