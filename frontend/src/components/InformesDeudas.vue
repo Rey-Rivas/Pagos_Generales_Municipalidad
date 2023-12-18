@@ -161,7 +161,7 @@ export default {
 
     try {
         const response = await axios({
-            url: 'http://localhost:5000/api/informes/generar-excel',
+            url: 'http://localhost:80/api/informes/generar-excel',
             method: 'POST',
             responseType: 'blob', // Important
             headers: {
