@@ -28,6 +28,8 @@ router.post("/",authorizationMiddleware.isAdmin, deudaController.createDeuda);
 
 router.get("/:id", deudaController.getDeudaById);
 
+router.get("/obtenerImpuesto/getImpuesto", authorizationMiddleware.isAdmin, deudaController.obtenerImpuesto);
+
 router.put("/ActualizarImpuesto/:nuevoImpuesto", authorizationMiddleware.isAdmin, deudaController.actualizarImpuesto)
 
 router.put("/:id",

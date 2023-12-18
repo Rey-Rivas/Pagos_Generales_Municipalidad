@@ -8,5 +8,5 @@ router.use(authenticationMiddleware);
 router.get('/', beneficioController.getBeneficios);
 router.get('/:id', beneficioController.getBeneficioById);
 router.post('/',beneficioController.createBeneficio);
-router.post('/estado', authorizationMiddleware.isAdmin,beneficioController.updateEstado);
+router.post('/estado/:id', authorizationMiddleware.isAdmin,beneficioController.updateEstado);
 module.exports = router;

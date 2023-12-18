@@ -57,10 +57,17 @@ async function getBeneficioById(id) {
 
 async function updateEstado(req) {
     try {
-        const { beneficiosID, estado } = req;
-        const beneficio = await beneficios.findOne({ beneficiosID: beneficiosID });
+        const { params } = req;
+        const { nombreBeneficio,descripcion,monto, estado,idDeuda } = req;
+        console.log("id beneficio "+params);
+        console.log("body: " + JSON.stringify(params));
+        const beneficio = await beneficios.findById(id);
         if (!beneficio) return [null, "No hay beneficios"];
+        beneficio.nombreBeneficio = nombreBeneficio;
+        beneficio.descripcion = descripcion;
+        beneficio.monto = monto;
         beneficio.estado = estado;
+        beneficio.idDeuda = idDeuda;
         const beneficioActualizado = await beneficio.save();
         return [beneficioActualizado, null];
     } catch (error) {

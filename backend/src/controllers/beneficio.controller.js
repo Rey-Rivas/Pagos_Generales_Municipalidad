@@ -2,6 +2,7 @@
 const { beneficiosBodySchema } = require("../schema/beneficios.schema.js");
 const { deudaIdSchema } = require("../schema/beneficios.schema.js");
 const BeneficioService = require("../services/beneficio.service.js");
+const beneficios = require("../models/beneficios.model.js");
 const { handleError } = require("../utils/errorHandler");
 const { respondSuccess, respondError } = require("../utils/resHandler");
 
@@ -52,8 +53,19 @@ async function getBeneficioById(req, res) {
 
 async function updateEstado(req, res) {
     try {
-        const updatedBeneficio = await BeneficioService.updateEstado(body);
-        respondSuccess(req, res, 200, updatedBeneficio);
+        const { body } = req;
+        console.log("body: " + JSON.stringify(body));
+        console.log("idDeuda: " + body.idDeuda);
+        const beneficio = await beneficios.findById(req.params.id);
+
+        if (!beneficio) return [null, "No hay beneficios"];
+        beneficio.nombreBeneficio = body.nombreBeneficio;
+        beneficio.descripcion = body.descripcion;
+        beneficio.monto = body.monto;
+        beneficio.estado = body.estado;
+        beneficio.idDeuda = body.idDeuda;
+        const beneficioActualizado = await beneficio.save();
+        return respondSuccess(req, res, 200, beneficioActualizado);
     } catch (error) {
         handleError(error, "beneficio.controller -> updateBeneficio");
         respondError(req, res, 500, "No se actualizo el beneficio");

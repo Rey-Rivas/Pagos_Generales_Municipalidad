@@ -44,28 +44,18 @@
         </v-row>
   
   
-      <v-data-table :headers="headers" :items="beneficioResults" class="color-quaternary">
-        <template v-slot:items="{ item }">
-          <!-- Contenido de las filas de la tabla -->
-          <td class="cell">{{ item._id }}</td>
-          <td class="cell">{{ item.nombreBeneficio }}</td>
-          <td class="cell">{{ item.descripcion }}</td>
-          <td class="cell">{{ item.monto }}</td>
-          <td class="cell">{{ item.estado }}</td>
-          <td class="cell">{{ item.idDeuda }}</td>
-          <td class="cell">{{ item.RUTUsuario }}</td>
-          <!-- Agrega más columnas según sea necesario -->
-        </template>
-  
-        <template v-slot:header="{ props }">
-          <!-- Cabecera de la tabla -->
-          <thead class="color-primary">
-            <tr>
-              <th v-for="header in props.headers" :key="header.text" class="color-secondary cell">{{ header.text }}</th>
-            </tr>
-          </thead>
-        </template>
-      </v-data-table>
+        <v-data-table :headers="headers" :items="beneficioResults" class="color-quaternary">
+  <template v-slot:item._id="{ item }">{{ item._id }}</template>
+  <template v-slot:item.nombreBeneficio="{ item }">{{ item.nombreBeneficio }}</template>
+  <template v-slot:item.descripcion="{ item }">{{ item.descripcion }}</template>
+  <template v-slot:item.monto="{ item }">{{ item.monto }}</template>
+  <template v-slot:item.estado="{ item }">{{ item.estado }}</template>
+  <template v-slot:item.idDeuda="{ item }">{{ item._id }}</template>
+  <template v-slot:item.RUTUsuario="{ item }">{{ item.RUTUsuario }}</template>
+  <template v-slot:item.acciones="{ item }">
+    <v-btn color="primary" @click="editarBeneficio(item)">Editar</v-btn>
+  </template>
+</v-data-table>
     </v-card>
     </v-container>
   </template>
@@ -88,6 +78,7 @@
           { text: 'Estado', value: 'estado' },
           { text: 'ID deuda', value: 'idDeuda' },
           { text: 'Rut del usuario', value: 'RUTUsuario' },
+          { text: 'Acciones', value: 'acciones' },
           // Agrega más headers según sea necesario
         ],
       };
@@ -126,6 +117,14 @@
       console.error('Error en la solicitud:', error);
     }
   },
+  editarBeneficio(item) {
+    console.log('Beneficio seleccionado:', item);
+    localStorage.setItem('beneficioID', item._id);
+    localStorage.setItem('deudaID', item.idDeuda);
+      console.log('ID del beneficio:', item._id);
+      this.$router.push('beneficioeditar');
+    },
+
     },
     created() {
       // Llama a la función para cargar los datos de la deuda cuando el componente se crea
