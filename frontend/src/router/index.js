@@ -35,12 +35,22 @@ const routes = [
       {
         path: 'Informe',
         name: 'generar-informe',
+        component: () => import('@/views/Informe.vue'),
       },
       {
-        component: () => import('@/views/Informe.vue'),
         path: 'apelacion',
         name: 'Apelaciones',
         component: () => import('@/views/Apelaciones.vue'),
+      },
+      {
+        path: 'deudasUsuario',
+        name: 'DeudasUsuario',
+        component: () => import('@/views/DeudasUsuario.vue'),
+      },
+      {
+        path: 'detalledeuda',
+        name: 'DetalleDeuda',
+        component: () => import('@/views/DetalleDeuda.vue'),
       },
     ],
   },
