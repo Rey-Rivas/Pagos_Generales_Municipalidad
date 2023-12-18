@@ -11,7 +11,7 @@ const beneficio = require("../models/beneficios.model.js");
  * @param {Object} req - Objeto de petición
  * @param {Object} res - Objeto de respuesta
  */
-const impuesto = 1.05;
+let impuesto = 1.05;
 async function getDeudas(req, res) {
   try {
     const [deudas, errorDeudas] = await DeudaService.getDeudas();
@@ -122,7 +122,7 @@ async function updateDeuda(req, res) {
         const { error: bodyError } = deudaBodySchema.validate(body);
         if (bodyError) return respondError(req, res, 400, bodyError.message);
 
-        const [deuda, errorDeuda] = await DeudaService.updateDeuda(params._id, body);
+        const [deuda, errorDeuda] = await DeudaService.updateDeuda(params.id, body);
 
         if (errorDeuda) return respondError(req, res, 404, errorDeuda);
 
@@ -146,7 +146,7 @@ async function deleteDeuda(req, res) {
         const { error: paramsError } = deudaIdSchema.validate(params);
         if (paramsError) return respondError(req, res, 400, paramsError.message);
 
-        const deuda = await DeudaService.deleteDeuda(params._id);
+        const deuda = await DeudaService.deleteDeuda(params.id);
         !deuda
         ? respondError(req, res, 404, "No se encontro la deuda")
         : respondSuccess(req, res, 200, deuda);
@@ -171,6 +171,12 @@ function getImpuesto(){
   return impuesto;
 }
 
+async function obtenerImpuesto(req, res) {
+  const Valorimpuesto = getImpuesto();
+  return res.status(200).json({ Valorimpuesto });
+}
+
+
 function setImpuesto(nuevoImpuesto){
   impuesto=nuevoImpuesto;
 }
@@ -194,13 +200,6 @@ async function actualizarImpuesto(req, res) {
   }
 }
 
-
-
-
-
-
-
-
 module.exports = {
   getDeudas,
   createDeuda,
@@ -212,5 +211,6 @@ module.exports = {
   getImpuesto,
   setImpuesto,
   getDeudaByRUT,
-  actualizarImpuesto
+  actualizarImpuesto,
+  obtenerImpuesto
 };

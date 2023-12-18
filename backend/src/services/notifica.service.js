@@ -40,7 +40,7 @@ async function getNotificaciones() {
  */
 async function getNotificaById(params) {
     try {
-        const query = { _id: params._id };
+        const query = { deudaID: params.deudaID };
 
         if (params.RUTEncargado) {
           query.RUTEncargado = params.RUTEncargado;
@@ -61,10 +61,10 @@ async function getNotificaById(params) {
     }
   }
 
-async function notiPost(_id, RUTEncargado, RUTUsuario, notiCausa) {
+async function notiPost(deudaID, RUTEncargado, RUTUsuario, notiCausa) {
     try {
       var achetemele = ""
-      const deudaFound = await Deuda.findOne({ _id: _id });
+      const deudaFound = await Deuda.findOne({ _id: deudaID });
       if (deudaFound) {
         //console.log(deudaFound);
       } else {
@@ -126,6 +126,7 @@ async function notiPost(_id, RUTEncargado, RUTUsuario, notiCausa) {
         </ul>
         <p>Saludos.</p>
         <img src="https://i.imgur.com/gYyHtrw.gif" alt="jijiji"></img>`
+        notiCausa = "Recordatorio deuda"
       }
 
       const mailOptions = {
@@ -153,17 +154,18 @@ async function notiPost(_id, RUTEncargado, RUTUsuario, notiCausa) {
 /**
  * Crea una nueva deuda en la base de datos.
  *
- * @param {ObjectId} _id
+ * @param {ObjectId} deudaID
  * @param {String} RUTEncargado
  * @param {String} RUTUsuario
+ * @param {String} notiCausa
  * @returns {Promise} Una promesa que resuelve con la nueva deuda creada si la creación fue exitosa, o con un mensaje de error si la creación falló.
  */
-async function createNotifica(_id, RUTEncargado, RUTUsuario, notiCausa = null) {
+async function createNotifica(deudaID, RUTEncargado, RUTUsuario, notiCausa = null) {
   try{
     const fechadenotificacion = new Date();
     fechadenotificacion.setHours(fechadenotificacion.getHours() - 3);
 
-    const deudaFound = await Deuda.findOne({ _id: _id });
+    const deudaFound = await Deuda.findOne({ _id: deudaID });
     if (!deudaFound) return [null, "La deuda no existe"];
 
     const encargadoFound = await User.findOne({ RUT: RUTEncargado });
@@ -173,7 +175,7 @@ async function createNotifica(_id, RUTEncargado, RUTUsuario, notiCausa = null) {
     if (!usuarioFound) return [null, "El usuario no existe"];
 
     const newNotifica = new Notifica({
-      _id,
+      deudaID,
       RUTEncargado,
       RUTUsuario,
       fechadenotificacion
@@ -182,7 +184,7 @@ async function createNotifica(_id, RUTEncargado, RUTUsuario, notiCausa = null) {
     console.log("Se creo la notificacion " + newNotifica + ".");
     //correoNotifica()
     console.log("ejecutando notiPost con notiCausa=" + notiCausa + ".")
-    notiPost(_id, RUTEncargado, RUTUsuario, notiCausa);
+    notiPost(deudaID, RUTEncargado, RUTUsuario, notiCausa);
     //correito();
 
     return [newNotifica, null];
@@ -192,14 +194,14 @@ async function createNotifica(_id, RUTEncargado, RUTUsuario, notiCausa = null) {
 };
 
 /**
- * @param {ObjectId} _id
+ * @param {ObjectId} deudaID
  * @param {String} RUTEncargado
  * @param {String} RUTUsuario
  * @returns {Promise} Una promesa.
  */
 async function deleteNotifica(params) {
   try {
-    const query = { _id: params._id };
+    const query = { deudaID: params.deudaID };
 
     if (params.RUTEncargado) {
       query.RUTEncargado = params.RUTEncargado;
@@ -220,21 +222,21 @@ async function deleteNotifica(params) {
 };
 
 /**
- * @param {ObjectId} _id
+ * @param {ObjectId} deudaID
  * @param {String} RUTEncargado
  * @param {String} RUTUsuario
  * @param {Date} fechadenotifiacion
  * @returns {Promise} Una promesa.
  */
-async function updateNotifica(_id, RUTEncargado, RUTUsuario, fechadenotifiacion) {
+async function updateNotifica(deudaID, RUTEncargado, RUTUsuario, fechadenotifiacion) {
   try {
-    const notificaFound = await Notifica.findOne({ _id, RUTEncargado, RUTUsuario });
+    const notificaFound = await Notifica.findOne({ deudaID, RUTEncargado, RUTUsuario });
     if (!notificaFound) return [null, "La notificacion no existe"];
 
     const { _id, RUTEncargado, RUTUsuario, fechadenotifiacion } = notifica;
 
-    const notificaUpdated = await Notifica.findOneAndUpdate({ _id, RUTEncargado, RUTUsuario }, {
-      _id,
+    const notificaUpdated = await Notifica.findOneAndUpdate({ deudaID, RUTEncargado, RUTUsuario }, {
+      deudaID,
       RUTEncargado,
       RUTUsuario,
       fechadenotifiacion,

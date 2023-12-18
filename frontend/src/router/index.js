@@ -22,14 +22,74 @@ const routes = [
         component: () => import('@/views/Deudas.vue'),
       },
       {
-        path: 'generar-informe',
+        path: 'creardeuda',
+        name: 'Crear Deuda',
+        component: () => import('@/views/CrearDeudaView.vue'),
+      },
+      {
+        path: 'beneficios',
+        name: 'Beneficios',
+        component: () => import('@/views/Beneficios.vue'),
+      },
+      {
+        path: 'tramites',
+        name: 'Tramites',
+        component: () => import('@/views/Tramites.vue'),
+      },
+      {
+        path: 'Informe',
         name: 'generar-informe',
         component: () => import('@/views/Informe.vue'),
       },
       {
         path: 'apelacion',
         name: 'Apelaciones',
-        component: () => import('@/views/Apelaciones.vue'),
+        component: () => import('@/views/UpdateApelacionView.vue'),
+      },
+      {
+        path: 'deudasUsuario',
+        name: 'DeudasUsuario',
+        component: () => import('@/views/DeudasUsuario.vue'),
+      },
+      {
+        path: 'detalledeuda',
+        name: 'DetalleDeuda',
+        component: () => import('@/views/DetalleDeuda.vue'),
+      },
+      {
+        path: 'crearapelacion',
+        name: 'Crear Apelaciones',
+        component: () => import('@/views/CrearApelacion.vue'),
+      },
+      {
+        path: 'notificarDeuda',
+        name: 'Notificar Deudas',
+        component: () => import('@/views/NotificaView.vue'),
+      },
+      {
+        path: 'beneficioPostular',
+        name: 'BeneficioPostular',
+        component: () => import('@/views/BeneficioPostular.vue'),
+      },
+      {
+        path: 'eliminarDeuda',
+        name: 'Eliminar Deudas',
+        component: () => import('@/views/EliminarDeudaView.vue'),
+      },
+      {
+        path: 'beneficioeditar',
+        name: 'BeneficioEditar',
+        component: () => import('@/views/BeneficioEditar.vue'),
+      },
+      {
+        path: 'actualizarDeuda',
+        name: 'Actualizar Deudas',
+        component: () => import('@/views/UpdateDeudaView.vue'),
+      },
+      {
+        path: 'impuesto',
+        name: 'Impuesto',
+        component: () => import('@/views/Impuesto.vue'),
       },
     ],
   },

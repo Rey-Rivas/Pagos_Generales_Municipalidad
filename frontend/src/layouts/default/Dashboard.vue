@@ -32,6 +32,7 @@
                     :prepend-icon="item.icon"
                     :title="item.name"
                     :to="item.path"
+                    :disabled="rail"
                 ></v-list-item>
             </v-list>
 
@@ -51,22 +52,22 @@ export default {
         rail: true,
 
         items: [],
-        
+
         allItems: [
             { name: 'Home', icon: 'mdi-home', path: '/api', tier: 0 },
-            { name: 'Mis Deudas', icon: 'mdi-note', path: '/api', tier: 1 },
-            { name: 'Deudas Atrasadas', icon: 'mdi-note-alert', path: '/api', tier: 1 },
-            { name: 'Postular Beneficios', icon: 'mdi-hand-coin', path: '/api', tier: 1 },
-            { name: 'Explorar Deudas', icon: 'mdi-note-search', path: '/api', tier: 2 },
+            { name: 'Mis Deudas', icon: 'mdi-note', path: '/api/deudasUsuario', tier: 1 },
+            { name: 'Postular Beneficios', icon: 'mdi-hand-coin', path: '/api/beneficioPostular', tier: 1 },
+            { name: 'Explorar Deudas', icon: 'mdi-note-search', path: '/api/deudas', tier: 2 },
+            { name: 'Gestionar Beneficios', icon: 'mdi-hand-coin', path: '/api/beneficios', tier: 2 },
+            { name: 'Emitir Apelación', icon: 'mdi-file-document-outline', path: '/api/crearapelacion', tier: 1 },
             { name: 'Gestionar Apelaciones', icon: 'mdi-file-document-outline', path: '/api/apelacion', tier: 2 },
-            { name: 'Gestionar Beneficios', icon: 'mdi-hand-coin', path: '/api', tier: 2 },
-            { name: 'Informe de Deudas', icon: 'mdi-file-document-multiple', path: '/api/generar-informe', tier: 2 },
-            { name: 'Notificar Deudas', icon: 'mdi-note-alert', path: '/api', tier: 2 },
-            { name: 'Actualizar Deudas', icon: 'mdi-note-edit', path: '/api', tier: 2 },
-            { name: 'Crear Deudas', icon: 'mdi-note-plus', path: '/api', tier: 3 },
-            { name: 'Eliminar Deudas', icon: 'mdi-note-minus', path: '/api', tier: 3 },
-            { name: 'Gestionar Tramites', icon: 'mdi-text-box-edit', path: '/api/users', tier: 3 },
-            { name: 'Modificar Impuestos', icon: 'mdi-cash', path: '/api/deudas', tier: 3 },      
+            { name: 'Informe de Deudas', icon: 'mdi-file-document-multiple', path: '/api/informe', tier: 2 },
+            { name: 'Notificar Deudas', icon: 'mdi-note-alert', path: '/api/notificarDeuda', tier: 2 },
+            { name: 'Actualizar Deudas', icon: 'mdi-note-edit', path: '/api/actualizarDeuda', tier: 2 },
+            { name: 'Crear Deudas', icon: 'mdi-note-plus', path: '/api/creardeuda', tier: 3 },
+            { name: 'Eliminar Deudas', icon: 'mdi-note-minus', path: '/api/eliminarDeuda', tier: 3 },
+            { name: 'Gestionar Tramites', icon: 'mdi-text-box-edit', path: '/api/tramites', tier: 3 },
+            { name: 'Modificar Impuestos', icon: 'mdi-cash', path: '/api/impuesto', tier: 3 },      
             { name: 'Loguearse', icon: 'mdi-login', path: '/login', tier: 0 },
         ],
 
@@ -82,7 +83,7 @@ export default {
                     case 'admin':
                         return item.tier !== 1;
                     case 'encargado':
-                        return item.tier > 1;
+                        return item.tier === 0 || item.tier === 2;
                     case 'user':
                         return item.tier === 0 || item.tier === 1;
                     default:

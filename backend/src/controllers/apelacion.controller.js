@@ -4,6 +4,8 @@ const { respondSuccess, respondError } = require("../utils/resHandler");
 const ApelacionService = require("../services/apelacion.service.js");
 const { apelacionBodySchema, apelacionIdSchema } = require("../schema/apelacion.schema.js");
 const { handleError } = require("../utils/errorHandler");
+const { ESTADOS } = require('../constants/estados.constants');
+const estadosArray = Object.values(ESTADOS);
 
 /**
  * Obtiene todas las apelaciones
@@ -60,7 +62,7 @@ async function getApelacionById(req, res) {
         const { error: paramsError } = apelacionIdSchema.validate(params);
         if (paramsError) return respondError(req, res, 400, paramsError.message);
 
-        const [apelacion, errorApelacion] = await ApelacionService.getApelacionById(params.apelacionId);
+        const [apelacion, errorApelacion] = await ApelacionService.getApelacionById(params.id);
 
         if (errorApelacion) return respondError(req, res, 404, errorApelacion);
 
@@ -85,11 +87,11 @@ async function updateApelacion(req, res) {
         const { error: bodyError } = apelacionBodySchema.validate(body);
         if (bodyError) return respondError(req, res, 400, bodyError.message);
 
-        if (body.estado && !estados.includes(body.estado)) {
+        if (body.estado && !estadosArray.includes(body.estado)) {
           return respondError(req, res, 400, "El estado de la apelación no es válido");
         }
 
-        const [apelacion, errorApelacion] = await ApelacionService.updateApelacion(params.apelacionId, body);
+        const [apelacion, errorApelacion] = await ApelacionService.updateApelacion(params.id, body);
 
         if (errorApelacion) return respondError(req, res, 404, errorApelacion);
 
@@ -111,7 +113,7 @@ async function deleteApelacion(req, res) {
         const { error: paramsError } = apelacionIdSchema.validate(params);
         if (paramsError) return respondError(req, res, 400, paramsError.message);
 
-        const apelacion = await ApelacionService.deleteApelacion(params.apelacionId);
+        const apelacion = await ApelacionService.deleteApelacion(params.id);
         !apelacion
         ? respondError(req, res, 404, "No se encontro la apelacion")
         : respondSuccess(req, res, 200, apelacion);

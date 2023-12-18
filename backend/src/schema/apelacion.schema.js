@@ -9,9 +9,6 @@ const { ESTADOS } = require("../constants/estados.constants.js");
  */
 // Esquema de validación para el cuerpo de la solicitud de apelación
 const apelacionBodySchema = Joi.object({
-    apelacionId: Joi.number().required().messages({
-        "any.required": "La ID de la apelación no puede estar vacía.",
-      }),
     descripcion: Joi.string().required().messages({
         "any.required": "La descripción no puede estar vacía.",
         "string.base": "La descripción debe ser de tipo string.",

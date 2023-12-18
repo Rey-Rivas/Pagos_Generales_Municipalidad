@@ -2,6 +2,7 @@
 const { beneficiosBodySchema } = require("../schema/beneficios.schema.js");
 const { deudaIdSchema } = require("../schema/beneficios.schema.js");
 const BeneficioService = require("../services/beneficio.service.js");
+const beneficios = require("../models/beneficios.model.js");
 const { handleError } = require("../utils/errorHandler");
 const { respondSuccess, respondError } = require("../utils/resHandler");
 
@@ -23,10 +24,20 @@ async function createBeneficio(req, res) {
     }
 }
 
+async function getBeneficios(req, res) {
+    try {
+        const [beneficios, errorBeneficios] = await BeneficioService.getBeneficios();
+        if (errorBeneficios) return respondError(req, res, 404, errorBeneficios);
+        respondSuccess(req, res, 200, beneficios);
+    }
+    catch (error) {
+        handleError(error, "beneficio.controller -> getBeneficios");
+        respondError(req, res, 400, error.message);
+    }
+}
 
 
-
-async function getBeneficio(req, res) {
+async function getBeneficioById(req, res) {
     try {
       const [beneficio, errorBeneficio] = await BeneficioService.getBeneficioById(req.params.id);
       if (errorBeneficio) return respondError(req, res, 404, errorBeneficio);
@@ -42,8 +53,19 @@ async function getBeneficio(req, res) {
 
 async function updateEstado(req, res) {
     try {
-        const updatedBeneficio = await BeneficioService.updateEstado(body);
-        respondSuccess(req, res, 200, updatedBeneficio);
+        const { body } = req;
+        console.log("body: " + JSON.stringify(body));
+        console.log("idDeuda: " + body.idDeuda);
+        const beneficio = await beneficios.findById(req.params.id);
+
+        if (!beneficio) return [null, "No hay beneficios"];
+        beneficio.nombreBeneficio = body.nombreBeneficio;
+        beneficio.descripcion = body.descripcion;
+        beneficio.monto = body.monto;
+        beneficio.estado = body.estado;
+        beneficio.idDeuda = body.idDeuda;
+        const beneficioActualizado = await beneficio.save();
+        return respondSuccess(req, res, 200, beneficioActualizado);
     } catch (error) {
         handleError(error, "beneficio.controller -> updateBeneficio");
         respondError(req, res, 500, "No se actualizo el beneficio");
@@ -51,7 +73,8 @@ async function updateEstado(req, res) {
 }
 
 module.exports = {
+    getBeneficios,
     createBeneficio,
-    getBeneficio,
+    getBeneficioById,
     updateEstado,
 };
