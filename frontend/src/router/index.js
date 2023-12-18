@@ -42,6 +42,11 @@ const routes = [
         name: 'Apelaciones',
         component: () => import('@/views/Apelaciones.vue'),
       },
+      {
+        path: 'apelacion',
+        name: 'Crear Apelaciones',
+        component: () => import('@/views/CrearApelacion.vue'),
+      },
     ],
   },
   {
