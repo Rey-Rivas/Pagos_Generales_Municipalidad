@@ -1,10 +1,10 @@
 <template>
     <div>
         <v-row no-gutters>
-            <v-col cols="3" class="d-flex justify-start">
-                Porfavor, selecciones una fecha
+            <v-col cols="16">
+                <h1 align="center" class="black">Informes de Deudas</h1>
+                <h2 align="center" class="black"> </h2>
             </v-col>
-            <v-col cols="8" class="text--secondary"></v-col>
         </v-row>
 
         <v-row justify="center" align="justify" no-gutters>
@@ -22,7 +22,7 @@
         <v-container>
             <!-- Utiliza v-btn-toggle para seleccionar la opción -->
             <v-btn-toggle v-model="selectedOption" class="color-primary">
-                <v-btn value="FiltrarDeudasFechas" class="color-secondary">Todas las deudas</v-btn>
+                
                 <v-btn @click="downloadExcel" class="color-secondary">descargar excel</v-btn>
 
 
@@ -248,7 +248,8 @@ export default {
     /* Ajusta el ancho de las columnas según sea necesario */
     text-align: start;
     /* Alinea el texto al comienzo de la celda */
-    padding-right: 250px;
+    padding-left: 50px;
+    padding-right: 130px;
     
     /* Ajusta el valor según sea necesario para el espaciado deseado */
 }
@@ -258,9 +259,9 @@ export default {
     /* Ajusta el ancho de las columnas según sea necesario */
     text-align: start;
     /* Alinea el texto al comienzo de la celda */
-    padding-left: 160px;
+    padding-left: 150px;
     /* Ajusta el valor según sea necesario para el espaciado deseado */
-    padding-right: 0px;
+    padding-right: 45px;
 }
 
 .column-nameFECHAEMISION {
@@ -268,17 +269,17 @@ export default {
     /* Ajusta el ancho de las columnas según sea necesario */
     text-align: start;
     /* Alinea el texto al comienzo de la celda */
-    padding-left: 0px;
-    padding-right: 50px;
+    padding-left: 20px;
+    padding-right: 35px;
     /* Ajusta el valor según sea necesario para el espaciado deseado */
 }
 
 .column-nameFECHAVENCIMIENTO {
     width: 10px;
     /* Ajusta el ancho de las columnas según sea necesario */
-    text-align: start;
+    text-align: center;
     /* Alinea el texto al comienzo de la celda */
-    padding-left: 0px;
+    padding-left: 30px;
     /* Ajusta el valor según sea necesario para el espaciado deseado */
     padding-right: 90px;
 }
@@ -288,17 +289,18 @@ export default {
     /* Ajusta el ancho de las columnas según sea necesario */
     text-align: start;
     /* Alinea el texto al comienzo de la celda */
-    padding-left: 0px;
+    padding-left: 17px;
     /* Ajusta el valor según sea necesario para el espaciado deseado */
     padding-right: 0px;
 }
 
 .column-nameTRAMITEID {
-    width: 100px;
+    width: 90px;
     /* Ajusta el ancho de las columnas según sea necesario */
     text-align: start;
     /* Alinea el texto al comienzo de la celda */
     padding-left: 0px;
+    padding-right: -10px;
     /* Ajusta el valor según sea necesario para el espaciado deseado */
 }
 
@@ -316,7 +318,8 @@ export default {
     /* Ajusta el ancho de las columnas según sea necesario */
     text-align: start;
     /* Alinea el texto al comienzo de la celda */
-    padding-right: 70px;
+    padding-left: 60px;
+    padding-right: 72px;
     /* Ajusta el valor según sea necesario para el espaciado deseado */
 }
 </style>
