@@ -61,7 +61,7 @@
                 </v-col>
 
                 <v-col cols="12" md="10">
-                    <v-btn color="#A0C519" @click="subirDeuda" :disabled="!valid">Subir Deuda</v-btn>
+                    <v-btn color="#A0C519" @click="subirDeuda" >Subir Deuda</v-btn>
                 </v-col>
                 
             </v-row>
