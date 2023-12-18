@@ -35,9 +35,9 @@ const routes = [
       {
         path: 'Informe',
         name: 'generar-informe',
+        component: () => import('@/views/Informe.vue'),
       },
       {
-        component: () => import('@/views/Informe.vue'),
         path: 'apelacion',
         name: 'Apelaciones',
         component: () => import('@/views/Apelaciones.vue'),

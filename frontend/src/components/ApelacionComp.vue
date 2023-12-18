@@ -10,9 +10,28 @@
     <v-btn-toggle v-model="selectedOption" class="color-primary">
       <v-btn value="Todas las deudas" class="color-secondary">Todas las apelaciones</v-btn>
     </v-btn-toggle>
-    <v-btn-toggle v-model="selectedOption" class="color-primary">
-      <v-btn value="Evaluar apelaciones" class="color-secondary">Evaluar apelaciones</v-btn>
-    </v-btn-toggle>
+    <v-dialog width="500">
+  <template v-slot:activator="{ props }">
+    <v-btn v-bind="props" text="Open Dialog"> </v-btn>
+  </template>
+
+  <template v-slot:default="{ isActive }">
+    <v-card title="Dialog">
+      <v-card-text>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </v-card-text>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+
+        <v-btn
+          text="Close Dialog"
+          @click="isActive.value = false"
+        ></v-btn>
+      </v-card-actions>
+    </v-card>
+  </template>
+</v-dialog>
 
     <v-card>
       <v-row class="manual-column-names color-secondary justify-center align-center">
