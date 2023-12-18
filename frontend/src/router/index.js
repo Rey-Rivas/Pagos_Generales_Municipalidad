@@ -71,6 +71,11 @@ const routes = [
         name: 'Eliminar Deudas',
         component: () => import('@/views/EliminarDeudaView.vue'),
       },
+      {
+        path: 'actualizarDeuda',
+        name: 'Actualizar Deudas',
+        component: () => import('@/views/UpdateDeudaView.vue'),
+      },
     ],
   },
   {

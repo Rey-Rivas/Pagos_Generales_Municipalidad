@@ -1,9 +1,10 @@
 <template>
+    <v-container>
     <v-col cols="12" md="10">
         <h1 class="title">Enviar Notificaciones</h1>
     </v-col>
     <v-col cols="12" md="10">
-        <v-text class="subtitle">Selecciona las deudas a las que quieras notificar.</v-text>
+        <text class="subtitle">Selecciona las deudas a las que quieras notificar.</text>
     </v-col>
 
     <v-col cols="12" md="12">
@@ -19,6 +20,7 @@
     <v-col cols="12" md="12">
         <v-btn color="#A0C519" @click="enviarMail" :disabled="selectedItems.length === 0">Enviar Notificacion</v-btn>
     </v-col>
+    </v-container>
 </template>
 
 <script>
