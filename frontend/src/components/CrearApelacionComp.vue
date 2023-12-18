@@ -33,6 +33,7 @@
                 </v-col>
                 <v-col cols="12" md="5">
                 <v-file-input
+                    v-model="datosApelacion.documento"
                     label="Documento"
                     required
                 ></v-file-input>
@@ -81,15 +82,19 @@ import fetchBase from '@/services/fetch'
     }),
     methods: {
         async uploadFile(event) {
-            const file = event.target.files[0];
-            const formData = new FormData();
-            formData.append('file', file);
+            if (!this.documento) {
+                console.error('No file selected');
+                return;
+            }
 
-            try {
-                const response = await fetchBase('/upload.route', {
+            const formData = new FormData();
+            formData.append('file', this.documento);
+
+        try {
+            const response = await fetchBase('/upload.route', {
                 method: 'POST',
                 body: formData,
-                });
+        });
 
                 console.log('File uploaded:', response);
             } catch (error) {
