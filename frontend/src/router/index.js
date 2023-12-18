@@ -81,6 +81,11 @@ const routes = [
         name: 'BeneficioEditar',
         component: () => import('@/views/BeneficioEditar.vue'),
       },
+      {
+        path: 'actualizarDeuda',
+        name: 'Actualizar Deudas',
+        component: () => import('@/views/UpdateDeudaView.vue'),
+      },
     ],
   },
   {
