@@ -10,17 +10,13 @@
     <v-btn-toggle v-model="selectedOption" class="color-primary">
       <v-btn value="Todas las deudas" class="color-secondary">Todas las apelaciones</v-btn>
     </v-btn-toggle>
-    <v-dialog width="500">
+    <v-dialog width="500" >
   <template v-slot:activator="{ props }">
-    <v-btn v-bind="props" text="Open Dialog"> </v-btn>
+    <v-btn v-bind="props" class="color-secondary" text="Evaluar Apelaciones"> </v-btn>
   </template>
 
   <template v-slot:default="{ isActive }">
-    <v-card title="Dialog">
-      <v-card-text>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      </v-card-text>
-
+    <v-card title="Evaluar apelacion">
       <v-card-actions>
         <v-spacer></v-spacer>
 
