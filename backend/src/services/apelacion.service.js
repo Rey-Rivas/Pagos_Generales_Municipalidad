@@ -56,7 +56,7 @@ async function createApelacion(apelacionData) {
         
         const deudaFound = await Deuda.findOne({ _id: deudaID });
         if (!deudaFound) return [null, "La deuda no existe"];
-        if (deudaFound.estado !== 'fuera de plazo') return [null, "La deuda no está fuera de plazo"];
+        //if (deudaFound.estado !== 'fuera de plazo') return [null, "La deuda no está fuera de plazo"];
 
         const userFound = await User.findOne({ RUT: RUTUsuario });
         if (!userFound) return [null, "El usuario no existe"];
@@ -101,7 +101,6 @@ async function updateApelacion(_id, apelacionData) {
             estado,
             deudaID,
             RUTUsuario,
-            estado,
             RUTEncargado,
             observacion,
         },

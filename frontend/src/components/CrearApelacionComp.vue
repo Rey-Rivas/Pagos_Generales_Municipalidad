@@ -24,25 +24,18 @@
                 </v-col>
 
                 <v-col cols="12" md="5">
-                    <v-combobox
-                        v-model="datosApelacion.estado"
-                        label="Estado"
-                        :items="['Pendiente']"
+                    <v-text-field
+                        v-model="datosApelacion.documento"
+                        :rules="documentoRules"
+                        label="Documento"
                         required
-                    ></v-combobox>
-                </v-col>
-                <v-col cols="12" md="5">
-                <v-file-input
-                    v-model="datosApelacion.documento"
-                    label="Documento"
-                    required
-                ></v-file-input>
+                    ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" md="10">
-                    <v-btn color="#A0C519" @click="subirApelacion" :disabled="!valid">Subir Apelación</v-btn>
+                <v-col cols="12" md="4">
+                    <v-btn color="#A0C519" @click="postApelacion" :disabled="!valid">Subir Apelación</v-btn>
                 </v-col>
-                
+
             </v-row>
         </v-container>
     </v-form>
@@ -64,10 +57,8 @@ import fetchBase from '@/services/fetch'
              },        
             valid: false,
 
-            deudaSel: '',
-
             deudaList: [],
-            
+
             descriptionRules: [
                 value => {
                     if (value) return true
@@ -78,66 +69,58 @@ import fetchBase from '@/services/fetch'
                     return 'La descripcion debe ser un string.'
                 },
             ],
+            documentoRules: [
+                value => {
+                    if (value) return true
+                    return 'El documento es requerido.'
+                },
+                value => {
+                    if (typeof value === 'string') return true
+                    return 'El documento debe ser un string.'
+                },
+                value => {
+                    // Regular expression for a basic validation of a URL
+                    const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+                        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name and extension
+                        '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+                        '(\\:\\d+)?'+ // port
+                        '(\\/[-a-z\\d%_.~+]*)*'+ // path
+                        '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+                        '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+                    if (!!pattern.test(value)) return true
+                    return 'El documento debe ser un hyperlink.'
+                },
+            ],
 
     }),
     methods: {
-        async uploadFile(event) {
-            if (!this.documento) {
-                console.error('No file selected');
-                return;
-            }
-
-            const formData = new FormData();
-            formData.append('file', this.documento);
-
-        try {
-            const response = await fetchBase('/upload.route', {
-                method: 'POST',
-                body: formData,
-        });
-
-                console.log('File uploaded:', response);
-            } catch (error) {
-                console.error('Error uploading file:', error);
-            }
-        },
-
-        async subirApelacion(){
-            try{
+        async postApelacion() {
+            try {
                 const deuda = this.deudaList.find(deuda => deuda.descripcion === this.datosApelacion.deudaSel);
 
-                console.log({
-                    descripcion: this.datosApelacion.descripcion,
-                    deudaID: deuda ? deuda._id : null,
-                    estado: this.datosApelacion.estado,
-                    documento: this.datosApelacion.documento,
-                    RUTUsuario: this.user_RUT,
-                })
+                const requestBody = {
+                        descripcion: this.datosApelacion.descripcion,
+                        documento: this.datosApelacion.documento,
+                        estado: 'pendiente',
+                        deudaID: deuda ? deuda._id : null,
+                        RUTUsuario: this.user_RUT,
+                    };
 
-                const data = await fetchBase('/apelacion', {
+                console.log('Sending request with body:', requestBody);
+
+                const deudaList = await fetchBase(`/apelacion`, {
                     method: 'POST',
-                    Headers: {
+                    headers: {
                         'Authorization': 'Bearer ' + this.token,
                     },
-                    body: JSON.stringify({
-                        descripcion: this.datosApelacion.descripcion,
-                        deudaID: deuda ? deuda._id : null,
-                        estado: this.datosApelacion.estado.toLocaleLowerCase(),
-                        documento: this.datosApelacion.documento,
-                        RUTUsuario: this.user_RUT,
-                    }),
+                    body: JSON.stringify(requestBody),
                 });
-                console.log('Apelación subida éxitosamente');
-                console.log('Apelación:', data.data);
-                this.$root.showSnackBar('success', 'Success', 'Apelación subida exitosamente!');
-                
-                this.datosApelacion.descripcion = '';
-                this.datosApelacion.estado = 'Pendiente';
-                this.datosApelacion.deudaSel = '';
-                this.datosApelacion.documento = '';
-            }catch(error){
-                console.log('Error al crear la apelación',error);
-                this.$root.showSnackBar('error', 'Error', 'Error al crear la apelación');
+
+                this.$root.showSnackBar('success', 'Success', 'Apelación posteada. Buena suerte!');
+                console.log(deudaList);
+            } catch (error) {
+                console.log('Error al obtener las deudas', error);
+                this.$root.showSnackBar('error', 'Error', 'No se posteó la apelación.');
             }
         },
 
@@ -150,17 +133,14 @@ import fetchBase from '@/services/fetch'
                 });
 
                 this.deudaList = [];
-                for (let deuda of deudaList.data) {
-                    const deudaData = await fetchBase(`/deudas/usuario/${this.user_RUT}`, {
-                        headers: {
-                            'Authorization': 'Bearer ' + this.token,
-                        },
-                    });
-                    if (deudaData.data.RUT === this.user_RUT) {
+                for (const deuda of deudaList.data) {
+                    if (deuda.RUTUsuario == this.user_RUT) {
                         this.deudaList.push(deuda);
                     }
                 };
+
                 console.log('Deudas:', deudaList.data);
+
             }catch(error){
                 console.log('Error al obtener las deudas',error);
             }
@@ -176,10 +156,15 @@ import fetchBase from '@/services/fetch'
                     documento: this.datosApelacion.documento,
                     RUTUsuario: this.user_RUT,
                 });
+        },
+
+        printito(){
+            console.log(this.datosApelacion.documento);
+            console.log(this.datosApelacion.documento[0]);
         }
     },
     created() {
-        //this.getDeudas();
+        this.getDeudas();
     },
     computed: {
         deudaSelComputed: {

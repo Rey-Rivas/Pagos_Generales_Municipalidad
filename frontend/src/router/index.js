@@ -44,7 +44,7 @@ const routes = [
       {
         path: 'apelacion',
         name: 'Apelaciones',
-        component: () => import('@/views/Apelaciones.vue'),
+        component: () => import('@/views/UpdateApelacionView.vue'),
       },
       {
         path: 'deudasUsuario',
@@ -67,9 +67,24 @@ const routes = [
         component: () => import('@/views/NotificaView.vue'),
       },
       {
+        path: 'beneficioPostular',
+        name: 'BeneficioPostular',
+        component: () => import('@/views/BeneficioPostular.vue'),
+      },
+      {
         path: 'eliminarDeuda',
         name: 'Eliminar Deudas',
         component: () => import('@/views/EliminarDeudaView.vue'),
+      },
+      {
+        path: 'beneficioeditar',
+        name: 'BeneficioEditar',
+        component: () => import('@/views/BeneficioEditar.vue'),
+      },
+      {
+        path: 'actualizarDeuda',
+        name: 'Actualizar Deudas',
+        component: () => import('@/views/UpdateDeudaView.vue'),
       },
     ],
   },
