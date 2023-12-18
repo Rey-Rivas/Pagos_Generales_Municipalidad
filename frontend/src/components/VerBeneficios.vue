@@ -173,13 +173,14 @@
   .column-nameDESCRIPCION {
     width: 10px; /* Ajusta el ancho de las columnas según sea necesario */
     text-align: start; /* Alinea el texto al comienzo de la celda */
-    padding-left: 190px; /* Ajusta el valor según sea necesario para el espaciado deseado */
+    padding-left: 120px; /* Ajusta el valor según sea necesario para el espaciado deseado */
   }
   .column-nameMONTO {
     width: 100px; /* Ajusta el ancho de las columnas según sea necesario */
     text-align: start; /* Alinea el texto al comienzo de la celda */
-    padding-left: 100px; /* Ajusta el valor según sea necesario para el espaciado deseado */
+    padding-left: 60px; /* Ajusta el valor según sea necesario para el espaciado deseado */
     padding-right: 0px;
+    max-width: 185px;
   }
   .column-nameESTADO {
     width: 100px; /* Ajusta el ancho de las columnas según sea necesario */
