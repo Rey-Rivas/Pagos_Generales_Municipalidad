@@ -60,7 +60,7 @@ async function getApelacionById(req, res) {
         const { error: paramsError } = apelacionIdSchema.validate(params);
         if (paramsError) return respondError(req, res, 400, paramsError.message);
 
-        const [apelacion, errorApelacion] = await ApelacionService.getApelacionById(params.apelacionId);
+        const [apelacion, errorApelacion] = await ApelacionService.getApelacionById(params.id);
 
         if (errorApelacion) return respondError(req, res, 404, errorApelacion);
 
@@ -89,7 +89,7 @@ async function updateApelacion(req, res) {
           return respondError(req, res, 400, "El estado de la apelación no es válido");
         }
 
-        const [apelacion, errorApelacion] = await ApelacionService.updateApelacion(params.apelacionId, body);
+        const [apelacion, errorApelacion] = await ApelacionService.updateApelacion(params.id, body);
 
         if (errorApelacion) return respondError(req, res, 404, errorApelacion);
 
@@ -111,7 +111,7 @@ async function deleteApelacion(req, res) {
         const { error: paramsError } = apelacionIdSchema.validate(params);
         if (paramsError) return respondError(req, res, 400, paramsError.message);
 
-        const apelacion = await ApelacionService.deleteApelacion(params.apelacionId);
+        const apelacion = await ApelacionService.deleteApelacion(params.id);
         !apelacion
         ? respondError(req, res, 404, "No se encontro la apelacion")
         : respondSuccess(req, res, 200, apelacion);

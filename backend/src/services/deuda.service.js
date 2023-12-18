@@ -116,6 +116,7 @@ async function createDeuda(deudaData) {
   try {
     const { descripcion, monto, fechaEmision, fechaVencimiento, fechaPago, estado, tramiteID, RUTAdmin, RUTUsuario } = deudaData;
 
+
     const newDeuda = new Deuda({
       descripcion,
       monto,
