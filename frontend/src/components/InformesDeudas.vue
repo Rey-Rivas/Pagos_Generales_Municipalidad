@@ -23,7 +23,7 @@
             <!-- Utiliza v-btn-toggle para seleccionar la opción -->
             <v-btn-toggle v-model="selectedOption" class="color-primary">
                 <v-btn value="FiltrarDeudasFechas" class="color-secondary">Todas las deudas</v-btn>
-                <v-btn @click="descargarExcel" class="color-secondary">Deuda especifica</v-btn>
+                <v-btn @click="downloadExcel" class="color-secondary">descargar excel</v-btn>
 
 
 
@@ -91,6 +91,7 @@
 
 <script>
 import fetchBase from '@/services/fetch';
+import axios from 'axios';
 
 export default {
     data() {
@@ -150,63 +151,45 @@ export default {
             }
         },
 
-        async descargarExcel() {
-            console.log('Fecha inicio:', this.fecha.start);
-            console.log('Fecha fin:', this.fecha.end);
+        
+        async downloadExcel() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.error('Token no disponible. Inicia sesión primero.');
+        return;
+    }
 
-            const token = localStorage.getItem('token');
-            if (!token) {
-                console.error('Token no disponible. Inicia sesión primero.');
-                return;
-            }
+    try {
+        const response = await axios({
+            url: 'http://localhost:5000/api/informes/generar-excel',
+            method: 'POST',
+            responseType: 'blob', // Important
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json',
+            },
+            data: {
+                fechaInicio: this.fecha.start,
+                fechaFin: this.fecha.end,
+            },
+        });
 
-            try {
-                const response = await fetchBase('/informes/generar-excel', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': 'Bearer ' + token,
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        fechaInicio: this.fecha.start,
-                        fechaFin: this.fecha.end,
-                    }),
-                });
-
-                if (response.ok) {
-            // Obtén el contenido binario de la respuesta
-            const arrayBuffer = await response.arrayBuffer();
-
-            // Crea un blob a partir del contenido binario
-            const blob = new Blob([arrayBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-
-            // Crea una URL del blob
-            const blobUrl = URL.createObjectURL(blob);
-
-            // Crea un enlace para descargar el archivo
+        if (response.status === 200) {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
-            link.href = blobUrl;
-            link.download = 'InformeDeudas.xlsx';
-
-            // Añade el enlace al DOM
+            link.href = url;
+            link.setAttribute('download', 'InformeDeudas.xlsx');
             document.body.appendChild(link);
-
-            // Simula un clic
             link.click();
-
-            // Elimina el enlace del DOM después de la descarga
-            document.body.removeChild(link);
-
-            // Libera recursos de la URL del blob
-            URL.revokeObjectURL(blobUrl);
+            link.remove();
         } else {
-            const errorText = await response.text();
-            console.error('Error al descargarExcel. Response status:', response.status, 'Error:', errorText);
+            console.error('Error al descargarExcel. Response status:', response.status);
         }
     } catch (error) {
         console.error('Error al descargarExcel:', error);
     }
 }
+
 
     },
 
@@ -256,16 +239,17 @@ export default {
     /* Ajusta el ancho de las columnas según sea necesario */
     text-align: start;
     /* Alinea el texto al comienzo de la celda */
-    padding-left: 20px;
+    padding-left: 10px;
     /* Ajusta el valor según sea necesario para el espaciado deseado */
 }
 
 .column-nameDESCRIPCION {
-    width: 10px;
+    width: 20px;
     /* Ajusta el ancho de las columnas según sea necesario */
     text-align: start;
     /* Alinea el texto al comienzo de la celda */
-    padding-left: 250px;
+    padding-right: 250px;
+    
     /* Ajusta el valor según sea necesario para el espaciado deseado */
 }
 

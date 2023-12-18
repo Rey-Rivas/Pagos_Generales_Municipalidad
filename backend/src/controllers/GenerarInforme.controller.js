@@ -70,8 +70,6 @@ async function informeExcel(req, res) {
         return deuda.toObject();
       });
       
-      console.log(UnionDeudaUsuario);
-      
       // Filtra los datos por fecha de emision y vencimiento
       const datosFiltrados = UnionDeudaUsuario.filter((dato) => {
       
@@ -131,25 +129,28 @@ async function informeExcel(req, res) {
   }
 
   // Se genera el informe con las fechas especificadas en el body -----------------------------------------------------
-  generarInformeExcel(listado_deudas, fechaInicioMoment, fechaFinMoment)
-    .then((informe) => {
-      // Configura las cabeceras de la respuesta HTTP
-      res.setHeader(
-        "Content-Type",
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      );
-      res.setHeader(
-        "Content-Disposition",
-        `attachment; filename=${informe.nombreArchivo}`,
-      );
-      // Envia mensaje de exito y el archivo como respuesta
-      console.log("Informe Excel generado, se llama:\n", informe.nombreArchivo);
-      res.send(informe.buffer);
-    })
-    .catch((error) => {
-      console.error("Error al generar el informe Excel:", error);
-      res.status(500).send("Error al generar el informe");
-    });
+ // Se genera el informe con las fechas especificadas en el body -----------------------------------------------------
+generarInformeExcel(listado_deudas, fechaInicioMoment, fechaFinMoment)
+.then((informe) => {
+  // Configura las cabeceras de la respuesta HTTP
+  res.setHeader(
+    "Content-Type",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  );
+  res.setHeader(
+    "Content-Disposition",
+    `attachment; filename=${informe.nombreArchivo}`,
+  );
+  // Envia mensaje de éxito y el archivo como respuesta
+  console.log("Informe Excel generado, se llama:\n", informe.nombreArchivo);
+  
+  // Cambia esta línea para enviar el buffer como respuesta directa
+  res.end(informe.buffer);
+})
+.catch((error) => {
+  console.error("Error al generar el informe Excel:", error);
+  res.status(500).send("Error al generar el informe");
+});
 }
 
 module.exports = { router, informeExcel };
