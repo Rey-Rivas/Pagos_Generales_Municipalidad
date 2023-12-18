@@ -159,6 +159,7 @@ function calcularTiempoHastaMediodia() {
         console.log('Montos actualizados');
         actualizarDeudasVencidas();
     } else {
+        console.log('Iniciando ejecución periódica');
         // Cambia la bandera para las siguientes ejecuciones
         primeraEjecucion = false;
     }

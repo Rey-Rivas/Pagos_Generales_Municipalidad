@@ -47,6 +47,21 @@ const routes = [
         component: () => import('@/views/Apelaciones.vue'),
       },
       {
+        path: 'deudasUsuario',
+        name: 'DeudasUsuario',
+        component: () => import('@/views/DeudasUsuario.vue'),
+      },
+      {
+        path: 'detalledeuda',
+        name: 'DetalleDeuda',
+        component: () => import('@/views/DetalleDeuda.vue'),
+      },
+      {
+        path: 'apelacion',
+        name: 'Crear Apelaciones',
+        component: () => import('@/views/CrearApelacion.vue'),
+      },
+      {
         path: 'notificarDeuda',
         name: 'Notificar Deudas',
         component: () => import('@/views/NotificaView.vue'),

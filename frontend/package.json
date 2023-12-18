@@ -17,6 +17,7 @@
     "axios": "^1.6.2",
     "core-js": "^3.29.0",
     "dotenv": "^16.3.1",
+    "nodemon": "^3.0.2",
     "roboto-fontface": "*",
     "vue": "^3.2.0",
     "vue-router": "^4.0.0",
