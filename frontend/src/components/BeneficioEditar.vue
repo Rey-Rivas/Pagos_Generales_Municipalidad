@@ -20,7 +20,6 @@
       <v-card-title class="headline">Beneficio editado exitosamente</v-card-title>
       <v-card-text>
         <!-- Muestra el monto pagado, la descripción de la deuda y la fecha actual -->
-        <div>Monto Pagado</div>
       </v-card-text>
       <v-card-actions>
         <!-- Modifica el botón "Aceptar" para redirigir a 'detalledeuda' -->

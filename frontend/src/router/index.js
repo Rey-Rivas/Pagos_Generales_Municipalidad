@@ -86,6 +86,11 @@ const routes = [
         name: 'Actualizar Deudas',
         component: () => import('@/views/UpdateDeudaView.vue'),
       },
+      {
+        path: 'impuesto',
+        name: 'Impuesto',
+        component: () => import('@/views/Impuesto.vue'),
+      },
     ],
   },
   {

@@ -11,7 +11,7 @@ const beneficio = require("../models/beneficios.model.js");
  * @param {Object} req - Objeto de petición
  * @param {Object} res - Objeto de respuesta
  */
-const impuesto = 1.05;
+let impuesto = 1.05;
 async function getDeudas(req, res) {
   try {
     const [deudas, errorDeudas] = await DeudaService.getDeudas();
@@ -171,6 +171,12 @@ function getImpuesto(){
   return impuesto;
 }
 
+async function obtenerImpuesto(req, res) {
+  const Valorimpuesto = getImpuesto();
+  return res.status(200).json({ Valorimpuesto });
+}
+
+
 function setImpuesto(nuevoImpuesto){
   impuesto=nuevoImpuesto;
 }
@@ -205,5 +211,6 @@ module.exports = {
   getImpuesto,
   setImpuesto,
   getDeudaByRUT,
-  actualizarImpuesto
+  actualizarImpuesto,
+  obtenerImpuesto
 };
