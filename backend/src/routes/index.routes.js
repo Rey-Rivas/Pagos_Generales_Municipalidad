@@ -64,7 +64,7 @@ Define las rutas para exportar archivos
     - api/informes
     - api/informes/generar-excel
 */
-router.use("/informes", authenticationMiddleware, authorizationMiddleware.isAdmin || authorizationMiddleware.isEncargado, informesRoutes);
+router.use("/informes", authenticationMiddleware, authorizationMiddleware.isEncargado || authorizationMiddleware.isAdmin, informesRoutes);
 
 // Exporta el enrutador
 module.exports = router;
