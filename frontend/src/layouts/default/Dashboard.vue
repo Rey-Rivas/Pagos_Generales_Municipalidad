@@ -60,7 +60,7 @@ export default {
             { name: 'Explorar Deudas', icon: 'mdi-note-search', path: '/api', tier: 2 },
             { name: 'Gestionar Apelaciones', icon: 'mdi-file-document-outline', path: '/api/apelacion', tier: 2 },
             { name: 'Gestionar Beneficios', icon: 'mdi-hand-coin', path: '/api', tier: 2 },
-            { name: 'Informe de Deudas', icon: 'mdi-file-document-multiple', path: '/api/informe', tier: 2 },
+            { name: 'Informe de Deudas', icon: 'mdi-file-document-multiple', path: '/api/generar-informe', tier: 2 },
             { name: 'Notificar Deudas', icon: 'mdi-note-alert', path: '/api', tier: 2 },
             { name: 'Actualizar Deudas', icon: 'mdi-note-edit', path: '/api', tier: 2 },
             { name: 'Crear Deudas', icon: 'mdi-note-plus', path: '/api', tier: 3 },

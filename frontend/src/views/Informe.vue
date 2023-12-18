@@ -1,7 +1,7 @@
 <template>
-    <HelloWorld />
+    <InformesDeudas />
   </template>
   
   <script setup>
-    import HelloWorld from '@/components/InformesDeudas.vue'
+    import InformesDeudas from '@/components/InformesDeudas.vue'
   </script>
