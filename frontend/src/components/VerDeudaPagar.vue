@@ -76,15 +76,7 @@ export default {
   width: 100%;
 }
 .BotonPagar{
-  background-color: #fff;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-  color: rgba(233, 17, 17, 0.87);
-  display: inline-block;
-  margin: 1rem;
-  max-width: 344px;
-  position: relative;
-  transition: box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  width: 100%;
+background-color: #F3F3FB;
+color: #A0C519;
 }
 </style>
