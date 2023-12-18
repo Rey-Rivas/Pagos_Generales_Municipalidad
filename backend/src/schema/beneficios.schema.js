@@ -8,9 +8,6 @@ const { ESTADOS } = require("../constants/estados.constants.js");
  */
 // Esquema de validación para el cuerpo de la solicitud de beneficios
 const beneficiosBodySchema = Joi.object({
-  beneficiosID: Joi.number().required().messages({
-    "any.required": "La ID del beneficio es obligatoria.",
-  }),
   nombreBeneficio: Joi.string().required().messages({
     "any.required": "El Beneficio debe tener un nombre.",
     "string.base": "El nombre debe ser de tipo string.",

@@ -66,6 +66,11 @@ const routes = [
         name: 'Notificar Deudas',
         component: () => import('@/views/NotificaView.vue'),
       },
+      {
+        path: 'beneficioPostular',
+        name: 'BeneficioPostular',
+        component: () => import('@/views/BeneficioPostular.vue'),
+      },
     ],
   },
   {
