@@ -60,7 +60,7 @@ async function createNotifica(req, res) {
     const { error: notificaError } = notificaBodySchema.validate(body);
     if (notificaError) return respondError(req, res, 400, notificaError.message);
 
-    const [newNotifica, errorNotifica] = await NotificaService.createNotifica(body._id, body.RUTEncargado, body.RUTUsuario);
+    const [newNotifica, errorNotifica] = await NotificaService.createNotifica(body.deudaID, body.RUTEncargado, body.RUTUsuario);
     if (errorNotifica) return respondError(req, res, 400, errorNotifica);
     if (!newNotifica) {
         return respondError(req, res, 400, "No se creo la notificación");
@@ -88,7 +88,7 @@ async function updateNotifica(req, res) {
         if (bodyError) return respondError(req, res, 400, bodyError.message);
 
         const [notifica, errorNotifica]
-        = await NotificaService.updateNotifica(params._id, params.RUTEncargado, params.RUTUsuario, body);
+        = await NotificaService.updateNotifica(params.deudaID, params.RUTEncargado, params.RUTUsuario, body);
 
         if (errorNotifica) return respondError(req, res, 404, errorNotifica);
 
