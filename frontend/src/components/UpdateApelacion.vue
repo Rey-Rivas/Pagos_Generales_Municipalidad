@@ -47,10 +47,6 @@
                 <v-col cols="12" md="6">
                     <v-btn color="#A0C519" @click="actualizarApelacion" :disabled="!valid">Subir Deuda</v-btn>
                 </v-col>
-                <v-col cols="12" md="6">
-                    <v-btn color="#A0C519" @click="imprimirCosos" >imprimirCosos</v-btn>
-                </v-col>
-                
             </v-row>
         </v-container>
     </v-form>
