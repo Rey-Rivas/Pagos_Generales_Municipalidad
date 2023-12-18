@@ -1,9 +1,9 @@
 <template>
     <v-col cols="12" md="10">
-        <h1 class="title">Enviar Notificaciones</h1>
+        <h1 class="title">Eliminar Deudas</h1>
     </v-col>
     <v-col cols="12" md="10">
-        <v-text class="subtitle">Selecciona las deudas a las que quieras notificar.</v-text>
+        <v-text class="subtitle">Selecciona las deudas que quieras eliminar.</v-text>
     </v-col>
 
     <v-col cols="12" md="12">
@@ -17,7 +17,7 @@
     </v-col>
 
     <v-col cols="12" md="12">
-        <v-btn color="#A0C519" @click="enviarMail" :disabled="selectedItems.length === 0">Enviar Notificacion</v-btn>
+        <v-btn color="#A0C519" @click="eliminarDeudas" :disabled="selectedItems.length === 0">Eliminar Deuda</v-btn>
     </v-col>
 </template>
 
@@ -32,7 +32,6 @@ export default {
             user_RUT: localStorage.getItem('user_RUT'),
 
             deudaList: [],
-            deudaMailList: [],
             selectedItems: [],
         }
     },
@@ -45,60 +44,57 @@ export default {
                     },
                 });
 
-                this.deudaList = deudaList.data.filter(deuda => deuda.estado !== 'pagado')
-                    .map(({__v, ...rest }) => rest);
+                this.deudaList = deudaList.data.map(({__v, ...rest }) => rest);
                 console.log('Deudas:', this.deudaList);
 
             } catch (error) {
                 console.log('Error al obtener los tramites:', error);
             }
         },
-        async enviarMail() {
-            const deudaMailList = this.selectedItems.map(item => {
-                const matchingDeuda = this.deudaList.find(deuda => deuda._id === item);
-                return {
-                    _id: item,
-                    RUTUsuario: matchingDeuda ? matchingDeuda.RUTUsuario : null,
-                };
-            });
-            var mailsEnviados = 0;
-            // Loop through deudaMailList and send requests
-            for (const item of deudaMailList) {
+
+        async eliminarDeudas() {
+
+            var deudasEliminadas = 0;
+            var unicaDeuda = '';
+
+            console.log('Deudas a eliminar:');
+            console.log(this.selectedItems);
+
+            if (this.selectedItems.length === 1) {
+                unicaDeuda = this.selectedItems[0];
+            }
+
+            for (const item of this.selectedItems) {
+                console.log('Eliminando deuda: '+item);
                 try {
-                    const requestBody = {
-                        deudaID: item._id,
-                        RUTUsuario: item.RUTUsuario,
-                        RUTEncargado: this.user_RUT,
-                    };
-
-                    console.log('Sending request with body:', requestBody);
-
-                    const response = await fetchBase(`/notificaciones`, {
-                        method: 'POST',
+                    const response = await fetchBase(`/deudas/`+item, {
+                        method: 'DELETE',
                         headers: {
                             'Authorization': 'Bearer ' + this.token,
                         },
-                        body: JSON.stringify(requestBody),
                     });
 
+                    console.log('Respuesta: ');
                     console.log(response);
-                    mailsEnviados++;
+                    deudasEliminadas++;
+
                 } catch (error) {
-                    console.log('Error al enviar mail:', error);
+                    console.log('Error al eliminar deuda:', error);
                 }
             
             }
+
             this.selectedItems = [];
-            if (mailsEnviados === 0) {
-                this.$root.showSnackBar('error', 'Error', 'No se enviaron mails.');
+            if (deudasEliminadas === 0) {
+                this.$root.showSnackBar('error', 'Error', 'No se eliminaron deudas.');
                 return;
+            } else if (deudasEliminadas === 1) {
+                this.$root.showSnackBar('success', 'Success', 'Deuda '+unicaDeuda+' eliminada!');
             } else {
-                this.$root.showSnackBar('success', 'Success', mailsEnviados + ' Mail(s) enviado(s) exitosamente!');
+                this.$root.showSnackBar('success', 'Success', deudasEliminadas + ' Deuda(s) eliminada(s) exitosamente!');
             }
-        },
-        pulsarBoton() {
-            console.log('Boton pulsado');
-            console.log('Deudas seleccionadas:', this.selectedItems);
+
+            this.getDeudas();
         },
       },
         mounted() {
