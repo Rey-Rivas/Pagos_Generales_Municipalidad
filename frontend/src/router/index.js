@@ -57,7 +57,7 @@ const routes = [
         component: () => import('@/views/DetalleDeuda.vue'),
       },
       {
-        path: 'apelacion',
+        path: 'crearapelacion',
         name: 'Crear Apelaciones',
         component: () => import('@/views/CrearApelacion.vue'),
       },
