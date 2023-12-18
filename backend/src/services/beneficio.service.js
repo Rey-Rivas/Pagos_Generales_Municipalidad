@@ -2,9 +2,8 @@ const beneficios = require("../models/beneficios.model.js");
 const { handleError } = require("../utils/errorHandler");
 async function createBeneficio(req) {
     try {
-        const { beneficiosID, nombreBeneficio, descripcion, monto, estado, idDeuda, RUTUsuario } = req;
+        const { nombreBeneficio, descripcion, monto, estado, idDeuda, RUTUsuario } = req;
         const beneficio = new beneficios({
-            beneficiosID,
             nombreBeneficio,
             descripcion,
             monto,
@@ -22,7 +21,6 @@ async function createBeneficio(req) {
 async function getBeneficios() {
     try {
         const beneficio = await beneficios.find()
-            .populate("beneficiosID")
             .populate("nombreBeneficio")
             .populate("descripcion")
             .populate("monto")
@@ -42,8 +40,7 @@ async function getBeneficios() {
 
 async function getBeneficioById(id) {
     try {
-        const beneficio = await beneficios.findOne({beneficiosID: id})
-        .populate("beneficiosID")
+        const beneficio = await beneficios.findById(id)
         .populate("nombreBeneficio")
         .populate("descripcion")
         .populate("monto")

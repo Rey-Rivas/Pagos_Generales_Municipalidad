@@ -5,12 +5,6 @@ const mongoose = require("mongoose");
 // Crea el esquema de la coleccion 'beneficios'
 const beneficiosSchema = new mongoose.Schema(
     {
-        beneficiosID:{
-            type: Number,
-            required: true,
-            unique: true,
-            primaryKey: true,
-        },
         nombreBeneficio:{
             type: String,
             required: true,

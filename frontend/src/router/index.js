@@ -67,6 +67,11 @@ const routes = [
         component: () => import('@/views/NotificaView.vue'),
       },
       {
+        path: 'beneficioPostular',
+        name: 'BeneficioPostular',
+        component: () => import('@/views/BeneficioPostular.vue'),
+      },
+      {
         path: 'eliminarDeuda',
         name: 'Eliminar Deudas',
         component: () => import('@/views/EliminarDeudaView.vue'),
