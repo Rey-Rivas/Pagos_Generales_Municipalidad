@@ -7,6 +7,7 @@ import { createApp } from 'vue'
 // Plugins
 import { registerPlugins } from '@/plugins'
 
+
 import SnackBar from './layouts/global/SnackBar.vue';
 import Overlay from './layouts/global/Overlay.vue';
 import VueDatePicker from '@vuepic/vue-datepicker';

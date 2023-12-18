@@ -5,7 +5,7 @@
                 <v-col cols="12" md="10">
                     <h1 class="title">Crear deuda</h1>
                 </v-col>
-                <v-col cols="12" md="10">
+                <v-col cols="12" md="8">
                     <v-text-field
                         v-model="datosDeuda.description"
                         :rules="descriptionRules"
@@ -14,7 +14,7 @@
                     ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" md="10">
+                <v-col cols="12" md="4">
                     <v-text-field
                         v-model.number="datosDeuda.monto"
                         :rules="montoRules"
@@ -23,7 +23,7 @@
                     ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" md="5">
+                <v-col cols="12" md="6">
                     <v-combobox
                         v-model="userSelComputed"
                         label="Usuario"
@@ -31,7 +31,7 @@
                         required
                     ></v-combobox>
                 </v-col>
-                <v-col cols="12" md="5">
+                <v-col cols="12" md="6">
                     <v-combobox
                         v-model="datosDeuda.tramiteSel"
                         label="Trámite"
@@ -40,7 +40,7 @@
                     ></v-combobox>
                 </v-col>
 
-                <v-col cols="12" md="5">
+                <v-col cols="12" md="6">
                     <v-combobox
                         v-model="datosDeuda.estado"
                         label="Estado"
@@ -48,7 +48,7 @@
                         required
                     ></v-combobox>
                 </v-col>
-                <v-col cols="12" md="5">
+                <v-col cols="12" md="6">
                 <v-text-field
                     v-model="datosDeuda.fechaVencimiento"
                     label="Fecha"
