@@ -91,6 +91,11 @@ const routes = [
         name: 'Impuesto',
         component: () => import('@/views/Impuesto.vue'),
       },
+      {
+        path: 'crearTramite',
+        name: 'Crear Tramite',
+        component: () => import('@/views/CrearTramiteView.vue'),
+      },
     ],
   },
   {
