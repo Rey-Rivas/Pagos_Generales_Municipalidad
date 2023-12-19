@@ -3,14 +3,15 @@
         <v-container>
 
             <v-col cols="12" md="10">
-                <h1 class="title">Actualizar Tramites</h1>
+                <h1 class="title">Evaluar Apelaciones</h1>
             </v-col>
             <v-col cols="12" md="12">
-                <text class="subtitle">Selecciona el tramite que quieras actualizar, y modifica.</text>
+                <text class="subtitle">Selecciona la apelación que quieras evaluar, y modifica.</text>
             </v-col>
 
             <v-col cols="12" md="12">
                 <v-data-table
+                    @input="setDefaultValues"
                     v-model="selectedItem"
                     :items="apelacionList"
                     item-value="_id"
@@ -45,7 +46,7 @@
                 </v-col>
 
                 <v-col cols="12" md="6">
-                    <v-btn color="#A0C519" @click="actualizarApelacion" :disabled="!valid">Subir Deuda</v-btn>
+                    <v-btn color="#A0C519" @click="actualizarApelacion">Actualizar apelación</v-btn>
                 </v-col>
             </v-row>
         </v-container>
@@ -93,7 +94,26 @@ export default {
         }
     },
     methods: {
+        // Function to handle the change in the selected item
+        setDefaultValues() {
+                this.selectedApelacion = this.apelacionList.find(apelacion => apelacion._id == this.selectedItem);
 
+                if (this.selectedApelacion) {
+                    let hasObservacion = false;
+                    for (let key in this.datosApelacion) {
+                        if (key in this.selectedApelacion) {
+                            this.datosApelacion[key] = this.selectedApelacion[key];
+                            if (key === 'observacion') {
+                                hasObservacion = true;
+                            }
+                        }
+                    }
+                    if (!hasObservacion) {
+                        this.datosApelacion.observacion = null;
+                    }
+                }
+            },
+        
         async getApelaciones() {
             try {
                 const apelacionList = await fetchBase(`/apelacion`, {
@@ -150,29 +170,6 @@ export default {
 
         mounted() {
             this.getApelaciones();
-        },
-        watch: {
-            selectedItem: function() {
-                console.log("holaaaa");
-                this.selectedApelacion = this.apelacionList.find(apelacion => apelacion._id == this.selectedItem);
-                console.log('selectedApelacion');
-                console.log(this.selectedApelacion);
-
-                if (this.selectedApelacion) {
-                    let hasObservacion = false;
-                    for (let key in this.datosApelacion) {
-                        if (key in this.selectedApelacion) {
-                            this.datosApelacion[key] = this.selectedApelacion[key];
-                            if (key === 'observacion') {
-                                hasObservacion = true;
-                            }
-                        }
-                    }
-                    if (!hasObservacion) {
-                        this.datosApelacion.observacion = null;
-                    }
-                }
-            },
         },
     }
 </script>
