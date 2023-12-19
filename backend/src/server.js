@@ -37,7 +37,7 @@ app.use(express.json());
 async function setupServer() {
   try {
     const corsOptions = {
-      origin: [`http://${process.env.VITE_FRONT_HOST}:${process.env.VITE_FRONT_PORT}`, '/'],
+      origin: [`http://localhost:443`, '/'],
       credentials: true, // Permite el intercambio de credenciales
     };
     require("./utils/Thread.js")
