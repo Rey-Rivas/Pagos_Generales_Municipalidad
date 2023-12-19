@@ -5,17 +5,6 @@
         <v-btn value="Todas las deudas" class="color-secondary">Todos los beneficios</v-btn>
       </v-btn-toggle>
   
-      <!-- Muestra u oculta el cuadro de texto según la opción seleccionada -->
-      <v-container v-if="selectedOption === 'Deuda especifica'">
-        <v-text-field label="Id deuda" v-model="idDeuda" class="color-tertiary"></v-text-field>
-        <v-btn @click="buscarDeuda" class="color-quinary">Buscar</v-btn>
-      </v-container>
-  
-      <!-- Muestra u oculta el cuadro de texto según la opción seleccionada -->
-      <v-container v-if="selectedOption === 'Deuda usuario'">
-        <v-text-field label="RUT" v-model="rut" class="color-tertiary"></v-text-field>
-        <v-btn @click="buscarDeuda" class="color-quinary">Buscar</v-btn>
-      </v-container>
   
       <v-card>
         <v-row class="manual-column-names color-secondary justify-center align-center">
@@ -83,17 +72,6 @@
         ],
       };
     },
-    watch: {
-      // Observa cambios en la opción seleccionada
-      selectedOption() {
-        // Resetea los valores de los campos cuando cambia la opción
-        this.rut = '';
-        this.idDeuda = '';
-  
-        // Llama a la función para cargar los datos de la deuda
-        this.buscarDeuda();
-      },
-    },
     methods: {
       async buscarDeuda() {
     try {
@@ -117,6 +95,14 @@
       console.error('Error en la solicitud:', error);
     }
   },
+  selectedOption() {
+        // Resetea los valores de los campos cuando cambia la opción
+        this.rut = '';
+        this.idDeuda = '';
+  
+        // Llama a la función para cargar los datos de la deuda
+        this.buscarDeuda();
+      },
   editarBeneficio(item) {
     console.log('Beneficio seleccionado:', item);
     localStorage.setItem('beneficioID', item._id);

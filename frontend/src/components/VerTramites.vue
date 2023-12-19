@@ -87,17 +87,6 @@
         ],
       };
     },
-    watch: {
-      // Observa cambios en la opción seleccionada
-      selectedOption() {
-        // Resetea los valores de los campos cuando cambia la opción
-        this.rut = '';
-        this.idDeuda = '';
-  
-        // Llama a la función para cargar los datos de la deuda
-        this.buscarDeuda();
-      },
-    },
     methods: {
       async buscarDeuda() {
     try {

@@ -6,64 +6,38 @@
                     <h1 class="title">Crear deuda</h1>
                 </v-col>
                 <v-col cols="12" md="8">
-                    <v-text-field
-                        v-model="datosDeuda.description"
-                        :rules="descriptionRules"
-                        label="Descripción"
-                        required
-                    ></v-text-field>
+                    <v-text-field v-model="datosDeuda.description" :rules="descriptionRules" label="Descripción"
+                        required></v-text-field>
                 </v-col>
 
                 <v-col cols="12" md="4">
-                    <v-text-field
-                        v-model.number="datosDeuda.monto"
-                        :rules="montoRules"
-                        label="Monto a pagar"
-                        required
-                    ></v-text-field>
+                    <v-text-field v-model.number="datosDeuda.monto" :rules="montoRules" label="Monto a pagar" required
+                        readonly></v-text-field>
                 </v-col>
 
                 <v-col cols="12" md="6">
-                    <v-combobox
-                        v-model="userSelComputed"
-                        label="Usuario"
-                        :items="userList.map(user => `${user.username} (${user.RUT})`)"
-                        required
-                    ></v-combobox>
+                    <v-combobox v-model="userSelComputed" label="Usuario"
+                        :items="userList.map(user => `${user.username} (${user.RUT})`)" required></v-combobox>
                 </v-col>
                 <v-col cols="12" md="6">
-                    <v-combobox
-                        v-model="datosDeuda.tramiteSel"
-                        label="Trámite"
-                        :items="tramiteList.map(tramite => tramite.descripcionTramite)"
-                        required
-                    ></v-combobox>
+                    <v-combobox v-model="datosDeuda.tramiteSel" label="Trámite"
+                        :items="tramiteList.map(tramite => tramite.descripcionTramite)" required></v-combobox>
                 </v-col>
 
                 <v-col cols="12" md="6">
-                    <v-combobox
-                        v-model="datosDeuda.estado"
-                        label="Estado"
+                    <v-combobox v-model="datosDeuda.estado" label="Estado"
                         :items="['Pendiente', 'Pendiente Justificado', 'Aprobado', 'Rechazado', 'Pagado', 'Fuera de plazo']"
-                        required
-                    ></v-combobox>
+                        required></v-combobox>
                 </v-col>
                 <v-col cols="12" md="6">
-                <v-text-field
-                    v-model="datosDeuda.fechaVencimiento"
-                    label="Fecha"
-                    type="date"
-                    required
-                    :min="hoy"
-                    :rules="dateRules"
-                    :error-messages="dateErrors"
-                ></v-text-field>
+                    <v-text-field v-model="datosDeuda.fechaVencimiento" label="Fecha" type="date" required :min="hoy"
+                        :rules="dateRules" :error-messages="dateErrors" @change="validateFechaVencimiento"></v-text-field>
                 </v-col>
 
                 <v-col cols="12" md="10">
-                    <v-btn color="#A0C519" @click="subirDeuda" >Subir Deuda</v-btn>
+                    <v-btn color="#A0C519" @click="subirDeuda">Subir Deuda</v-btn>
                 </v-col>
-                
+
             </v-row>
         </v-container>
     </v-form>
@@ -96,7 +70,7 @@ export default {
             estado: 'Pendiente',
             tramiteSel: '',
             userSel: '',
-        },        
+        },
 
         valid: false,
 
@@ -128,16 +102,16 @@ export default {
             },
         ],
         emailRules: [
-          value => {
-            if (value) return true
-  
-            return 'E-mail is requred.'
-          },
-          value => {
-            if (/.+@.+\..+/.test(value)) return true
-  
-            return 'E-mail must be valid.'
-          },
+            value => {
+                if (value) return true
+
+                return 'E-mail is requred.'
+            },
+            value => {
+                if (/.+@.+\..+/.test(value)) return true
+
+                return 'E-mail must be valid.'
+            },
         ],
         dateRules: [
             value => {
@@ -147,12 +121,15 @@ export default {
             value => {
                 const inputDate = new Date(value);
                 const today = new Date();
-                if (inputDate.setHours(0,0,0,0) >= today.setHours(0,0,0,0)) return true
+                if (inputDate.setHours(0, 0, 0, 0) >= today.setHours(0, 0, 0, 0)) return true
                 return `La fecha no puede ser antes que hoy.`
             },
         ],
-      }),
+    }),
     methods: {
+        validateFechaVencimiento() {
+            this.validateDate();
+        },
         validateDate() {
             this.dateErrors = [];
             for (let rule of this.dateRules) {
@@ -163,11 +140,11 @@ export default {
             }
         },
         async subirDeuda() {
-          try {
+            try {
 
-            const tramite = this.tramiteList.find(tramite => tramite.descripcionTramite === this.datosDeuda.tramiteSel);
+                const tramite = this.tramiteList.find(tramite => tramite.descripcionTramite === this.datosDeuda.tramiteSel);
 
-            console.log({
+                console.log({
                     descripcion: this.datosDeuda.description,
                     monto: this.datosDeuda.monto,
                     fechaEmision: new Date().toISOString().substr(0, 10),
@@ -178,37 +155,37 @@ export default {
                     RUTUsuario: this.datosDeuda.userSel,
                 })
 
-            const data = await fetchBase('/deudas', {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + this.token, // replace 'token' with your actual token
-                },
-                body: JSON.stringify({
-                    descripcion: this.datosDeuda.description,
-                    monto: this.datosDeuda.monto,
-                    fechaEmision: new Date().toISOString().substr(0, 10),
-                    fechaVencimiento: this.datosDeuda.fechaVencimiento,
-                    estado: this.datosDeuda.estado.toLowerCase(),
-                    tramiteID: tramite ? tramite.tramiteID : null,
-                    RUTAdmin: this.user_RUT,
-                    RUTUsuario: this.datosDeuda.userSel,
-                }),
-            });
-            console.log('Deuda subida exitosamente!');
-            console.log('Deuda:', data.data);
-            this.$root.showSnackBar('success', 'Success', 'Deuda subida exitosamente!');
+                const data = await fetchBase('/deudas', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + this.token, // replace 'token' with your actual token
+                    },
+                    body: JSON.stringify({
+                        descripcion: this.datosDeuda.description,
+                        monto: this.datosDeuda.monto,
+                        fechaEmision: new Date().toISOString().substr(0, 10),
+                        fechaVencimiento: this.datosDeuda.fechaVencimiento,
+                        estado: this.datosDeuda.estado.toLowerCase(),
+                        tramiteID: tramite ? tramite.tramiteID : null,
+                        RUTAdmin: this.user_RUT,
+                        RUTUsuario: this.datosDeuda.userSel,
+                    }),
+                });
+                console.log('Deuda subida exitosamente!');
+                console.log('Deuda:', data.data);
+                this.$root.showSnackBar('success', 'Success', 'Deuda subida exitosamente!');
 
-            this.datosDeuda.description = '';
-            this.datosDeuda.monto = 0;
-            this.datosDeuda.fechaVencimiento = '';
-            this.datosDeuda.estado = 'Pendiente';
-            this.datosDeuda.tramiteSel = '';
-            this.datosDeuda.userSel = '';
+                this.datosDeuda.description = '';
+                this.datosDeuda.monto = 0;
+                this.datosDeuda.fechaVencimiento = '';
+                this.datosDeuda.estado = 'Pendiente';
+                this.datosDeuda.tramiteSel = '';
+                this.datosDeuda.userSel = '';
 
-          } catch (error) {
-            console.log('Error al subir la deuda:', error);
-            this.$root.showSnackBar('error', 'Error', 'Error al subir la deuda: ' + error);
-          }
+            } catch (error) {
+                console.log('Error al subir la deuda:', error);
+                this.$root.showSnackBar('error', 'Error', 'Error al subir la deuda: ' + error);
+            }
         },
 
         async getTramites() {
@@ -252,17 +229,17 @@ export default {
             const tramite = this.tramiteList.find(tramite => tramite.descripcionTramite === this.datosDeuda.tramiteSel);
 
             console.log({
-                    descripcion: this.datosDeuda.description,
-                    monto: this.datosDeuda.monto,
-                    fechaEmision: new Date().toISOString().substr(0, 10),
-                    fechaVencimiento: this.datosDeuda.fechaVencimiento,
-                    estado: this.datosDeuda.estado,
-                    tramiteID: tramite ? tramite.tramiteID : null,
-                    RUTAdmin: this.user_RUT,
-                    RUTUsuario: this.datosDeuda.userSel,
-                });
+                descripcion: this.datosDeuda.description,
+                monto: this.datosDeuda.monto,
+                fechaEmision: new Date().toISOString().substr(0, 10),
+                fechaVencimiento: this.datosDeuda.fechaVencimiento,
+                estado: this.datosDeuda.estado,
+                tramiteID: tramite ? tramite.tramiteID : null,
+                RUTAdmin: this.user_RUT,
+                RUTUsuario: this.datosDeuda.userSel,
+            });
         },
-      },
+    },
     created() {
         //this.subirDeuda();
         this.getTramites();
@@ -279,13 +256,8 @@ export default {
             }
         }
     },
-    watch: {
-        'datosDeuda.fechaVencimiento': function() {
-            this.validateDate();
-        },
-    },
-    }
-  </script>
+}
+</script>
 
 <style scoped>
 .label-container {
@@ -294,12 +266,15 @@ export default {
 }
 
 .dim-label {
-    color: #888; /* Adjust this value to make the text dimmer or brighter */
+    color: #888;
+    /* Adjust this value to make the text dimmer or brighter */
     padding-top: 7px;
 }
 
 .title {
-    font-size: 32px; /* Adjust this value to make the text bigger or smaller */
-    font-weight: bold; /* Makes the text bold */
+    font-size: 32px;
+    /* Adjust this value to make the text bigger or smaller */
+    font-weight: bold;
+    /* Makes the text bold */
 }
 </style>

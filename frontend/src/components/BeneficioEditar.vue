@@ -45,21 +45,17 @@ export default {
         confirmDialog: false,
     };
   },
-  watch: {
-    deudaResults: {
-      immediate: true,
-      handler(newValue) {
-        if (newValue[0]) {
-          this.NombreBeneficio = newValue[0].nombreBeneficio || '';
-          this.DescripcionBeneficio = newValue[0].descripcion || '';
-          this.MontoBeneficio = newValue[0].monto || '';
-          this.EstadoBeneficio = newValue[0].estado || '';
-          this.IdDeudaBeneficio = newValue[0]._id || '';
-        }
-      },
-    },
-  },
+ 
   methods: {
+    updateDeudaResults() {
+    if (this.deudaResults[0]) {
+      this.NombreBeneficio = this.deudaResults[0].nombreBeneficio || '';
+      this.DescripcionBeneficio = this.deudaResults[0].descripcion || '';
+      this.MontoBeneficio = this.deudaResults[0].monto || '';
+      this.EstadoBeneficio = this.deudaResults[0].estado || '';
+      this.IdDeudaBeneficio = this.deudaResults[0]._id || '';
+    }
+  },
     async buscarDeuda() {
       try {
         const token = localStorage.getItem('token');
@@ -84,6 +80,7 @@ export default {
 
         console.log('Respuesta completa del servidor:', response);
         this.deudaResults = Array.isArray(response.data) ? response.data : [response.data];
+        this.updateDeudaResults();
       } catch (error) {
         console.error('Error en la solicitud:', error);
       }

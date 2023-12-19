@@ -10,110 +10,64 @@
             </v-col>
 
             <v-col cols="12" md="12">
-                <v-data-table
-                    v-model="selectedItem"
-                    :items="deudaList"
-                    item-value="_id"
-                    show-select
-                    select-strategy="single"
-                    class="centered-table"
-                ></v-data-table>
+                <v-data-table v-model="selectedItem" :items="deudaList" item-value="_id" show-select
+                    select-strategy="single" class="centered-table" @input="setDefaultValues"></v-data-table>
             </v-col>
 
             <v-divider></v-divider>
 
             <v-row>
                 <v-col cols="12" md="8">
-                    <v-text-field
-                        v-model="datosDeuda.description"
-                        :rules="descriptionRules"
-                        label="Descripción"
-                        required
-                    ></v-text-field>
+                    <v-text-field v-model="datosDeuda.description" :rules="descriptionRules" label="Descripción"
+                        required></v-text-field>
                 </v-col>
 
                 <v-col cols="12" md="4">
-                    <v-text-field
-                        v-model.number="datosDeuda.monto"
-                        :rules="montoRules"
-                        label="Monto a pagar"
-                        required
-                    ></v-text-field>
+                    <v-text-field v-model.number="datosDeuda.monto" :rules="montoRules" label="Monto a pagar"
+                        required></v-text-field>
                 </v-col>
 
                 <v-col cols="12" md="6">
-                <v-text-field
-                    v-model="datosDeuda.fechaEmision"
-                    label="Fecha de Emisión"
-                    type="date"
-                    required
-                    :rules="dateRulesEmision"
-                    :error-messages="dateErrorsEmision"
-                ></v-text-field>
+                    <v-text-field v-model="datosDeuda.fechaEmision" label="Fecha de Emisión" type="date" required
+                        :rules="dateRulesEmision" :error-messages="dateErrorsEmision"></v-text-field>
                 </v-col>
                 <v-col cols="12" md="6">
-                <v-text-field
-                    v-model="datosDeuda.fechaVencimiento"
-                    label="Fecha de Vencimiento"
-                    type="date"
-                    required
-                    :min="datosDeuda.fechaEmision"
-                    :rules="dateRulesVencimiento"
-                    :error-messages="dateErrorsVencimiento"
-                ></v-text-field>
+                    <v-text-field v-model="datosDeuda.fechaVencimiento" label="Fecha de Vencimiento" type="date" required
+                        :min="datosDeuda.fechaEmision" :rules="dateRulesVencimiento"
+                        :error-messages="dateErrorsVencimiento"></v-text-field>
                 </v-col>
 
                 <v-col cols="12" md="6">
-                    <v-combobox
-                        v-model="datosDeuda.estado"
-                        label="Estado"
+                    <v-combobox v-model="datosDeuda.estado" label="Estado"
                         :items="['Pendiente', 'Pendiente Justificado', 'Aprobado', 'Rechazado', 'Pagado', 'Fuera de plazo']"
-                        required
-                    ></v-combobox>
+                        required></v-combobox>
                 </v-col>
                 <v-col cols="12" md="6">
-                    <v-combobox
-                        v-model="datosDeuda.tramiteSel"
-                        label="Trámite"
-                        :items="tramiteList.map(tramite => tramite.descripcionTramite)"
-                        required
-                    ></v-combobox>
+                    <v-combobox v-model="datosDeuda.tramiteSel" label="Trámite"
+                        :items="tramiteList.map(tramite => tramite.descripcionTramite)" required></v-combobox>
                 </v-col>
 
                 <v-col cols="12" md="4">
-                    <v-combobox
-                        v-model="adminSelComputed"
-                        label="RUT del Admin"
-                        :items="adminList.map(user => `${user.username} (${user.RUT})`)"
-                        required
-                    ></v-combobox>
+                    <v-combobox v-model="adminSelComputed" label="RUT del Admin"
+                        :items="adminList.map(user => `${user.username} (${user.RUT})`)" required></v-combobox>
                 </v-col>
                 <v-col cols="12" md="4">
-                    <v-combobox
-                        v-model="userSelComputed"
-                        label="RUT de Usuario"
-                        :items="userList.map(user => `${user.username} (${user.RUT})`)"
-                        required
-                    ></v-combobox>
+                    <v-combobox v-model="userSelComputed" label="RUT de Usuario"
+                        :items="userList.map(user => `${user.username} (${user.RUT})`)" required></v-combobox>
                 </v-col>
                 <v-col cols="12" md="4">
-                <v-text-field
-                    v-model="datosDeuda.fechaPago"
-                    label="Fecha de Pago"
-                    type="date"
-                    :min="datosDeuda.fechaEmision"
-                    :rules="dateRulesPago"
-                    :error-messages="dateErrorsPago"
-                ></v-text-field>
+                    <v-text-field v-model="datosDeuda.fechaPago" label="Fecha de Pago" type="date"
+                        :min="datosDeuda.fechaEmision" :rules="dateRulesPago"
+                        :error-messages="dateErrorsPago"></v-text-field>
                 </v-col>
 
                 <v-col cols="12" md="4">
                     <v-btn color="#A0C519" @click="actualizarDeuda" :disabled="!valid">Subir Deuda</v-btn>
                 </v-col>
                 <v-col cols="12" md="4">
-                    <v-btn color="#A0C519" @click="imprimirCosos" >imprimirCosos</v-btn>
+                    <v-btn color="#A0C519" @click="imprimirCosos">imprimirCosos</v-btn>
                 </v-col>
-                
+
             </v-row>
         </v-container>
     </v-form>
@@ -123,7 +77,7 @@
 import fetchBase from '@/services/fetch';
 
 export default {
-    data () {
+    data() {
         return {
 
             hoy: new Date().toISOString().substr(0, 10),
@@ -145,7 +99,7 @@ export default {
                 userSel: '',
                 adminSel: '',
                 fechaPago: '',
-            },        
+            },
 
             valid: false,
 
@@ -203,7 +157,7 @@ export default {
                 value => {
                     const inputDate = new Date(value);
                     const minDate = new Date(this.datosDeuda.fechaEmision);
-                    if (inputDate.setHours(0,0,0,0) >= minDate.setHours(0,0,0,0)) return true
+                    if (inputDate.setHours(0, 0, 0, 0) >= minDate.setHours(0, 0, 0, 0)) return true
                     return 'La fecha no puede ser antes de la fecha de emisión.'
                 },
             ],
@@ -211,13 +165,37 @@ export default {
                 value => {
                     const inputDate = new Date(value);
                     const minDate = new Date(this.datosDeuda.fechaEmision);
-                    if ((inputDate.setHours(0,0,0,0) >= minDate.setHours(0,0,0,0)) || value == null ) return true
+                    if ((inputDate.setHours(0, 0, 0, 0) >= minDate.setHours(0, 0, 0, 0)) || value == null) return true
                     return 'La fecha no puede ser antes de la fecha de emisión.'
                 },
             ],
         }
     },
     methods: {
+        setDefaultValues() {
+            console.log("holaaaa");
+            this.selectedDeuda = this.deudaList.find(deuda => deuda._id == this.selectedItem);
+            console.log('selectedDeuda');
+            console.log(this.selectedDeuda);
+
+            if (this.selectedDeuda) {
+                this.datosDeuda.adminSel = this.selectedDeuda.RUTAdmin;
+                this.datosDeuda.userSel = this.selectedDeuda.RUTUsuario;
+                this.datosDeuda.description = this.selectedDeuda.descripcion;
+                this.datosDeuda.estado = this.selectedDeuda.estado;
+                this.datosDeuda.monto = this.selectedDeuda.monto;
+                this.datosDeuda.tramiteSel = this.selectedDeuda.tramiteID;
+
+                // This does not work because fechaEmision is on the DD/MM/YYYY format, and the datepicker expects YYYY-MM-DD
+                this.datosDeuda.fechaEmision = this.reFecha(this.selectedDeuda.fechaEmision);
+                this.datosDeuda.fechaVencimiento = this.reFecha(this.selectedDeuda.fechaVencimiento);
+                if (this.selectedDeuda.fechaPago) {
+                    this.datosDeuda.fechaPago = this.reFecha(this.selectedDeuda.fechaPago);
+                } else {
+                    this.datosDeuda.fechaPago = null;
+                }
+            }
+        },
         validateDateEmision() {
             this.dateErrorsEmision = [];
             for (let rule of this.dateRulesEmision) {
@@ -294,7 +272,7 @@ export default {
                     },
                 });
 
-                this.deudaList = deudaList.data.map(({__v, ...rest }) => rest);
+                this.deudaList = deudaList.data.map(({ __v, ...rest }) => rest);
                 console.log('Deudas:', this.deudaList);
 
             } catch (error) {
@@ -344,71 +322,38 @@ export default {
                 this.$root.showSnackBar('error', 'Error al actualizar deuda', 'Ha ocurrido un error al actualizar la deuda.', 'OK');
             }
         },
-        },
-
-        mounted() {
-            this.getDeudas();
-            this.getTramitesyUsuarios();
-        },
-        computed: {
-            userSelComputed: {
-                get() {
-                    const user = this.userList.find(user => user.RUT === this.datosDeuda.userSel);
-                    return user ? `${user.username} (${user.RUT})` : '';
-                },
-                set(value) {
-                    const RUT = value.split(' ').pop().slice(1, -1); // Extracts the RUT from the string
-                    this.datosDeuda.userSel = RUT;
-                }
+    },
+    created() {
+        this.setDefaultValues();
+    },
+    mounted() {
+        this.setDefaultValues();
+        this.getDeudas();
+        this.getTramitesyUsuarios();
+    },
+    computed: {
+        userSelComputed: {
+            get() {
+                const user = this.userList.find(user => user.RUT === this.datosDeuda.userSel);
+                return user ? `${user.username} (${user.RUT})` : '';
             },
-            adminSelComputed: {
-                get() {
-                    const user = this.adminList.find(user => user.RUT === this.datosDeuda.adminSel);
-                    return user ? `${user.username} (${user.RUT})` : '';
-                },
-                set(value) {
-                    const RUT = value.split(' ').pop().slice(1, -1); // Extracts the RUT from the string
-                    this.datosDeuda.adminSel = RUT;
-                }
+            set(value) {
+                const RUT = value.split(' ').pop().slice(1, -1); // Extracts the RUT from the string
+                this.datosDeuda.userSel = RUT;
             }
         },
-        watch: {
-            'datosDeuda.fechaEmision': function() {
-                this.validateDateEmision();
+        adminSelComputed: {
+            get() {
+                const user = this.adminList.find(user => user.RUT === this.datosDeuda.adminSel);
+                return user ? `${user.username} (${user.RUT})` : '';
             },
-            'datosDeuda.fechaVencimiento': function() {
-                this.validateDateVencimiento();
-            },
-            'datosDeuda.fechaPago': function() {
-                this.validateDatePago();
-            },
-            selectedItem: function() {
-                console.log("holaaaa");
-                this.selectedDeuda = this.deudaList.find(deuda => deuda._id == this.selectedItem);
-                console.log('selectedDeuda');
-                console.log(this.selectedDeuda);
-
-                if (this.selectedDeuda) {
-                    this.datosDeuda.adminSel = this.selectedDeuda.RUTAdmin;
-                    this.datosDeuda.userSel = this.selectedDeuda.RUTUsuario;
-                    this.datosDeuda.description = this.selectedDeuda.descripcion;
-                    this.datosDeuda.estado = this.selectedDeuda.estado;
-                    this.datosDeuda.monto = this.selectedDeuda.monto;
-                    this.datosDeuda.tramiteSel = this.selectedDeuda.tramiteID;
-
-                    // This does not work because fechaEmision is on the DD/MM/YYYY format, and the datepicker expects YYYY-MM-DD
-                    this.datosDeuda.fechaEmision = this.reFecha(this.selectedDeuda.fechaEmision);
-                    this.datosDeuda.fechaVencimiento = this.reFecha(this.selectedDeuda.fechaVencimiento);
-                    if (this.selectedDeuda.fechaPago){
-                        this.datosDeuda.fechaPago = this.reFecha(this.selectedDeuda.fechaPago);
-                    } else {
-                        this.datosDeuda.fechaPago = null;
-                    }
-                    
-                }
-            },
-        },
-    }
+            set(value) {
+                const RUT = value.split(' ').pop().slice(1, -1); // Extracts the RUT from the string
+                this.datosDeuda.adminSel = RUT;
+            }
+        }
+    },
+}
 </script>
 
 <style scoped>
