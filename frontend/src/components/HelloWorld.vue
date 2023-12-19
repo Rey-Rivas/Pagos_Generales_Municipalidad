@@ -1,75 +1,35 @@
 <template>
-    <v-container class="fill-height">
-      <v-responsive class="align-center text-center fill-height">
-        <v-img height="300" src="..\assets\tkeeper.gif" />
-  
-        <div class="text-body-2 font-weight-light mb-n1">Bienvenido a</div>
-  
-        <h1 class="text-h2 font-weight-bold">La municipalidad del merequetenge</h1>
-  
-        <div class="py-14" />
-  
-        <v-row class="d-flex align-center justify-center">
-          <v-col cols="auto">
-            <v-btn
-              href="https://vuetifyjs.com/components/all/"
-              min-width="164"
-              rel="noopener noreferrer"
-              target="_blank"
-              variant="text"
-            >
-              <v-icon
-                icon="mdi-view-dashboard"
-                size="large"
-                start
-              />
-  
-              Components
-            </v-btn>
-          </v-col>
-  
-          <v-col cols="auto">
-            <v-btn
-              color="primary"
-              href="https://vuetifyjs.com/introduction/why-vuetify/#feature-guides"
-              min-width="228"
-              rel="noopener noreferrer"
-              size="x-large"
-              target="_blank"
-              variant="flat"
-            >
-              <v-icon
-                icon="mdi-speedometer"
-                size="large"
-                start
-              />
-  
-              Get Started
-            </v-btn>
-          </v-col>
-  
-          <v-col cols="auto">
-            <v-btn
-              href="https://community.vuetifyjs.com/"
-              min-width="164"
-              rel="noopener noreferrer"
-              target="_blank"
-              variant="text"
-            >
-              <v-icon
-                icon="mdi-account-group"
-                size="large"
-                start
-              />
-  
-              Community
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-responsive>
-    </v-container>
-  </template>
-  
-  <script setup>
-    //
-  </script>
+  <v-container class="fill-height">
+    <v-responsive class="align-center text-center fill-height">
+      <!-- Logo de la Municipalidad -->
+      <v-img height="300" src="https://cdn-icons-png.flaticon.com/512/2228/2228548.png" />
+
+      <!-- Texto de bienvenida -->
+      <div class="text-body-2 font-weight-light mb-n1">Bienvenido a</div>
+      <h1 class="text-h2 font-weight-bold">Su Municipalidad</h1>
+
+      <!-- Espaciado vertical -->
+      <div class="py-14" />
+    </v-responsive>
+  </v-container>
+</template>
+
+<script setup>
+// Puedes agregar lógica si es necesario
+</script>
+
+<style scoped>
+/* Puedes agregar estilos personalizados aquí */
+/* Por ejemplo, puedes personalizar el color del texto o ajustar el espaciado */
+.text-body-2 {
+  color: #333; /* Color de texto personalizado */
+}
+
+.text-h2 {
+  color: #555; /* Color de texto personalizado */
+}
+
+.py-14 {
+  padding-top: 14px; /* Espaciado vertical personalizado */
+}
+</style>

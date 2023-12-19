@@ -1,3 +1,4 @@
+
 <template>
   <v-container>
     <!-- Utiliza v-btn-toggle para seleccionar la opción -->
@@ -52,31 +53,31 @@
       </v-row>
 
 
-      <v-data-table :headers="headers" :items="deudaResults" class="color-quaternary">
-        <template v-slot:items="{ item }">
-          <!-- Contenido de las filas de la tabla -->
-          <td class="cell">{{ item._id }}</td>
-          <td class="cell">{{ item.descripcion }}</td>
-          <td class="cell">{{ item.monto }}</td>
-          <td class="cell">{{ item.fechaEmision }}</td>
-          <td class="cell">{{ item.fechaVencimiento }}</td>
-          <td class="cell">{{ item.estado }}</td>
-          <td class="cell">{{ item.tramiteID }}</td>
-          <td class="cell">{{ item.RUTAdmin }}</td>
-          <td class="cell">{{ item.RUTUsuario }}</td>
-          <!-- Agrega más columnas según sea necesario -->
-        </template>
+    <v-data-table :headers="headers" :items="deudaResults" class="color-quaternary">
+      <template v-slot:items="{ item }">
+        <!-- Contenido de las filas de la tabla -->
+        <td class="cell">{{ item._id }}</td>
+        <td class="cell">{{ item.descripcion }}</td>
+        <td class="cell">{{ item.monto }}</td>
+        <td class="cell">{{ item.fechaEmision }}</td>
+        <td class="cell">{{ item.fechaVencimiento }}</td>
+        <td class="cell">{{ item.estado }}</td>
+        <td class="cell">{{ item.tramiteID }}</td>
+        <td class="cell">{{ item.RUTAdmin }}</td>
+        <td class="cell">{{ item.RUTUsuario }}</td>
+        <!-- Agrega más columnas según sea necesario -->
+      </template>
 
-        <template v-slot:header="{ props }">
-          <!-- Cabecera de la tabla -->
-          <thead class="color-primary">
-            <tr>
-              <th v-for="header in props.headers" :key="header.text" class="color-secondary cell">{{ header.text }}</th>
-            </tr>
-          </thead>
-        </template>
-      </v-data-table>
-    </v-card>
+      <template v-slot:header="{ props }">
+        <!-- Cabecera de la tabla -->
+        <thead class="color-primary">
+          <tr>
+            <th v-for="header in props.headers" :key="header.text" class="color-secondary cell">{{ header.text }}</th>
+          </tr>
+        </thead>
+      </template>
+    </v-data-table>
+  </v-card>
   </v-container>
 </template>
 
@@ -117,53 +118,53 @@ export default {
   },
   methods: {
     async buscarDeuda() {
-      try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          console.error('Token no disponible. Inicia sesión primero.');
-          return;
-        }
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('Token no disponible. Inicia sesión primero.');
+      return;
+    }
 
-        let response;
+    let response;
 
-        if (this.selectedOption === 'Todas las deudas') {
-          response = await fetchBase('/deudas', {
-            method: 'GET',
-            headers: {
-              'Authorization': 'Bearer ' + token,
-            },
-          });
-        } else if (this.selectedOption === 'Deuda especifica') {
-          response = await fetchBase(`/deudas/${this.idDeuda}`, {
-            method: 'GET',
-            headers: {
-              'Authorization': 'Bearer ' + token,
-            },
-          });
-        } else if (this.selectedOption === 'Deuda usuario') {
-
-          // Asegúrate de que rut tenga el valor correcto antes de la solicitud
-          if (!this.rut) {
-            console.error('RUT no disponible. Ingrese un RUT válido.');
-            return;
-          }
-
-          // Agrega un console.log para verificar el valor de rut
-          console.log('buscando deudas para rut:', this.rut);
-          response = await fetchBase(`/deudas/usuario/${this.rut}`, {
-            method: 'GET',
-            headers: {
-              'Authorization': 'Bearer ' + token,
-            },
-          });
-        }
-
-        console.log('Respuesta completa del servidor:', response);
-        this.deudaResults = Array.isArray(response.data) ? response.data : [response.data];
-      } catch (error) {
-        console.error('Error en la solicitud:', error);
+    if (this.selectedOption === 'Todas las deudas') {
+      response = await fetchBase('/deudas', {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+        },
+      });
+    } else if (this.selectedOption === 'Deuda especifica') {
+      response = await fetchBase(`/deudas/${this.idDeuda}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+        },
+      });
+    } else if (this.selectedOption === 'Deuda usuario') {
+      
+      // Asegúrate de que rut tenga el valor correcto antes de la solicitud
+      if (!this.rut) {
+        console.error('RUT no disponible. Ingrese un RUT válido.');
+        return;
       }
-    },
+
+      // Agrega un console.log para verificar el valor de rut
+      console.log('buscando deudas para rut:', this.rut);
+      response = await fetchBase(`/deudas/usuario/${this.rut}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+        },
+      });
+    }
+
+    console.log('Respuesta completa del servidor:', response);
+    this.deudaResults = Array.isArray(response.data) ? response.data : [response.data];
+  } catch (error) {
+    console.error('Error en la solicitud:', error);
+  }
+},
   },
   created() {
     // Llama a la función para cargar los datos de la deuda cuando el componente se crea
@@ -253,4 +254,6 @@ export default {
   text-align: start; /* Alinea el texto al comienzo de la celda */
   padding-right: 70px; /* Ajusta el valor según sea necesario para el espaciado deseado */
 }
+
+
 </style>

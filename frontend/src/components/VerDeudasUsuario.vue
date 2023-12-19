@@ -19,9 +19,6 @@
 
     <v-card>
       <v-row class="manual-column-names color-secondary justify-center align-center">
-        <v-col class="column-nameID" :class="{'margin-top-10': showTopMargin}">
-          ID
-        </v-col>
         <v-col class="column-nameDESCRIPCION" :class="{'margin-top-20': showTopMargin}">
           Descripción
         </v-col>
@@ -42,9 +39,6 @@
         </v-col>
         <v-col class="column-nameRUTADMINISTRADOR" :class="{'margin-top-30': showTopMargin}">
           RUT Admin
-        </v-col>
-        <v-col class="column-nameRUTUSUARIO" :class="{'margin-top-30': showTopMargin}">
-          RUT Usuario
         </v-col>
         
         <!-- Agrega más columnas según sea necesario -->
@@ -80,7 +74,6 @@ export default {
       rut: '',
       idDeuda: '',
       headers: [
-{ text: 'ID', value: '_id' },
 { text: 'Descripción', value: 'descripcion' },
 { text: 'Monto', value: 'monto' },
 { text: 'Fecha de Emisión', value: 'fechaEmision' },
@@ -88,7 +81,6 @@ export default {
 { text: 'Estado', value: 'estado' },
 { text: 'Trámite ID', value: 'tramiteID' },
 { text: 'RUT Admin', value: 'RUTAdmin' },
-{ text: 'RUT Usuario', value: 'RUTUsuario' },
 { text: 'Acciones', value: 'acciones' },
 ],
     };
@@ -160,7 +152,7 @@ export default {
 
 .color-quaternary {
   text-align: left;
-  width: 10000px;
+  width: 2000px;
   background: #F3F3FB;
   color: #000000;
 }
@@ -175,28 +167,25 @@ export default {
   text-align: start;
   border: 1px solid #F3F3FB; /* Ajusta el color del borde según sea necesario */
 }
-.column-nameID {
-  width: 100px; /* Ajusta el ancho de las columnas según sea necesario */
-  text-align: start; /* Alinea el texto al comienzo de la celda */
-  padding-left: 50px; /* Ajusta el valor según sea necesario para el espaciado deseado */
-  
-}
+
 .column-nameDESCRIPCION {
   width: 10px; /* Ajusta el ancho de las columnas según sea necesario */
   text-align: start; /* Alinea el texto al comienzo de la celda */
-  padding-left: 110px; /* Ajusta el valor según sea necesario para el espaciado deseado */
+  padding-left: 20px; /* Ajusta el valor según sea necesario para el espaciado deseado */
+  max-width: 120px;
 }
 .column-nameMONTO {
   width: 100px; /* Ajusta el ancho de las columnas según sea necesario */
   text-align: start; /* Alinea el texto al comienzo de la celda */
-  padding-left: 110px; /* Ajusta el valor según sea necesario para el espaciado deseado */
-  padding-right: 0px;
-  max-width: 240px;
+  padding-left: 280px; /* Ajusta el valor según sea necesario para el espaciado deseado */
+  padding-right: 190px;
+  max-width: 540px;
 }
 .column-nameFECHAEMISION {
   width: 10px; /* Ajusta el ancho de las columnas según sea necesario */
   text-align: start; /* Alinea el texto al comienzo de la celda */
   padding-left: 0px;
+  max-width: 150px;
   padding-right: 50px; /* Ajusta el valor según sea necesario para el espaciado deseado */
 }
 .column-nameFECHAVENCIMIENTO {
@@ -204,7 +193,7 @@ export default {
   text-align: start; /* Alinea el texto al comienzo de la celda */
   padding-left: 0px; /* Ajusta el valor según sea necesario para el espaciado deseado */
   padding-right: 50px;
-  
+  max-width: 150px;
 }
 .column-nameESTADO {
   width: 100px; /* Ajusta el ancho de las columnas según sea necesario */
@@ -219,14 +208,5 @@ export default {
   padding-left: 0px; /* Ajusta el valor según sea necesario para el espaciado deseado */
   max-width: 100px;
 }
-.column-nameRUTADMINISTRADOR {
-  width: 100px; /* Ajusta el ancho de las columnas según sea necesario */
-  text-align: start; /* Alinea el texto al comienzo de la celda */
-  padding-left: 0px; /* Ajusta el valor según sea necesario para el espaciado deseado */
-}
-.column-nameRUTUSUARIO {
-  width: 100px; /* Ajusta el ancho de las columnas según sea necesario */
-  text-align: start; /* Alinea el texto al comienzo de la celda */
-  padding-right: 200px; /* Ajusta el valor según sea necesario para el espaciado deseado */
-}
+
 </style>

@@ -16,15 +16,10 @@ async function informeExcel(req, res) {
 
 // Validacion de fechas -------------------------------------------------------------------
 
-  // Define una expresión regular para validar el formato 'DD-MM-YYYY'
-  const formatoFechaRegex = /^\d{2}-\d{2}-\d{4}$/;
-
   // Validación de formato de fechas
   if (
     !fechaInicio ||
-    !fechaFin ||
-    !formatoFechaRegex.test(fechaInicio) ||
-    !formatoFechaRegex.test(fechaFin)
+    !fechaFin 
   ) {
     return res
       .status(400)
@@ -32,8 +27,8 @@ async function informeExcel(req, res) {
   }
 
   // Convierte las fechas en objetos Moment.js para su posterior uso
-  const fechaInicioMoment = moment(fechaInicio, "DD-MM-YYYY");
-  const fechaFinMoment = moment(fechaFin, "DD-MM-YYYY");
+  const fechaInicioMoment = moment(fechaInicio, "YYYY-MM-DD");
+  const fechaFinMoment = moment(fechaFin, "YYYY-MM-DD");
 
   // Verifica si las fechas son reales
   if (!fechaInicioMoment.isValid() || !fechaFinMoment.isValid()) {
@@ -75,14 +70,12 @@ async function informeExcel(req, res) {
         return deuda.toObject();
       });
       
-      console.log(UnionDeudaUsuario);
-      
       // Filtra los datos por fecha de emision y vencimiento
       const datosFiltrados = UnionDeudaUsuario.filter((dato) => {
       
         // Convierte fecha de emision y vencimiento para ser comparadas con Moment.js
-        const fechaInicioDato = moment(dato.fechaEmision, "DD-MM-YYYY");
-        const fechaFinDato = moment(dato.fechaVencimiento, "DD-MM-YYYY");
+        const fechaInicioDato = moment(dato.fechaEmision, "YYYY-MM-DD");
+        const fechaFinDato = moment(dato.fechaVencimiento, "YYYY-MM-DD");
 
         return (
           fechaInicioDato.isSameOrAfter(fechaInicio) &&
@@ -112,11 +105,12 @@ async function informeExcel(req, res) {
           nombre: dato.usuario.username,
           email: dato.usuario.email,
           descripcion: dato.descripcion,
-          fechaInicio: moment(dato.fechaEmision).format("DD-MM-YYYY"),
-          fechaFin: moment(dato.fechaVencimiento).format("DD-MM-YYYY"),
+          fechaInicio: moment(dato.fechaEmision).format("YYYY-MM-DD"),
+          fechaFin: moment(dato.fechaVencimiento).format("YYYY-MM-DD"),
           estado: dato.estado,
         });
       });
+
 
       // Genera el archivo Excel y lo almacena en un buffer
       const buffer = await workbook.xlsx.writeBuffer();
@@ -135,25 +129,28 @@ async function informeExcel(req, res) {
   }
 
   // Se genera el informe con las fechas especificadas en el body -----------------------------------------------------
-  generarInformeExcel(listado_deudas, fechaInicioMoment, fechaFinMoment)
-    .then((informe) => {
-      // Configura las cabeceras de la respuesta HTTP
-      res.setHeader(
-        "Content-Type",
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      );
-      res.setHeader(
-        "Content-Disposition",
-        `attachment; filename=${informe.nombreArchivo}`,
-      );
-      // Envia mensaje de exito y el archivo como respuesta
-      console.log("Informe Excel generado, se llama:\n", informe.nombreArchivo);
-      res.send(informe.buffer);
-    })
-    .catch((error) => {
-      console.error("Error al generar el informe Excel:", error);
-      res.status(500).send("Error al generar el informe");
-    });
+ // Se genera el informe con las fechas especificadas en el body -----------------------------------------------------
+generarInformeExcel(listado_deudas, fechaInicioMoment, fechaFinMoment)
+.then((informe) => {
+  // Configura las cabeceras de la respuesta HTTP
+  res.setHeader(
+    "Content-Type",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  );
+  res.setHeader(
+    "Content-Disposition",
+    `attachment; filename=${informe.nombreArchivo}`,
+  );
+  // Envia mensaje de éxito y el archivo como respuesta
+  console.log("Informe Excel generado, se llama:\n", informe.nombreArchivo);
+  
+  // Cambia esta línea para enviar el buffer como respuesta directa
+  res.end(informe.buffer);
+})
+.catch((error) => {
+  console.error("Error al generar el informe Excel:", error);
+  res.status(500).send("Error al generar el informe");
+});
 }
 
 module.exports = { router, informeExcel };
